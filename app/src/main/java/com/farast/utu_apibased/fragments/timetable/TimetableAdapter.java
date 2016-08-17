@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.Shape;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
@@ -88,10 +91,11 @@ public class TimetableAdapter extends BaseAdapter {
                     subject.setText(lesson.getSubject().getName());
                     teacher.setText(lesson.getTeacher().getAbbr());
                     room.setText(lesson.getRoom());
-                    if(lesson.isNotNormal())
-                        relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorNotNormalCell));
+                    relativeLayout.setBackgroundResource(R.drawable.lesson_background);
+                    if (lesson.isNotNormal())
+                        ((GradientDrawable) relativeLayout.getBackground()).setColor(ContextCompat.getColor(context, R.color.colorNotNormalCell));
                     else
-                        relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorNormalCell));
+                        ((GradientDrawable) relativeLayout.getBackground()).setColor(ContextCompat.getColor(context, R.color.colorNormalCell));
                     break;
                 }
             }

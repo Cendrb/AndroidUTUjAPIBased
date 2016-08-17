@@ -30,5 +30,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha5'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
     testCompile 'junit:junit:4.12'
 }

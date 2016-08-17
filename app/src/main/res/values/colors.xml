@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="white">#fff</color>
+    <color name="colorPrimary">#43a047</color>
+    <color name="colorPrimaryDark">#388e3c</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorAccentPressed">#f06292</color>
     <color name="colorNotNormalCell">#ef5350</color>
     <color name="colorNormalCell">#ffca28</color>
     <color name="colorCellStroke">#e0e0e0</color>
+    <color name="black_semi_transparent">#B2000000</color>
 </resources>

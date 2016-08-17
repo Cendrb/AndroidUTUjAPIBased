@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +24,7 @@ import com.farast.utu_apibased.fragments.te.TEsFragment;
 import com.farast.utu_apibased.fragments.timetable.TimetableFragment;
 import com.farast.utu_apibased.listeners.StatusOperationListener;
 import com.farast.utuapi.util.SclassDoesNotExistException;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import org.xml.sax.SAXException;
 
@@ -35,6 +35,13 @@ import static com.farast.utu_apibased.Bullshit.dataLoader;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    FloatingActionButton mFloatingNewEvent;
+    FloatingActionButton mFloatingNewExam;
+    FloatingActionButton mFloatingNewTask;
+    View mFloatingActionsMenu;
+    MenuItem mRefreshMenuItem = null;
+    int mSclassId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,15 +49,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own mother", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -61,10 +59,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        dataLoader.getOperationManager().setOperationListener(new StatusOperationListener(this));
+        mFloatingActionsMenu = findViewById(R.id.new_action_menu);
+        mFloatingNewExam = (FloatingActionButton) findViewById(R.id.action_new_exam);
+        mFloatingNewEvent = (FloatingActionButton) findViewById(R.id.action_new_event);
+        mFloatingNewTask = (FloatingActionButton) findViewById(R.id.action_new_task);
 
-        int sclassId = getIntent().getExtras().getInt("sclass_id");
-        new DataDownloadTask().execute(new DataDownloadTaskParams(this, sclassId));
+        if(dataLoader.getCurrentUser() != null && dataLoader.getCurrentUser().isAdmin())
+            mFloatingActionsMenu.setVisibility(View.VISIBLE);
+
+        dataLoader.getOperationManager().setOperationListener(new StatusOperationListener(this));
+        mSclassId = getIntent().getExtras().getInt("sclass_id");
+        new DataDownloadTask().execute(new DataDownloadTaskParams(this, mSclassId));
     }
 
     @Override
@@ -81,6 +86,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        mRefreshMenuItem = menu.getItem(0);
         return true;
     }
 
@@ -92,8 +98,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_refresh) {
+            new DataDownloadTask().execute(new DataDownloadTaskParams(this, mSclassId));
         }
 
         return super.onOptionsItemSelected(item);
@@ -153,6 +159,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPreExecute() {
+            if (mRefreshMenuItem != null)
+                mRefreshMenuItem.setEnabled(false);
             super.onPreExecute();
         }
 
@@ -171,9 +179,11 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
+            if (mRefreshMenuItem != null)
+                mRefreshMenuItem.setEnabled(true);
             if (aBoolean) {
 
-            } else
+            } else if (!activity.isFinishing())
                 new AlertDialog.Builder(activity)
                         .setTitle("Failed to download data")
                         .setMessage("Do you want to try again?")

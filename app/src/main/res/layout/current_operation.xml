@@ -7,7 +7,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:paddingStart="6dp"
+        android:paddingBottom="5dp"/>
 
     <TextView
         android:text="TextView"
@@ -15,5 +17,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/currentOperationText"
         android:layout_toEndOf="@id/currentOperationProgress"
-        android:layout_marginEnd="5dp" />
+        android:layout_marginStart="4dp" />
 </RelativeLayout>

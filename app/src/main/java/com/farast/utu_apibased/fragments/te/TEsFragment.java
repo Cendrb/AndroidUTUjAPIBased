@@ -1,6 +1,7 @@
 package com.farast.utu_apibased.fragments.te;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
+import com.farast.utu_apibased.show_activities.EventShowActivity;
+import com.farast.utu_apibased.show_activities.TEShowActivity;
 import com.farast.utuapi.data.TEItem;
 
 /**
@@ -44,7 +47,9 @@ public class TEsFragment extends Fragment {
             recyclerView.setAdapter(new TEsRecyclerViewAdapter(Bullshit.dataLoader.getTEsList(), new OnListFragmentInteractionListener<TEItem>() {
                 @Override
                 public void onListFragmentInteraction(TEItem item) {
-                    Snackbar.make(getView(), "Article show screen", 3).show();
+                    Intent intent = new Intent(getContext(), TEShowActivity.class);
+                    intent.putExtra("te_id", item.getId());
+                    getContext().startActivity(intent);
                 }
             }));
         }

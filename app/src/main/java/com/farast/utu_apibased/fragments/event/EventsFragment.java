@@ -1,6 +1,7 @@
 package com.farast.utu_apibased.fragments.event;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
+import com.farast.utu_apibased.show_activities.EventShowActivity;
 import com.farast.utuapi.data.Event;
 
 public class EventsFragment extends Fragment {
@@ -26,7 +28,7 @@ public class EventsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
 
@@ -38,7 +40,9 @@ public class EventsFragment extends Fragment {
             recyclerView.setAdapter(new EventsRecyclerViewAdapter(Bullshit.dataLoader.getEventsList(), new OnListFragmentInteractionListener<Event>() {
                 @Override
                 public void onListFragmentInteraction(Event item) {
-                    Snackbar.make(getView(), "Event show screen", 3).show();
+                    Intent intent = new Intent(getContext(), EventShowActivity.class);
+                    intent.putExtra("event_id", item.getId());
+                    getContext().startActivity(intent);
                 }
             }));
         }

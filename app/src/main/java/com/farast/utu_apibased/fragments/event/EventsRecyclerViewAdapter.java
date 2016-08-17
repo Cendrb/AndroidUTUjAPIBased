@@ -68,7 +68,7 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventsRecycl
             super(view);
             mView = view;
             mTitleView = (TextView) view.findViewById(R.id.event_title);
-            mDateView = (TextView) view.findViewById(R.id.event_date);
+            mDateView = (TextView) view.findViewById(R.id.event_description);
         }
     }
 }
