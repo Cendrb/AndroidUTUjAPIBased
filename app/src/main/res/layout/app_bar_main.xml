@@ -68,6 +68,15 @@
             app:fab_colorPressed="@color/colorAccentPressed"
             app:fab_title="@string/exam"
             app:fab_icon="@drawable/ic_rakings"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_new_article"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_colorPressed="@color/colorAccentPressed"
+            app:fab_title="@string/article"
+            app:fab_icon="@drawable/ic_rakings"/>
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </android.support.design.widget.CoordinatorLayout>

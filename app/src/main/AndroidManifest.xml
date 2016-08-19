@@ -57,12 +57,23 @@
         </activity>
         <activity
             android:name=".create_update_activities.CUEventActivity"
-            android:label="@string/title_activity_cuevent"
-            android:parentActivityName=".MainActivity"
+            android:label="@string/placeholder"
             android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.farast.utu_apibased.MainActivity" />
+        </activity>
+        <activity
+            android:name=".create_update_activities.CUExamActivity"
+            android:label="@string/placeholder"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".create_update_activities.CUTaskActivity"
+            android:label="@string/placeholder"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".create_update_activities.CUArticleActivity"
+            android:label="@string/placeholder"
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 

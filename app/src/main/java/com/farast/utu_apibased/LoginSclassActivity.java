@@ -5,14 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-
-import android.os.AsyncTask;
-
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -54,6 +53,7 @@ public class LoginSclassActivity extends AppCompatActivity {
     private View mLoadWithoutLoginForm;
 
     private Activity mActivity;
+    private SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +64,7 @@ public class LoginSclassActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_sclass);
 
         mActivity = this;
+        mPreferences = getPreferences(MODE_PRIVATE);
 
         // Set up the login form.
         mEmailView = (TextInputEditText) findViewById(R.id.email);
@@ -108,6 +109,9 @@ public class LoginSclassActivity extends AppCompatActivity {
         mLoginFormView = findViewById(R.id.email_login_form);
         mProgressView = findViewById(R.id.login_progress);
         mPredataProgressView = findViewById(R.id.predata_progress);
+
+        mEmailView.setText(mPreferences.getString("email", ""));
+        mPasswordView.setText(mPreferences.getString("password", ""));
 
         new PredataDownloadTask().execute();
     }
@@ -245,6 +249,11 @@ public class LoginSclassActivity extends AppCompatActivity {
 
             switch (result) {
                 case success:
+
+                    SharedPreferences.Editor editor = mPreferences.edit();
+                    editor.putString("email", mEmail);
+                    editor.putString("password", mPassword);
+                    editor.apply();
                     startMain(dataLoader.getCurrentUser().getSclassId());
                     break;
                 case incorrect_password:

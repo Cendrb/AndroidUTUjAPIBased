@@ -1,13 +1,17 @@
 package com.farast.utu_apibased.fragments.te;
 
+import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
+import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.TEItem;
 import com.farast.utuapi.util.DateUtil;
 
@@ -21,9 +25,28 @@ public class TEsRecyclerViewAdapter extends RecyclerView.Adapter<TEsRecyclerView
     private final List<TEItem> mValues;
     private final OnListFragmentInteractionListener<TEItem> mListener;
 
-    public TEsRecyclerViewAdapter(List<TEItem> items, OnListFragmentInteractionListener<TEItem> listener) {
-        mValues = items;
+    public TEsRecyclerViewAdapter(OnListFragmentInteractionListener<TEItem> listener, Context context) {
+        mValues = Bullshit.dataLoader.getTEsList();
         mListener = listener;
+
+        final Handler handler = new Handler(context.getMainLooper());
+
+        DataLoader.OnDataSetListener dataSetListener = new DataLoader.OnDataSetListener() {
+            @Override
+            public void onDataSetChanged() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mValues.clear();
+                        mValues.addAll(Bullshit.dataLoader.getTEsList());
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        };
+
+        Bullshit.dataLoader.getNotifier().setExamsListener(dataSetListener);
+        Bullshit.dataLoader.getNotifier().setTasksListener(dataSetListener);
     }
 
     @Override

@@ -1,13 +1,17 @@
 package com.farast.utu_apibased.fragments.event;
 
+import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
+import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Event;
 import com.farast.utuapi.util.DateUtil;
 
@@ -22,9 +26,25 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventsRecycl
     private final List<Event> mValues;
     private final OnListFragmentInteractionListener<Event> mListener;
 
-    public EventsRecyclerViewAdapter(List<Event> items, OnListFragmentInteractionListener<Event> listener) {
-        mValues = items;
+    public EventsRecyclerViewAdapter(OnListFragmentInteractionListener<Event> listener, Context context) {
+        mValues = Bullshit.dataLoader.getEventsList();
         mListener = listener;
+
+        final Handler handler = new Handler(context.getMainLooper());
+
+        Bullshit.dataLoader.getNotifier().setEventsListener(new DataLoader.OnDataSetListener() {
+            @Override
+            public void onDataSetChanged() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mValues.clear();
+                        mValues.addAll(Bullshit.dataLoader.getEventsList());
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -36,7 +56,8 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventsRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Event event = mValues.get(position);;
+        Event event = mValues.get(position);
+        ;
         holder.mItem = event;
         holder.mTitleView.setText(event.getTitle());
         holder.mDateView.setText(DateUtil.CZ_DATE_FORMAT.format(event.getStart()));

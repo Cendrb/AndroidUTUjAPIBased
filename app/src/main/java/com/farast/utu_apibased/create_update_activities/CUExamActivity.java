@@ -15,78 +15,53 @@ import com.farast.utu_apibased.custom_views.SpinnerLikeDateSelect;
 import com.farast.utu_apibased.custom_views.UtuSpinner;
 import com.farast.utuapi.data.AdditionalInfo;
 import com.farast.utuapi.data.DataLoader;
-import com.farast.utuapi.data.Event;
+import com.farast.utuapi.data.Exam;
 import com.farast.utuapi.data.Sgroup;
+import com.farast.utuapi.data.Subject;
 import com.farast.utuapi.util.CollectionUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class CUEventActivity extends AppCompatActivity {
+public class CUExamActivity extends AppCompatActivity {
 
-    Event mLoaded;
+    Exam mLoaded;
 
     TextInputEditText mTitleView;
     TextInputEditText mDescriptionView;
-    TextInputEditText mLocationView;
-    TextInputEditText mPriceView;
-    SpinnerLikeDateSelect mStartView;
-    SpinnerLikeDateSelect mEndView;
-    SpinnerLikeDateSelect mPayDateView;
+    SpinnerLikeDateSelect mDateView;
     UtuSpinner<Sgroup> mSgroupView;
+    UtuSpinner<Subject> mSubjectView;
     Button mSubmitView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cuevent);
+        setContentView(R.layout.activity_cute);
 
         mTitleView = (TextInputEditText) findViewById(R.id.cu_title);
         mDescriptionView = (TextInputEditText) findViewById(R.id.cu_description);
-        mLocationView = (TextInputEditText) findViewById(R.id.cu_location);
-        mPriceView = (TextInputEditText) findViewById(R.id.cu_price);
-        mStartView = (SpinnerLikeDateSelect) findViewById(R.id.cu_event_start);
-        mEndView = (SpinnerLikeDateSelect) findViewById(R.id.cu_event_end);
-        mPayDateView = (SpinnerLikeDateSelect) findViewById(R.id.cu_pay_date);
+        mDateView = (SpinnerLikeDateSelect) findViewById(R.id.cu_date);
         mSgroupView = (UtuSpinner<Sgroup>) findViewById(R.id.cu_sgroup_selector);
+        mSubjectView = (UtuSpinner<Subject>) findViewById(R.id.cu_subject_selector);
         mSubmitView = (Button) findViewById(R.id.cu_submit);
 
-        mStartView.setFragmentManager(getFragmentManager());
-        mEndView.setFragmentManager(getFragmentManager());
-        mPayDateView.setFragmentManager(getFragmentManager());
+        mDateView.setFragmentManager(getFragmentManager());
 
         int itemId = getIntent().getIntExtra("item_id", -1);
         if (itemId != -1) {
-            mLoaded = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), itemId);
+            mLoaded = CollectionUtil.findById(Bullshit.dataLoader.getExamsList(), itemId);
             mTitleView.setText(mLoaded.getTitle());
             mDescriptionView.setText(mLoaded.getDescription());
-            mLocationView.setText(mLoaded.getLocation());
-            mPriceView.setText(String.valueOf(mLoaded.getPrice()));
-            mStartView.setSelectedDate(mLoaded.getStart());
-            mEndView.setSelectedDate(mLoaded.getEnd());
-            mPayDateView.setSelectedDate(mLoaded.getPayDate());
+            mDateView.setSelectedDate(mLoaded.getDate());
             mSgroupView.setItem(mLoaded.getSgroup());
+            mSubjectView.setItem(mLoaded.getSubject());
 
-            setTitle(getString(R.string.editing) + " " + getString(R.string.event).toLowerCase());
+            setTitle(getString(R.string.editing) + " " + getString(R.string.exam).toLowerCase());
         } else {
-            setTitle(getString(R.string.creating) + " " + getString(R.string.event).toLowerCase());
+            setTitle(getString(R.string.creating) + " " + getString(R.string.exam).toLowerCase());
         }
-
-        mStartView.setOnDateSelectedListener(new SpinnerLikeDateSelect.OnDateSetListener() {
-            @Override
-            public void onDateSet(Date date) {
-                if (mEndView.getSelectedDate().before(date))
-                    mEndView.setSelectedDate(date);
-            }
-        });
-        mEndView.setOnDateSelectedListener(new SpinnerLikeDateSelect.OnDateSetListener() {
-            @Override
-            public void onDateSet(Date date) {
-                if (mStartView.getSelectedDate().after(date))
-                    mStartView.setSelectedDate(date);
-            }
-        });
 
         mSubmitView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,12 +79,9 @@ public class CUEventActivity extends AppCompatActivity {
     class Submitter extends UtuSubmitter {
         String mTitle;
         String mDescription;
-        String mLocation;
-        int mPrice;
-        Date mStart;
-        Date mEnd;
-        Date mPayDate;
+        Date mDate;
         Sgroup mSgroup;
+        Subject mSubject;
 
         public Submitter(Context context) {
             super(context);
@@ -119,19 +91,16 @@ public class CUEventActivity extends AppCompatActivity {
         protected void onPreExecute() {
             mTitle = mTitleView.getText().toString();
             mDescription = mDescriptionView.getText().toString();
-            mLocation = mLocationView.getText().toString();
-            mPrice = Integer.parseInt(mPriceView.getText().toString());
-            mStart = mStartView.getSelectedDate();
-            mEnd = mEndView.getSelectedDate();
-            mPayDate = mPayDateView.getSelectedDate();
+            mDate = mDateView.getSelectedDate();
             mSgroup = mSgroupView.getItem();
+            mSubject = mSubjectView.getItem();
 
             finish();
         }
 
         @Override
         protected String[] executeInBackground() throws IOException, DataLoader.AdminRequiredException, DataLoader.SclassUnknownException {
-            return Bullshit.dataLoader.getEditor().requestCUEvent(mLoaded, mTitle, mDescription, mLocation, mPrice, mStart, mEnd, mPayDate, mSgroup, new ArrayList<AdditionalInfo>());
+            return Bullshit.dataLoader.getEditor().requestCUExam(mLoaded, mTitle, mDescription, mDate, mSubject, mSgroup, new ArrayList<AdditionalInfo>(), Exam.Type.written);
         }
     }
 }

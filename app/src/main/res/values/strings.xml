@@ -26,4 +26,24 @@
     <string name="task">Task</string>
     <string name="exam">Exam</string>
     <string name="title_activity_cuevent">CUEventActivity</string>
+    <string name="prompt_description">Description</string>
+    <string name="prompt_title">Title</string>
+    <string name="prompt_location">Location</string>
+    <string name="prompt_price">Price</string>
+    <string name="submit">submit</string>
+    <string name="creating">Creating</string>
+    <string name="editing">Editing</string>
+    <string name="admin_required">Admin priviligies required</string>
+    <string name="sclass_not_set">Class is not set</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="article">Article</string>
+    <string name="prompt_published">Published</string>
+    <string name="prompt_show_in_details_until">Show in details until</string>
+    <string name="prompt_show_in_details">Show in details</string>
+    <string name="not_published">Not published</string>
+    <string name="prompt_event_start">Event start</string>
+    <string name="prompts_event_end">Event end</string>
+    <string name="prompt_pay_date">Pay date</string>
+    <string name="prompt_date">Date</string>
 </resources>

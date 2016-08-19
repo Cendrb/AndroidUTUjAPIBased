@@ -3,7 +3,6 @@ package com.farast.utu_apibased.fragments.te;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
-import com.farast.utu_apibased.show_activities.EventShowActivity;
 import com.farast.utu_apibased.show_activities.TEShowActivity;
 import com.farast.utuapi.data.TEItem;
 
@@ -24,8 +21,7 @@ import com.farast.utuapi.data.TEItem;
 
 public class TEsFragment extends Fragment {
 
-    public TEsFragment()
-    {
+    public TEsFragment() {
 
     }
 
@@ -44,14 +40,14 @@ public class TEsFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new TEsRecyclerViewAdapter(Bullshit.dataLoader.getTEsList(), new OnListFragmentInteractionListener<TEItem>() {
+            recyclerView.setAdapter(new TEsRecyclerViewAdapter(new OnListFragmentInteractionListener<TEItem>() {
                 @Override
                 public void onListFragmentInteraction(TEItem item) {
                     Intent intent = new Intent(getContext(), TEShowActivity.class);
                     intent.putExtra("te_id", item.getId());
                     getContext().startActivity(intent);
                 }
-            }));
+            }, context));
         }
         return view;
     }

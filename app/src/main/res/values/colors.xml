@@ -9,4 +9,5 @@
     <color name="colorNormalCell">#ffca28</color>
     <color name="colorCellStroke">#e0e0e0</color>
     <color name="black_semi_transparent">#B2000000</color>
+    <color name="lightText">#9e9e9e</color>
 </resources>

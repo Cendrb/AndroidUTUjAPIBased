@@ -40,54 +40,19 @@
                 android:maxLines="10" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/cu_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_location"
-                android:inputType="textAutoComplete"
-                android:maxLines="1" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/cu_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_price"
-                android:inputType="number"
-                android:maxLines="1" />
-
-        </android.support.design.widget.TextInputLayout>
 
         <com.farast.utu_apibased.custom_views.SpinnerLikeDateSelect
-            android:id="@+id/cu_event_start"
+            android:id="@+id/cu_date"
             style="@android:style/Widget.DeviceDefault.Light.Spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:labelText="@string/prompt_event_start" />
+            app:labelText="@string/prompt_date" />
 
-        <com.farast.utu_apibased.custom_views.SpinnerLikeDateSelect
-            android:id="@+id/cu_event_end"
-            style="@android:style/Widget.DeviceDefault.Light.Spinner"
+        <com.farast.utu_apibased.custom_views.UtuSpinner
+            android:id="@+id/cu_subject_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:labelText="@string/prompts_event_end" />
-
-        <com.farast.utu_apibased.custom_views.SpinnerLikeDateSelect
-            android:id="@+id/cu_pay_date"
-            style="@android:style/Widget.DeviceDefault.Light.Spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:labelText="@string/prompt_pay_date" />
+            app:utuItemType="subject" />
 
         <com.farast.utu_apibased.custom_views.UtuSpinner
             android:id="@+id/cu_sgroup_selector"

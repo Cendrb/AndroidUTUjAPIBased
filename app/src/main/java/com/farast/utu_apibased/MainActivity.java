@@ -2,22 +2,26 @@ package com.farast.utu_apibased;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.farast.utu_apibased.create_update_activities.CUArticleActivity;
+import com.farast.utu_apibased.create_update_activities.CUEventActivity;
+import com.farast.utu_apibased.create_update_activities.CUExamActivity;
+import com.farast.utu_apibased.create_update_activities.CUTaskActivity;
 import com.farast.utu_apibased.fragments.article.ArticlesFragment;
 import com.farast.utu_apibased.fragments.event.EventsFragment;
 import com.farast.utu_apibased.fragments.te.TEsFragment;
@@ -38,13 +42,17 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton mFloatingNewEvent;
     FloatingActionButton mFloatingNewExam;
     FloatingActionButton mFloatingNewTask;
+    FloatingActionButton mFloatingNewArticle;
     View mFloatingActionsMenu;
     MenuItem mRefreshMenuItem = null;
     int mSclassId;
+    Activity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mActivity = this;
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -61,10 +69,39 @@ public class MainActivity extends AppCompatActivity
 
         mFloatingActionsMenu = findViewById(R.id.new_action_menu);
         mFloatingNewExam = (FloatingActionButton) findViewById(R.id.action_new_exam);
+        mFloatingNewExam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, CUExamActivity.class);
+                startActivity(intent);
+            }
+        });
         mFloatingNewEvent = (FloatingActionButton) findViewById(R.id.action_new_event);
+        mFloatingNewEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, CUEventActivity.class);
+                startActivity(intent);
+            }
+        });
         mFloatingNewTask = (FloatingActionButton) findViewById(R.id.action_new_task);
+        mFloatingNewTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, CUTaskActivity.class);
+                startActivity(intent);
+            }
+        });
+        mFloatingNewArticle = (FloatingActionButton) findViewById(R.id.action_new_article);
+        mFloatingNewArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, CUArticleActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        if(dataLoader.getCurrentUser() != null && dataLoader.getCurrentUser().isAdmin())
+        if (dataLoader.isAdminLoggedIn())
             mFloatingActionsMenu.setVisibility(View.VISIBLE);
 
         dataLoader.getOperationManager().setOperationListener(new StatusOperationListener(this));

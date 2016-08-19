@@ -8,8 +8,7 @@ import android.util.DisplayMetrics;
  */
 
 public class UnitsUtil {
-    public static int dpToPx(int dp)
-    {
+    public static int dpToPx(int dp) {
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return Math.round(px);

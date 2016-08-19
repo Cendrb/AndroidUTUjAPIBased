@@ -1,15 +1,18 @@
 package com.farast.utu_apibased.fragments.article;
 
+import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.fragments.te.TEsRecyclerViewAdapter;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
 import com.farast.utuapi.data.Article;
+import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.util.DateUtil;
 
 import java.util.List;
@@ -22,9 +25,25 @@ public class ArticlesRecyclerViewFragment extends RecyclerView.Adapter<ArticlesR
     private final List<Article> mValues;
     private final OnListFragmentInteractionListener<Article> mListener;
 
-    public ArticlesRecyclerViewFragment(List<Article> items, OnListFragmentInteractionListener<Article> listener) {
-        mValues = items;
+    public ArticlesRecyclerViewFragment(OnListFragmentInteractionListener<Article> listener, Context context) {
+        mValues = Bullshit.dataLoader.getArticlesList();
         mListener = listener;
+
+        final Handler handler = new Handler(context.getMainLooper());
+
+        Bullshit.dataLoader.getNotifier().setArticlesListener(new DataLoader.OnDataSetListener() {
+            @Override
+            public void onDataSetChanged() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mValues.clear();
+                        mValues.addAll(Bullshit.dataLoader.getArticlesList());
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -39,7 +58,10 @@ public class ArticlesRecyclerViewFragment extends RecyclerView.Adapter<ArticlesR
         Article item = mValues.get(position);
         holder.mItem = item;
         holder.mTitleView.setText(item.getTitle());
+        if(item.isPublished())
         holder.mDateView.setText(DateUtil.CZ_SHORT_DATE_FORMAT.format(item.getPublishedOn()));
+        else
+            holder.mDateView.setText(R.string.not_published);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

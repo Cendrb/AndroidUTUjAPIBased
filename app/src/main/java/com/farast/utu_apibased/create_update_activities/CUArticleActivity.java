@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
@@ -14,79 +16,73 @@ import com.farast.utu_apibased.UtuSubmitter;
 import com.farast.utu_apibased.custom_views.SpinnerLikeDateSelect;
 import com.farast.utu_apibased.custom_views.UtuSpinner;
 import com.farast.utuapi.data.AdditionalInfo;
+import com.farast.utuapi.data.Article;
 import com.farast.utuapi.data.DataLoader;
-import com.farast.utuapi.data.Event;
 import com.farast.utuapi.data.Sgroup;
+import com.farast.utuapi.data.Subject;
 import com.farast.utuapi.util.CollectionUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
-public class CUEventActivity extends AppCompatActivity {
+public class CUArticleActivity extends AppCompatActivity {
 
-    Event mLoaded;
+    Article mLoaded;
 
     TextInputEditText mTitleView;
     TextInputEditText mDescriptionView;
-    TextInputEditText mLocationView;
-    TextInputEditText mPriceView;
-    SpinnerLikeDateSelect mStartView;
-    SpinnerLikeDateSelect mEndView;
-    SpinnerLikeDateSelect mPayDateView;
+    CheckBox mPublishedView;
+    CheckBox mShowInDetailsView;
+    SpinnerLikeDateSelect mShowInDetailsUntilView;
     UtuSpinner<Sgroup> mSgroupView;
+    UtuSpinner<Subject> mSubjectView;
     Button mSubmitView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cuevent);
+        setContentView(R.layout.activity_cuarticle);
 
         mTitleView = (TextInputEditText) findViewById(R.id.cu_title);
         mDescriptionView = (TextInputEditText) findViewById(R.id.cu_description);
-        mLocationView = (TextInputEditText) findViewById(R.id.cu_location);
-        mPriceView = (TextInputEditText) findViewById(R.id.cu_price);
-        mStartView = (SpinnerLikeDateSelect) findViewById(R.id.cu_event_start);
-        mEndView = (SpinnerLikeDateSelect) findViewById(R.id.cu_event_end);
-        mPayDateView = (SpinnerLikeDateSelect) findViewById(R.id.cu_pay_date);
+        mPublishedView = (CheckBox) findViewById(R.id.cu_published);
+        mShowInDetailsView = (CheckBox) findViewById(R.id.cu_show_in_details);
+        mShowInDetailsUntilView = (SpinnerLikeDateSelect) findViewById(R.id.cu_show_in_details_until);
         mSgroupView = (UtuSpinner<Sgroup>) findViewById(R.id.cu_sgroup_selector);
         mSubmitView = (Button) findViewById(R.id.cu_submit);
 
-        mStartView.setFragmentManager(getFragmentManager());
-        mEndView.setFragmentManager(getFragmentManager());
-        mPayDateView.setFragmentManager(getFragmentManager());
+        mShowInDetailsView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b)
+                    mShowInDetailsUntilView.setEnabled(true);
+                else
+                    mShowInDetailsUntilView.setEnabled(false);
+            }
+        });
+
+        mShowInDetailsUntilView.setFragmentManager(getFragmentManager());
 
         int itemId = getIntent().getIntExtra("item_id", -1);
         if (itemId != -1) {
-            mLoaded = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), itemId);
+            mLoaded = CollectionUtil.findById(Bullshit.dataLoader.getArticlesList(), itemId);
             mTitleView.setText(mLoaded.getTitle());
             mDescriptionView.setText(mLoaded.getDescription());
-            mLocationView.setText(mLoaded.getLocation());
-            mPriceView.setText(String.valueOf(mLoaded.getPrice()));
-            mStartView.setSelectedDate(mLoaded.getStart());
-            mEndView.setSelectedDate(mLoaded.getEnd());
-            mPayDateView.setSelectedDate(mLoaded.getPayDate());
+            mPublishedView.setChecked(mLoaded.isPublished());
+            if (mLoaded.isShowInDetails()) {
+                mShowInDetailsView.setChecked(true);
+            } else {
+                mShowInDetailsView.setChecked(false);
+                mShowInDetailsUntilView.setSelectedDate(mLoaded.getShowInDetailsUntil());
+            }
             mSgroupView.setItem(mLoaded.getSgroup());
 
-            setTitle(getString(R.string.editing) + " " + getString(R.string.event).toLowerCase());
+            setTitle(getString(R.string.editing) + " " + getString(R.string.article).toLowerCase());
         } else {
-            setTitle(getString(R.string.creating) + " " + getString(R.string.event).toLowerCase());
+            setTitle(getString(R.string.creating) + " " + getString(R.string.article).toLowerCase());
         }
-
-        mStartView.setOnDateSelectedListener(new SpinnerLikeDateSelect.OnDateSetListener() {
-            @Override
-            public void onDateSet(Date date) {
-                if (mEndView.getSelectedDate().before(date))
-                    mEndView.setSelectedDate(date);
-            }
-        });
-        mEndView.setOnDateSelectedListener(new SpinnerLikeDateSelect.OnDateSetListener() {
-            @Override
-            public void onDateSet(Date date) {
-                if (mStartView.getSelectedDate().after(date))
-                    mStartView.setSelectedDate(date);
-            }
-        });
 
         mSubmitView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +91,9 @@ public class CUEventActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(mTitleView.getText())) {
                     mTitleView.setError(getString(R.string.error_field_required));
                     mTitleView.requestFocus();
+                } else if (TextUtils.isEmpty(mDescriptionView.getText())) {
+                    mDescriptionView.setError(getString(R.string.error_field_required));
+                    mDescriptionView.requestFocus();
                 } else
                     new Submitter(getApplicationContext()).execute();
             }
@@ -104,11 +103,8 @@ public class CUEventActivity extends AppCompatActivity {
     class Submitter extends UtuSubmitter {
         String mTitle;
         String mDescription;
-        String mLocation;
-        int mPrice;
-        Date mStart;
-        Date mEnd;
-        Date mPayDate;
+        Date mPublishedOn;
+        Date mShowInDetailsUntil;
         Sgroup mSgroup;
 
         public Submitter(Context context) {
@@ -119,11 +115,14 @@ public class CUEventActivity extends AppCompatActivity {
         protected void onPreExecute() {
             mTitle = mTitleView.getText().toString();
             mDescription = mDescriptionView.getText().toString();
-            mLocation = mLocationView.getText().toString();
-            mPrice = Integer.parseInt(mPriceView.getText().toString());
-            mStart = mStartView.getSelectedDate();
-            mEnd = mEndView.getSelectedDate();
-            mPayDate = mPayDateView.getSelectedDate();
+            if (mPublishedView.isChecked())
+                mPublishedOn = Calendar.getInstance().getTime();
+            else
+                mPublishedOn = null;
+            if (mShowInDetailsView.isChecked())
+                mShowInDetailsUntil = mShowInDetailsUntilView.getSelectedDate();
+            else
+                mShowInDetailsUntil = null;
             mSgroup = mSgroupView.getItem();
 
             finish();
@@ -131,7 +130,7 @@ public class CUEventActivity extends AppCompatActivity {
 
         @Override
         protected String[] executeInBackground() throws IOException, DataLoader.AdminRequiredException, DataLoader.SclassUnknownException {
-            return Bullshit.dataLoader.getEditor().requestCUEvent(mLoaded, mTitle, mDescription, mLocation, mPrice, mStart, mEnd, mPayDate, mSgroup, new ArrayList<AdditionalInfo>());
+            return Bullshit.dataLoader.getEditor().requestCUArticle(mLoaded, mTitle, mDescription, mPublishedOn, mShowInDetailsUntil, mSgroup, new ArrayList<AdditionalInfo>());
         }
     }
 }
