@@ -9,10 +9,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:paddingEnd="15dp"
         android:paddingStart="15dp"
-        android:paddingTop="15dp">
+        android:paddingTop="15dp"
+        android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -40,37 +40,31 @@
                 android:maxLines="10" />
         </android.support.design.widget.TextInputLayout>
 
-        <CheckBox
-            android:id="@+id/cu_published"
+
+        <com.farast.utu_apibased.custom_views.SpinnerLikeDateSelect
+            android:id="@+id/cu_date"
+            style="@android:style/Widget.DeviceDefault.Light.Spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/prompt_published" />
+            app:labelText="@string/prompt_date" />
 
-        <RelativeLayout
+        <com.farast.utu_apibased.custom_views.utu_spinner.UtuSpinner
+            android:id="@+id/cu_subject_selector"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:utuItemType="subject" />
 
-            <CheckBox
-                android:id="@+id/cu_show_in_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.farast.utu_apibased.custom_views.SpinnerLikeDateSelect
-                android:id="@+id/cu_show_in_details_until"
-                style="@android:style/Widget.DeviceDefault.Light.Spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/cu_show_in_details"
-                android:enabled="false"
-                app:labelText="@string/prompt_show_in_details_until" />
-        </RelativeLayout>
-
-
-        <com.farast.utu_apibased.custom_views.UtuSpinner
+        <com.farast.utu_apibased.custom_views.utu_spinner.UtuSpinner
             android:id="@+id/cu_sgroup_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:utuItemType="sgroup" />
+
+        <com.farast.utu_apibased.custom_views.SpinnerLikeAdditionalInfoDialoger
+            android:id="@+id/cu_additional_info_select"
+            style="@android:style/Widget.DeviceDefault.Light.Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/cu_submit"

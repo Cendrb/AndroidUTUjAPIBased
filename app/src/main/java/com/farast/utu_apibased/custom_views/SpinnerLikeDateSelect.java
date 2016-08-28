@@ -11,6 +11,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.farast.utuapi.util.DateUtil;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by cendr_000 on 18.08.2016.
@@ -62,12 +64,12 @@ public class SpinnerLikeDateSelect extends TextView {
             @Override
             public void onClick(View view) {
                 DatePickerDialogFragment dialogFragment = new DatePickerDialogFragment();
+                if (mFragmentManager == null)
+                    throw new FragmentManagerRequiredException();
                 dialogFragment.setDate(mSelectedDate);
                 dialogFragment.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        if (mFragmentManager == null)
-                            throw new FragmentManagerRequiredException();
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(i, i1, i2);
                         mSelectedDate = calendar.getTime();
@@ -97,12 +99,12 @@ public class SpinnerLikeDateSelect extends TextView {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        if(!(state instanceof SavedState)) {
+        if (!(state instanceof SavedState)) {
             super.onRestoreInstanceState(state);
             return;
         }
 
-        SavedState savedState = (SavedState)state;
+        SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
         setSelectedDate(savedState.selectedDate);
@@ -135,8 +137,7 @@ public class SpinnerLikeDateSelect extends TextView {
 
         Date selectedDate;
 
-        public SavedState(Parcelable parcelable)
-        {
+        public SavedState(Parcelable parcelable) {
             super(parcelable);
         }
 

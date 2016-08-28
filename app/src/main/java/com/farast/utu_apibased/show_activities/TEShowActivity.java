@@ -32,14 +32,14 @@ public class TEShowActivity extends AppCompatActivity {
 
         if (getIntent() == null)
             throw new ItemIdNotSuppliedException("Intent is null");
-        int itemId = getIntent().getIntExtra("te_id", -1);
+        int itemId = getIntent().getIntExtra("item_id", -1);
         if (itemId == -1)
             throw new ItemIdNotSuppliedException("Item id is not stored in this Intent");
 
         te = CollectionUtil.findById(Bullshit.dataLoader.getTEsList(), itemId);
 
 
-        setContentView(R.layout.activity_te_show);
+        setContentView(R.layout.activity_show_te);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

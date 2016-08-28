@@ -11,13 +11,16 @@ import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UnitsUtil;
+import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Lesson;
 import com.farast.utuapi.data.SchoolDay;
 import com.farast.utuapi.data.Timetable;
 import com.farast.utuapi.util.DateUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,20 +32,19 @@ public class TimetableAdapter extends BaseAdapter {
     private static final int gridWidth = 10;
 
     private List<SchoolDay> schoolDays;
-    private final Timetable timetable;
+    private Timetable timetable;
     private final Context context;
     private final LayoutInflater inflater;
 
-    public TimetableAdapter(Timetable timetable, Context context) {
-        schoolDays = timetable.getSchoolDays();
-        this.timetable = timetable;
+    public TimetableAdapter(Context context) {
+        schoolDays = new ArrayList<>();
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return 70;
+        return schoolDays.size() * 10;
     }
 
     @Override
@@ -95,5 +97,12 @@ public class TimetableAdapter extends BaseAdapter {
         }
         relativeLayout.setLayoutParams(new GridView.LayoutParams(UnitsUtil.dpToPx(60), UnitsUtil.dpToPx(70)));
         return relativeLayout;
+    }
+
+    public void setTimetable(Timetable timetable) {
+        this.timetable = timetable;
+        schoolDays.clear();
+        schoolDays.addAll(timetable.getSchoolDays());
+        notifyDataSetChanged();
     }
 }

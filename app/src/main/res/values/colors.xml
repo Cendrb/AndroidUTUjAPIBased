@@ -5,9 +5,10 @@
     <color name="colorPrimaryDark">#388e3c</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccentPressed">#f06292</color>
-    <color name="colorNotNormalCell">#ef5350</color>
-    <color name="colorNormalCell">#ffca28</color>
+    <color name="colorNotNormalCell">#ff7043</color>
+    <color name="colorNormalCell">#efa350</color>
     <color name="colorCellStroke">#e0e0e0</color>
     <color name="black_semi_transparent">#B2000000</color>
     <color name="lightText">#9e9e9e</color>
+    <color name="rekt">#ee2222</color>
 </resources>

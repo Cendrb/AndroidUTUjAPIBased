@@ -9,6 +9,6 @@
     android:maxLines="1"
     android:textAlignment="inherit"
     android:textColor="@android:color/black"
-    android:textSize="16sp">
+    android:textSize="@dimen/list_item_text_size">
 
 </TextView>

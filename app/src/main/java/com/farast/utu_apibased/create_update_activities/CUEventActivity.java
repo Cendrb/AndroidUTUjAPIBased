@@ -11,8 +11,9 @@ import android.widget.Button;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UtuSubmitter;
+import com.farast.utu_apibased.custom_views.SpinnerLikeAdditionalInfoDialoger;
 import com.farast.utu_apibased.custom_views.SpinnerLikeDateSelect;
-import com.farast.utu_apibased.custom_views.UtuSpinner;
+import com.farast.utu_apibased.custom_views.utu_spinner.UtuSpinner;
 import com.farast.utuapi.data.AdditionalInfo;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Event;
@@ -22,6 +23,7 @@ import com.farast.utuapi.util.CollectionUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CUEventActivity extends AppCompatActivity {
 
@@ -35,12 +37,13 @@ public class CUEventActivity extends AppCompatActivity {
     SpinnerLikeDateSelect mEndView;
     SpinnerLikeDateSelect mPayDateView;
     UtuSpinner<Sgroup> mSgroupView;
+    SpinnerLikeAdditionalInfoDialoger mAISelectView;
     Button mSubmitView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cuevent);
+        setContentView(R.layout.activity_cu_event);
 
         mTitleView = (TextInputEditText) findViewById(R.id.cu_title);
         mDescriptionView = (TextInputEditText) findViewById(R.id.cu_description);
@@ -50,11 +53,13 @@ public class CUEventActivity extends AppCompatActivity {
         mEndView = (SpinnerLikeDateSelect) findViewById(R.id.cu_event_end);
         mPayDateView = (SpinnerLikeDateSelect) findViewById(R.id.cu_pay_date);
         mSgroupView = (UtuSpinner<Sgroup>) findViewById(R.id.cu_sgroup_selector);
+        mAISelectView = (SpinnerLikeAdditionalInfoDialoger) findViewById(R.id.cu_additional_info_select);
         mSubmitView = (Button) findViewById(R.id.cu_submit);
 
         mStartView.setFragmentManager(getFragmentManager());
         mEndView.setFragmentManager(getFragmentManager());
         mPayDateView.setFragmentManager(getFragmentManager());
+        mAISelectView.setFragmentManager(getFragmentManager());
 
         int itemId = getIntent().getIntExtra("item_id", -1);
         if (itemId != -1) {
@@ -67,6 +72,12 @@ public class CUEventActivity extends AppCompatActivity {
             mEndView.setSelectedDate(mLoaded.getEnd());
             mPayDateView.setSelectedDate(mLoaded.getPayDate());
             mSgroupView.setItem(mLoaded.getSgroup());
+
+            ArrayList<Integer> selectedInfoIds = new ArrayList<>();
+            List<AdditionalInfo> selectedInfos = mLoaded.getAdditionalInfos();
+            for (AdditionalInfo info : selectedInfos)
+                selectedInfoIds.add(info.getId());
+            mAISelectView.setSelectedAIIds(selectedInfoIds);
 
             setTitle(getString(R.string.editing) + " " + getString(R.string.event).toLowerCase());
         } else {
@@ -110,6 +121,7 @@ public class CUEventActivity extends AppCompatActivity {
         Date mEnd;
         Date mPayDate;
         Sgroup mSgroup;
+        List<AdditionalInfo> mSelectedInfos;
 
         public Submitter(Context context) {
             super(context);
@@ -125,13 +137,14 @@ public class CUEventActivity extends AppCompatActivity {
             mEnd = mEndView.getSelectedDate();
             mPayDate = mPayDateView.getSelectedDate();
             mSgroup = mSgroupView.getItem();
+            mSelectedInfos = CollectionUtil.findByIds(Bullshit.dataLoader.getAdditionalInfosList(), mAISelectView.getSelectAIIds());
 
             finish();
         }
 
         @Override
         protected String[] executeInBackground() throws IOException, DataLoader.AdminRequiredException, DataLoader.SclassUnknownException {
-            return Bullshit.dataLoader.getEditor().requestCUEvent(mLoaded, mTitle, mDescription, mLocation, mPrice, mStart, mEnd, mPayDate, mSgroup, new ArrayList<AdditionalInfo>());
+            return Bullshit.dataLoader.getEditor().requestCUEvent(mLoaded, mTitle, mDescription, mLocation, mPrice, mStart, mEnd, mPayDate, mSgroup, mSelectedInfos);
         }
     }
 }

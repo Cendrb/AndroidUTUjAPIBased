@@ -32,7 +32,7 @@ public class ArticlesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_event_list, container, false);
+        View view = inflater.inflate(R.layout.utu_list_fragment_something, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -43,7 +43,7 @@ public class ArticlesFragment extends Fragment {
                 @Override
                 public void onListFragmentInteraction(Article item) {
                     Intent intent = new Intent(getContext(), ArticleShowActivity.class);
-                    intent.putExtra("article_id", item.getId());
+                    intent.putExtra("item_id", item.getId());
                     getContext().startActivity(intent);
                 }
             }, context));

@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.custom_views;
+package com.farast.utu_apibased.custom_views.utu_spinner;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,7 +10,8 @@ import android.widget.Spinner;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
-import com.farast.utuapi.data.Selectable;
+import com.farast.utu_apibased.ToStringConverter;
+import com.farast.utuapi.data.OnelineRepresentable;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,13 +21,15 @@ import java.util.Objects;
  * Created by cendr_000 on 18.08.2016.
  */
 
-public class UtuSpinner<T extends Selectable> extends Spinner {
+public class UtuSpinner<T extends OnelineRepresentable> extends Spinner {
 
     T mItem;
     List<T> mData;
 
     public UtuSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        setPadding(0,0,0,0);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.UtuSpinner, 0, 0);
         try {
@@ -48,7 +51,12 @@ public class UtuSpinner<T extends Selectable> extends Spinner {
             a.recycle();
         }
 
-        final ArrayAdapter<T> androidSucksAdapter = new ArrayAdapter<T>(context, R.layout.simple_spinner_item, mData);
+        final ArrayAdapter<T> androidSucksAdapter = new UtuSpinnerAdapter<>(context, mData, new ToStringConverter<T>() {
+            @Override
+            public String stringify(T object) {
+                return object.getOnelineRepresentation();
+            }
+        });
         setAdapter(androidSucksAdapter);
         setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

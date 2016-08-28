@@ -3,13 +3,14 @@ package com.farast.utu_apibased.fragments.article;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.UtuLineGenericViewHolder;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
 import com.farast.utuapi.data.Article;
 import com.farast.utuapi.data.DataLoader;
@@ -21,13 +22,15 @@ import java.util.List;
  * Created by cendr_000 on 05.08.2016.
  */
 
-public class ArticlesRecyclerViewFragment extends RecyclerView.Adapter<ArticlesRecyclerViewFragment.ViewHolder> {
+public class ArticlesRecyclerViewFragment extends RecyclerView.Adapter<UtuLineGenericViewHolder> {
     private final List<Article> mValues;
     private final OnListFragmentInteractionListener<Article> mListener;
+    private Context mContext;
 
     public ArticlesRecyclerViewFragment(OnListFragmentInteractionListener<Article> listener, Context context) {
         mValues = Bullshit.dataLoader.getArticlesList();
         mListener = listener;
+        mContext = context;
 
         final Handler handler = new Handler(context.getMainLooper());
 
@@ -47,21 +50,21 @@ public class ArticlesRecyclerViewFragment extends RecyclerView.Adapter<ArticlesR
     }
 
     @Override
-    public ArticlesRecyclerViewFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UtuLineGenericViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_event, parent, false);
-        return new ArticlesRecyclerViewFragment.ViewHolder(view);
+                .inflate(R.layout.utu_line_generic, parent, false);
+        return new UtuLineGenericViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ArticlesRecyclerViewFragment.ViewHolder holder, int position) {
-        Article item = mValues.get(position);
-        holder.mItem = item;
+    public void onBindViewHolder(final UtuLineGenericViewHolder holder, int position) {
+        final Article item = mValues.get(position);
         holder.mTitleView.setText(item.getTitle());
-        if(item.isPublished())
-        holder.mDateView.setText(DateUtil.CZ_SHORT_DATE_FORMAT.format(item.getPublishedOn()));
+        holder.mAvatarParent.setVisibility(View.GONE);
+        if (item.isPublished())
+            holder.mLeftBottomView.setText(Bullshit.formatDate(item.getPublishedOn()));
         else
-            holder.mDateView.setText(R.string.not_published);
+            holder.mLeftBottomView.setText(R.string.not_published);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +72,7 @@ public class ArticlesRecyclerViewFragment extends RecyclerView.Adapter<ArticlesR
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(item);
                 }
             }
         });
@@ -78,19 +81,5 @@ public class ArticlesRecyclerViewFragment extends RecyclerView.Adapter<ArticlesR
     @Override
     public int getItemCount() {
         return mValues.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mTitleView;
-        public final TextView mDateView;
-        public Article mItem;
-
-        public ViewHolder(View view) {
-            super(view);
-            mView = view;
-            mTitleView = (TextView) view.findViewById(R.id.event_title);
-            mDateView = (TextView) view.findViewById(R.id.event_description);
-        }
     }
 }

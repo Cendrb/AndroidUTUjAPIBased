@@ -67,8 +67,7 @@
                 android:id="@+id/loadWithoutLoginForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView"
@@ -93,26 +92,30 @@
                     android:text="@string/action_load_without_login"
                     android:textStyle="bold" />
             </LinearLayout>
-            <ProgressBar
-                android:id="@+id/predata_progress"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone"
-                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
     </ScrollView>
 
-    <!-- Login progress -->
-    <ProgressBar
+    <LinearLayout
         android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone"
         android:layout_gravity="center_horizontal"
-        android:layout_centerHorizontal="true"/>
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/login_progress_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/login_progress_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            style="@style/TextAppearance.AppCompat.Medium"/>
+    </LinearLayout>
 
 </RelativeLayout>

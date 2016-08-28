@@ -20,15 +20,19 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.farast.utu_apibased.custom_views.utu_spinner.UtuSpinnerAdapter;
 import com.farast.utuapi.data.Sclass;
 
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.farast.utu_apibased.Bullshit.dataLoader;
 
@@ -45,8 +49,9 @@ public class LoginSclassActivity extends AppCompatActivity {
     // UI references.
     private TextInputEditText mEmailView;
     private TextInputEditText mPasswordView;
-    private View mProgressView;
-    private View mPredataProgressView;
+    private ProgressBar mProgressBarView;
+    private LinearLayout mProgressView;
+    private TextView mProgressTextView;
     private View mLoginFormView;
     private Spinner mSclassSelector;
     private Button mLoadWithoutLoginButton;
@@ -107,8 +112,9 @@ public class LoginSclassActivity extends AppCompatActivity {
         });
 
         mLoginFormView = findViewById(R.id.email_login_form);
-        mProgressView = findViewById(R.id.login_progress);
-        mPredataProgressView = findViewById(R.id.predata_progress);
+        mProgressBarView = (ProgressBar) findViewById(R.id.login_progress_bar);
+        mProgressView = (LinearLayout) findViewById(R.id.login_progress);
+        mProgressTextView = (TextView) findViewById(R.id.login_progress_text);
 
         mEmailView.setText(mPreferences.getString("email", ""));
         mPasswordView.setText(mPreferences.getString("password", ""));
@@ -189,28 +195,6 @@ public class LoginSclassActivity extends AppCompatActivity {
 
     }
 
-    private void showPredataProgress(final boolean show) {
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-        mLoadWithoutLoginForm.setVisibility(show ? View.VISIBLE : View.GONE);
-        mLoadWithoutLoginForm.animate().setDuration(shortAnimTime).alpha(
-                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mLoadWithoutLoginForm.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-        });
-
-        mPredataProgressView.setVisibility(show ? View.GONE : View.VISIBLE);
-        mPredataProgressView.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mPredataProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
-    }
-
     enum Result {success, failed_to_connect, incorrect_password}
 
     public class UserLoginTask extends AsyncTask<Void, Void, Result> {
@@ -240,6 +224,7 @@ public class LoginSclassActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             showProgress(true);
+            mProgressTextView.setText(R.string.logging_in);
         }
 
         @Override
@@ -305,16 +290,21 @@ public class LoginSclassActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showPredataProgress(true);
+            showProgress(true);
+            mProgressTextView.setText(R.string.loading_predata);
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            showPredataProgress(false);
+            showProgress(false);
             if (aBoolean) {
                 List<Sclass> sclasses = dataLoader.getSclasses();
-                final ArrayAdapter<Sclass> androidSucksAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, sclasses);
-                androidSucksAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                final UtuSpinnerAdapter<Sclass> androidSucksAdapter = new UtuSpinnerAdapter<>(mActivity, sclasses, new ToStringConverter<Sclass>() {
+                    @Override
+                    public String stringify(Sclass object) {
+                        return object.getName();
+                    }
+                });
                 mSclassSelector.setAdapter(androidSucksAdapter);
             } else if (!mActivity.isFinishing())
                 new AlertDialog.Builder(mActivity)

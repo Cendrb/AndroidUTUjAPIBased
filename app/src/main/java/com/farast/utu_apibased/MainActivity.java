@@ -3,6 +3,7 @@ package com.farast.utu_apibased;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -22,8 +23,10 @@ import com.farast.utu_apibased.create_update_activities.CUArticleActivity;
 import com.farast.utu_apibased.create_update_activities.CUEventActivity;
 import com.farast.utu_apibased.create_update_activities.CUExamActivity;
 import com.farast.utu_apibased.create_update_activities.CUTaskActivity;
+import com.farast.utu_apibased.fragments.SummaryFragment;
 import com.farast.utu_apibased.fragments.article.ArticlesFragment;
 import com.farast.utu_apibased.fragments.event.EventsFragment;
+import com.farast.utu_apibased.fragments.raking.RakingsFragment;
 import com.farast.utu_apibased.fragments.te.TEsFragment;
 import com.farast.utu_apibased.fragments.timetable.TimetableFragment;
 import com.farast.utu_apibased.listeners.StatusOperationListener;
@@ -37,16 +40,19 @@ import java.io.IOException;
 import static com.farast.utu_apibased.Bullshit.dataLoader;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SummaryFragment.OpenFragmentListener {
 
     FloatingActionButton mFloatingNewEvent;
     FloatingActionButton mFloatingNewExam;
     FloatingActionButton mFloatingNewTask;
     FloatingActionButton mFloatingNewArticle;
+    NavigationView mNavigationView;
     View mFloatingActionsMenu;
     MenuItem mRefreshMenuItem = null;
     int mSclassId;
     Activity mActivity;
+
+    Fragment mCurrentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +64,18 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // manifest value gets for some reason overwritten by CUEvent
+        setTitle(R.string.title_activity_main);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
+        setSelectedFragmentAndOpen(R.id.nav_summary);
 
         mFloatingActionsMenu = findViewById(R.id.new_action_menu);
         mFloatingNewExam = (FloatingActionButton) findViewById(R.id.action_new_exam);
@@ -114,7 +124,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if(mCurrentFragment != null && !(mCurrentFragment instanceof SummaryFragment))
+        {
+            setSelectedFragmentAndOpen(R.id.nav_summary);
+        }
+        else{
             super.onBackPressed();
         }
     }
@@ -135,8 +149,12 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
+        if (id == R.id.menu_item_refresh) {
             new DataDownloadTask().execute(new DataDownloadTaskParams(this, mSclassId));
+        }
+        if (id == R.id.menu_item_web_version) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://utu.herokuapp.com"));
+            startActivity(browserIntent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -148,27 +166,40 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Fragment fragment = null;
-        if (id == R.id.nav_events) {
-            fragment = new EventsFragment();
-        } else if (id == R.id.nav_tes) {
-            fragment = new TEsFragment();
-        } else if (id == R.id.nav_timetables) {
-            fragment = new TimetableFragment();
-        } else if (id == R.id.nav_rakings) {
+        openFragment(id);
 
+        return true;
+    }
+
+    public void setSelectedFragmentAndOpen(int id)
+    {
+        openFragment(id);
+        mNavigationView.setCheckedItem(id);
+    }
+
+    private void openFragment(int id) {
+        mCurrentFragment = null;
+        if (id == R.id.nav_summary) {
+            mCurrentFragment = new SummaryFragment();
+        } else if (id == R.id.nav_events) {
+            mCurrentFragment = new EventsFragment();
+        } else if (id == R.id.nav_tes) {
+            mCurrentFragment = new TEsFragment();
+        } else if (id == R.id.nav_timetables) {
+            mCurrentFragment = new TimetableFragment();
+        } else if (id == R.id.nav_rakings) {
+            mCurrentFragment = new RakingsFragment();
         } else if (id == R.id.nav_articles) {
-            fragment = new ArticlesFragment();
+            mCurrentFragment = new ArticlesFragment();
 
         }
-        if (fragment != null) {
+        if (mCurrentFragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_main, mCurrentFragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     private static class DataDownloadTaskParams {

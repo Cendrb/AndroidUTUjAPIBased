@@ -3,38 +3,29 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_summary"
+            android:icon="@drawable/ic_as"
+            android:title="@string/nav_summary" />
+        <item
             android:id="@+id/nav_events"
-            android:title="Events"
-            android:icon="@drawable/ic_event" />
+            android:icon="@drawable/ic_as"
+            android:title="@string/nav_events" />
         <item
             android:id="@+id/nav_tes"
             android:icon="@drawable/ic_as"
-            android:title="TEs" />
+            android:title="@string/nav_tes" />
         <item
             android:id="@+id/nav_timetables"
             android:icon="@drawable/ic_timetable"
-            android:title="Timetables" />
+            android:title="@string/nav_timetables" />
         <item
             android:id="@+id/nav_rakings"
             android:icon="@drawable/ic_rakings"
-            android:title="Rakings" />
+            android:title="@string/nav_rakings" />
         <item
             android:id="@+id/nav_articles"
             android:icon="@drawable/ic_articles"
-            android:title="Articles" />
+            android:title="@string/nav_articles" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
 
 </menu>

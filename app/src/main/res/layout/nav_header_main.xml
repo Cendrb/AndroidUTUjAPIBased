@@ -30,6 +30,6 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Android sucks so much" />
+        android:text="What exactly is supposed to be in here?" />
 
 </LinearLayout>

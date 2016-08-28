@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<declare-styleable name="UtuSpinner">
-    <attr name="utuItemType" format="string" />
-</declare-styleable>
+    <declare-styleable name="UtuSpinner">
+        <attr name="utuItemType" format="string" />
+    </declare-styleable>
     <declare-styleable name="SpinnerLikeDateSelect">
-        <attr name="labelText" format="string"/>
+        <attr name="labelText" format="string" />
     </declare-styleable>
 </resources>

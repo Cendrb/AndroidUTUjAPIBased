@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.UtuLineGenericViewHolder;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
+import com.farast.utuapi.data.Article;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.TEItem;
 import com.farast.utuapi.util.DateUtil;
@@ -21,7 +23,7 @@ import java.util.List;
  * Created by cendr_000 on 05.08.2016.
  */
 
-public class TEsRecyclerViewAdapter extends RecyclerView.Adapter<TEsRecyclerViewAdapter.ViewHolder> {
+public class TEsRecyclerViewAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder> {
     private final List<TEItem> mValues;
     private final OnListFragmentInteractionListener<TEItem> mListener;
 
@@ -50,18 +52,18 @@ public class TEsRecyclerViewAdapter extends RecyclerView.Adapter<TEsRecyclerView
     }
 
     @Override
-    public TEsRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UtuLineGenericViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_event, parent, false);
-        return new TEsRecyclerViewAdapter.ViewHolder(view);
+                .inflate(R.layout.utu_line_generic, parent, false);
+        return new UtuLineGenericViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final TEsRecyclerViewAdapter.ViewHolder holder, int position) {
-        TEItem item = mValues.get(position);
-        holder.mItem = item;
+    public void onBindViewHolder(final UtuLineGenericViewHolder holder, int position) {
+        final TEItem item = mValues.get(position);
         holder.mTitleView.setText(item.getTitle());
-        holder.mDateView.setText(DateUtil.CZ_SHORT_DATE_FORMAT.format(item.getDate()));
+        holder.mAvatarTextView.setText(item.getSubject().getName());
+        holder.mLeftBottomView.setText(Bullshit.formatDate(item.getDate()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +71,7 @@ public class TEsRecyclerViewAdapter extends RecyclerView.Adapter<TEsRecyclerView
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(item);
                 }
             }
         });
@@ -78,19 +80,5 @@ public class TEsRecyclerViewAdapter extends RecyclerView.Adapter<TEsRecyclerView
     @Override
     public int getItemCount() {
         return mValues.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mTitleView;
-        public final TextView mDateView;
-        public TEItem mItem;
-
-        public ViewHolder(View view) {
-            super(view);
-            mView = view;
-            mTitleView = (TextView) view.findViewById(R.id.event_title);
-            mDateView = (TextView) view.findViewById(R.id.event_description);
-        }
     }
 }

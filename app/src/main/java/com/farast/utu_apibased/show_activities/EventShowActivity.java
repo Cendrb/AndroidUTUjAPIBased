@@ -26,22 +26,22 @@ public class EventShowActivity extends AppCompatActivity {
 
         if (getIntent() == null)
             throw new ItemIdNotSuppliedException("Intent is null");
-        int itemId = getIntent().getIntExtra("event_id", -1);
+        int itemId = getIntent().getIntExtra("item_id", -1);
         if (itemId == -1)
             throw new ItemIdNotSuppliedException("Item id is not stored in this Intent");
 
         event = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), itemId);
 
 
-        setContentView(R.layout.activity_event_show);
+        setContentView(R.layout.activity_show_event);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // adds in up arrow, but relaunches MainActivity = bad
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView title = (TextView) findViewById(R.id.event_title);
-        TextView description = (TextView) findViewById(R.id.event_description);
+        TextView title = (TextView) findViewById(R.id.show_title);
+        TextView description = (TextView) findViewById(R.id.show_description);
         TextView location = (TextView) findViewById(R.id.event_location);
 
         title.setText(event.getTitle());
