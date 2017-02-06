@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="planned_raking_list_description">
+        <item quantity="zero">John Cena zbývá na seznamu</item>
+        <item quantity="one">1 zbývá na seznamu</item>
+        <item quantity="few">%d zbývají na seznamu</item>
+        <item quantity="other">%d zbývá na seznamu</item>
+    </plurals>
+</resources>

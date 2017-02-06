@@ -1,7 +1,5 @@
 package com.farast.utu_apibased.fragments.timetable;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;

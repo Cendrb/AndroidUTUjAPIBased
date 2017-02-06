@@ -15,7 +15,6 @@ import com.farast.utuapi.data.OnelineRepresentable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by cendr_000 on 18.08.2016.
@@ -36,14 +35,14 @@ public class UtuSpinner<T extends OnelineRepresentable> extends Spinner {
             String typeString = a.getString(R.styleable.UtuSpinner_utuItemType);
             if (typeString == null)
                 throw new UtuTypeRequiredException();
-            if (Objects.equals(typeString, "additional_info")) {
+            if (typeString.equals("additional_info")) {
                 mData = (List<T>) Bullshit.dataLoader.getAdditionalInfosList();
-            } else if (Objects.equals(typeString, "sclass")) {
+            } else if (typeString.equals("sclass")) {
                 mData = (List<T>) Bullshit.dataLoader.getSclasses();
-            } else if (Objects.equals(typeString, "sgroup")) {
+            } else if (typeString.equals("sgroup")) {
                 mData = (List<T>) Bullshit.dataLoader.getSgroupsList();
                 Collections.reverse(mData);
-            } else if (Objects.equals(typeString, "subject")) {
+            } else if (typeString.equals("subject")) {
                 mData = (List<T>) Bullshit.dataLoader.getSubjects();
             } else
                 throw new UtuTypeRequiredException();
@@ -51,7 +50,7 @@ public class UtuSpinner<T extends OnelineRepresentable> extends Spinner {
             a.recycle();
         }
 
-        final ArrayAdapter<T> androidSucksAdapter = new UtuSpinnerAdapter<>(context, mData, new ToStringConverter<T>() {
+        final ArrayAdapter<T> androidSucksAdapter = new UtuAdapter<>(context, mData, new ToStringConverter<T>() {
             @Override
             public String stringify(T object) {
                 return object.getOnelineRepresentation();

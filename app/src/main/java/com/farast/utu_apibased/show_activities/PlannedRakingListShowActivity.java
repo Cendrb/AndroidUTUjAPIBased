@@ -1,18 +1,16 @@
 package com.farast.utu_apibased.show_activities;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.ItemIdNotSuppliedException;
@@ -20,15 +18,16 @@ import com.farast.utu_apibased.PlannedRakingEntriesRecyclerViewAdapter;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.ToStringConverter;
 import com.farast.utu_apibased.UtuDescribedSpinnerAdapter;
-import com.farast.utu_apibased.create_update_activities.CUArticleActivity;
-import com.farast.utu_apibased.custom_views.utu_spinner.UtuSpinnerAdapter;
+import com.farast.utu_apibased.UtuSubmitter;
 import com.farast.utuapi.data.ClassMember;
+import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.PlannedRakingEntry;
 import com.farast.utuapi.data.PlannedRakingList;
 import com.farast.utuapi.data.PlannedRakingRound;
 import com.farast.utuapi.util.CollectionUtil;
 import com.farast.utuapi.util.functional_interfaces.Predicate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,22 +108,33 @@ public class PlannedRakingListShowActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.prl_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_item_edit:
-                Intent intent = new Intent(this, CUArticleActivity.class);
-                intent.putExtra("item_id", plannedRakingList.getId());
-                startActivity(intent);
-                return true;
-            case R.id.menu_item_delete:
+            case R.id.menu_item_signup_for_rekt:
 
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class SignupForRekt extends UtuSubmitter {
+        public SignupForRekt(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected String[] executeInBackground() throws IOException, DataLoader.AdminRequiredException, DataLoader.SclassUnknownException {
+            return new String[0];
         }
     }
 }

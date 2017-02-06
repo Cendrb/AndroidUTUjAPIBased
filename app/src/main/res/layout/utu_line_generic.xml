@@ -22,7 +22,7 @@
             android:lines="1"
             android:textAlignment="center"
             android:textColor="#aaffffff"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <LinearLayout

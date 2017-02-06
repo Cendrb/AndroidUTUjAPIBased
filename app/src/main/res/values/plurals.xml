@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="planned_raking_list_description">
+        <item quantity="zero">John Cena remains on list</item>
+        <item quantity="one">%d remains on list</item>
+        <item quantity="other">%d remain on list</item>
+    </plurals>
+</resources>

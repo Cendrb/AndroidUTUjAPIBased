@@ -12,7 +12,6 @@ import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UtuLineGenericViewHolder;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
 import com.farast.utuapi.data.DataLoader;
-import com.farast.utuapi.data.Event;
 import com.farast.utuapi.data.PlannedRakingList;
 
 import java.util.List;
@@ -59,7 +58,7 @@ public class RakingsRecyclerViewAdapter extends RecyclerView.Adapter<UtuLineGene
         final PlannedRakingList item = mValues.get(position);
         holder.mTitleView.setText(mContext.getString(R.string.planned_raking_list_title, item.getTitle(), item.getCurrentRound().getRoundNumber()));
         holder.mAvatarTextView.setText(item.getSubject().getName());
-        holder.mLeftBottomView.setText(mContext.getString(R.string.planned_raking_list_description, item.getCurrentRound().getSignedUpRemainingCount()));
+        holder.mLeftBottomView.setText(mContext.getResources().getQuantityText(R.plurals.planned_raking_list_description, item.getCurrentRound().getSignedUpRemainingCount()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -11,16 +11,15 @@ import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UnitsUtil;
-import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Lesson;
 import com.farast.utuapi.data.SchoolDay;
 import com.farast.utuapi.data.Timetable;
 import com.farast.utuapi.util.DateUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ import java.util.List;
 
 public class TimetableAdapter extends BaseAdapter {
 
-    private static final int gridWidth = 10;
+    private static final int gridWidth = 11;
 
     private List<SchoolDay> schoolDays;
     private Timetable timetable;
@@ -43,8 +42,13 @@ public class TimetableAdapter extends BaseAdapter {
     }
 
     @Override
+    public boolean hasStableIds() {
+        return true;
+    }
+
+    @Override
     public int getCount() {
-        return schoolDays.size() * 10;
+        return schoolDays.size() * gridWidth;
     }
 
     @Override
@@ -72,18 +76,25 @@ public class TimetableAdapter extends BaseAdapter {
         int col = i % gridWidth;
 
         SchoolDay day = schoolDays.get(row);
-        if (col == 0)
+        Calendar c = Calendar.getInstance();
+        c.setTime(day.getDate());
+
+        relativeLayout.setBackgroundResource(R.drawable.lesson_background);
+
+        if (col == 0) {
             subject.setText(DateUtil.CZ_WEEK_DATE_FORMAT.format(day.getDate()));
+        }
         else {
             boolean found = false;
             List<Lesson> lessons = day.getLessons();
             for (Lesson lesson : lessons) {
                 if (lesson.getSerialNumber() == col) {
                     found = true;
-                    subject.setText(lesson.getSubject().getName());
-                    teacher.setText(lesson.getTeacher().getAbbr());
+                    if (lesson.getSubject() != null)
+                        subject.setText(lesson.getSubject().getName());
+                    if (lesson.getTeacher() != null)
+                        teacher.setText(lesson.getTeacher().getAbbr());
                     room.setText(lesson.getRoom());
-                    relativeLayout.setBackgroundResource(R.drawable.lesson_background);
                     if (lesson.isNotNormal())
                         ((GradientDrawable) relativeLayout.getBackground()).setColor(ContextCompat.getColor(context, R.color.colorNotNormalCell));
                     else
@@ -93,6 +104,10 @@ public class TimetableAdapter extends BaseAdapter {
             }
             if (!found) {
                 // cell is empty
+                subject.setText("");
+                room.setText("");
+                teacher.setText("");
+                ((GradientDrawable) relativeLayout.getBackground()).setColor(ContextCompat.getColor(context, R.color.white));
             }
         }
         relativeLayout.setLayoutParams(new GridView.LayoutParams(UnitsUtil.dpToPx(60), UnitsUtil.dpToPx(70)));

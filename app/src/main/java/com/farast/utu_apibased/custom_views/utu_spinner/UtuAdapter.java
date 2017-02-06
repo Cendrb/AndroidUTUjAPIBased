@@ -1,7 +1,6 @@
 package com.farast.utu_apibased.custom_views.utu_spinner;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -10,10 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.ToStringConverter;
-import com.farast.utu_apibased.UtuDescribedSpinnerAdapter;
-import com.farast.utuapi.data.OnelineRepresentable;
 
 import java.util.List;
 
@@ -21,27 +17,36 @@ import java.util.List;
  * Created by cendr_000 on 26.08.2016.
  */
 
-public class UtuSpinnerAdapter<T> extends ArrayAdapter<T> {
+public class UtuAdapter<T> extends ArrayAdapter<T> {
 
     private List<T> mData;
     private ToStringConverter<T> mConverter;
+    private int mResourceId;
 
-    public UtuSpinnerAdapter(Context context, List<T> objects, ToStringConverter<T> converter) {
+    public UtuAdapter(Context context, List<T> objects, ToStringConverter<T> converter) {
         super(context, android.R.layout.simple_spinner_item, objects);
         mData = objects;
         mConverter = converter;
+        mResourceId = android.R.layout.simple_spinner_item;
+    }
+
+    public UtuAdapter(Context context, List<T> objects, ToStringConverter<T> converter, int resourceId) {
+        super(context, resourceId, objects);
+        mData = objects;
+        mConverter = converter;
+        mResourceId = resourceId;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        UtuSpinnerAdapter.Holder holder;
+        UtuAdapter.Holder holder;
 
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
             convertView = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
 
-            holder = new UtuSpinnerAdapter.Holder();
+            holder = new UtuAdapter.Holder();
             holder.theOnlyTextView = (TextView) convertView.findViewById(android.R.id.text1);
 
             convertView.setTag(holder);

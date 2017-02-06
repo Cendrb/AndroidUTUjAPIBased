@@ -1,5 +1,7 @@
 package com.farast.utu_apibased.fragments;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utuapi.data.User;
 
+import java.util.Random;
+
 /**
  * Created by cendr_000 on 21.08.2016.
  */
@@ -22,6 +26,11 @@ public class SummaryFragment extends Fragment {
     private Button mActionEventsView;
     private Button mActionTEsView;
     private Button mActionTimetablesView;
+    private Button mActionArticlesView;
+    private Button mActionKanaView;
+    private Button mActionRakingsView;
+
+    private SoundPool mCenaPool;
 
     public SummaryFragment() {
 
@@ -40,6 +49,9 @@ public class SummaryFragment extends Fragment {
             mCurrentUserView.setText(user.getClassMember().getFullName());
 
         final OpenFragmentListener listener = (OpenFragmentListener) getActivity();
+
+        mCenaPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 100);
+        final int cenaId = mCenaPool.load(getContext(), R.raw.johncena, 1);
 
         mActionEventsView = (Button) view.findViewById(R.id.summary_action_events);
         mActionEventsView.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +72,31 @@ public class SummaryFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 listener.setSelectedFragmentAndOpen(R.id.nav_timetables);
+            }
+        });
+        mActionArticlesView = (Button) view.findViewById(R.id.summary_action_articles);
+        mActionArticlesView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.setSelectedFragmentAndOpen(R.id.nav_articles);
+            }
+        });
+        mActionKanaView = (Button) view.findViewById(R.id.summary_action_kana);
+        mActionKanaView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int priority = 1;
+                int noLoop = 0;
+                Random random = new Random();
+                float normalPlaybackRate = 0.7f + random.nextFloat() * 1.3f;
+                mCenaPool.play(cenaId, 1, 1, priority, noLoop, normalPlaybackRate);
+            }
+        });
+        mActionRakingsView = (Button) view.findViewById(R.id.summary_action_rakings);
+        mActionRakingsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.setSelectedFragmentAndOpen(R.id.nav_rakings);
             }
         });
 

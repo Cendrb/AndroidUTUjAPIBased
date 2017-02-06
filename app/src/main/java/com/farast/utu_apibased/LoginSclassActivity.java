@@ -17,22 +17,19 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.custom_views.utu_spinner.UtuSpinnerAdapter;
+import com.farast.utu_apibased.custom_views.utu_spinner.UtuAdapter;
 import com.farast.utuapi.data.Sclass;
 
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.farast.utu_apibased.Bullshit.dataLoader;
 
@@ -299,7 +296,7 @@ public class LoginSclassActivity extends AppCompatActivity {
             showProgress(false);
             if (aBoolean) {
                 List<Sclass> sclasses = dataLoader.getSclasses();
-                final UtuSpinnerAdapter<Sclass> androidSucksAdapter = new UtuSpinnerAdapter<>(mActivity, sclasses, new ToStringConverter<Sclass>() {
+                final UtuAdapter<Sclass> androidSucksAdapter = new UtuAdapter<>(mActivity, sclasses, new ToStringConverter<Sclass>() {
                     @Override
                     public String stringify(Sclass object) {
                         return object.getName();

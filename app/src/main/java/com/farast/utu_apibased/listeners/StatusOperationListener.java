@@ -17,38 +17,38 @@ import com.farast.utuapi.util.operations.OperationManager;
 
 public class StatusOperationListener implements OperationListener {
 
-    private Activity parent;
+    private Activity mParent;
 
-    private RelativeLayout currentOperation;
-    private TextView currentOperationText;
-    private ProgressBar currentOperationProgress;
+    private RelativeLayout mCurrentOperation;
+    private TextView mCurrentOperationText;
+    private ProgressBar mCurrentOperationProgress;
 
     public StatusOperationListener(Activity parent) {
-        this.parent = parent;
-        currentOperation = (RelativeLayout) parent.findViewById(R.id.currentOperation);
-        currentOperationText = (TextView) parent.findViewById(R.id.currentOperationText);
-        currentOperationProgress = (ProgressBar) parent.findViewById(R.id.currentOperationProgress);
+        this.mParent = parent;
+        mCurrentOperation = (RelativeLayout) parent.findViewById(R.id.currentOperation);
+        mCurrentOperationText = (TextView) parent.findViewById(R.id.currentOperationText);
+        mCurrentOperationProgress = (ProgressBar) parent.findViewById(R.id.currentOperationProgress);
     }
 
     @Override
     public void started(final Operation operation, OperationManager manager) {
         // TODO display all current running operations
-        currentOperation.post(new Runnable() {
+        mCurrentOperation.post(new Runnable() {
             @Override
             public void run() {
-                currentOperation.setVisibility(View.VISIBLE);
-                currentOperationText.setText(operation.getName().toLowerCase() + "...");
+                mCurrentOperation.setVisibility(View.VISIBLE);
+                mCurrentOperationText.setText(operation.getName().toLowerCase() + "...");
             }
         });
     }
 
     @Override
     public void ended(Operation operation, final OperationManager manager) {
-        currentOperation.post(new Runnable() {
+        mCurrentOperation.post(new Runnable() {
             @Override
             public void run() {
                 if (!manager.isRunning())
-                    currentOperation.setVisibility(View.GONE);
+                    mCurrentOperation.setVisibility(View.GONE);
             }
         });
     }

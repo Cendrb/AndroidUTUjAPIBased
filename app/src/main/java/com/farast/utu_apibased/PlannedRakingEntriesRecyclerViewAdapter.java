@@ -45,8 +45,8 @@ public class PlannedRakingEntriesRecyclerViewAdapter extends RecyclerView.Adapte
         holder.mNameView.setText(plannedRakingEntry.getClassMember().getFullName());
         if (plannedRakingEntry.isFinished()) {
             holder.mLayoutView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.rekt));
-            if (plannedRakingEntry.getGrade() != -1 && Bullshit.dataLoader.getCurrentUser() != null && plannedRakingEntry.getClassMember() == Bullshit.dataLoader.getCurrentUser().getClassMember())
-                holder.mStateView.setText(String.valueOf(plannedRakingEntry.getGrade()));
+            if (plannedRakingEntry.getGrade() != null && Bullshit.dataLoader.getCurrentUser() != null && plannedRakingEntry.getClassMember() == Bullshit.dataLoader.getCurrentUser().getClassMember())
+                holder.mStateView.setText(plannedRakingEntry.getGrade());
             else
                 holder.mStateView.setText(R.string.raking_rekt);
         }
