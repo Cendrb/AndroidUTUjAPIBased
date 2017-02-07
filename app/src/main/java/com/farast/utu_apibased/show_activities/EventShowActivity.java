@@ -37,8 +37,7 @@ public class EventShowActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // adds in up arrow, but relaunches MainActivity = bad
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(event.getTitle());
 
         TextView title = (TextView) findViewById(R.id.show_title);
         TextView description = (TextView) findViewById(R.id.show_description);

@@ -231,7 +231,6 @@ public class LoginSclassActivity extends AppCompatActivity {
 
             switch (result) {
                 case success:
-
                     SharedPreferences.Editor editor = mPreferences.edit();
                     editor.putString("email", mEmail);
                     editor.putString("password", mPassword);

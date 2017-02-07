@@ -43,8 +43,7 @@ public class TEShowActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // adds in up arrow, but relaunches MainActivity = bad
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(te.getTitle());
 
         TextView title = (TextView) findViewById(R.id.te_title);
         TextView description = (TextView) findViewById(R.id.te_description);

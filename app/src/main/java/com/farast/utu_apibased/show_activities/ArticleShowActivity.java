@@ -41,6 +41,8 @@ public class ArticleShowActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setTitle(article.getTitle());
+
         TextView title = (TextView) findViewById(R.id.article_title);
         TextView description = (TextView) findViewById(R.id.article_description);
 
