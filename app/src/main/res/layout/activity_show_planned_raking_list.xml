@@ -31,6 +31,12 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <CheckBox
+            android:id="@+id/prl_show_rekt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_show_rekt" />
+
         <Spinner
             android:id="@+id/prl_round_selector"
             android:layout_width="match_parent"

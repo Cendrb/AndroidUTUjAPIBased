@@ -15,8 +15,8 @@ import com.farast.utu_apibased.UtuDestroyer;
 import com.farast.utu_apibased.create_update_activities.CUExamActivity;
 import com.farast.utu_apibased.create_update_activities.CUTaskActivity;
 import com.farast.utuapi.data.Exam;
-import com.farast.utuapi.data.TEItem;
-import com.farast.utuapi.data.Updatable;
+import com.farast.utuapi.data.interfaces.TEItem;
+import com.farast.utuapi.data.interfaces.Updatable;
 import com.farast.utuapi.util.CollectionUtil;
 
 /**

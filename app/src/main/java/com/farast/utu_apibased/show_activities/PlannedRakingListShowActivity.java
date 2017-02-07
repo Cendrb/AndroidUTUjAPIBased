@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.farast.utu_apibased.Bullshit;
@@ -37,7 +39,9 @@ import java.util.List;
 
 public class PlannedRakingListShowActivity extends AppCompatActivity {
 
-    PlannedRakingList plannedRakingList;
+    private PlannedRakingList mPlannedRakingList;
+    private PlannedRakingRound mCurrentRound;
+    private boolean mShowAlreadyRekt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,54 +53,57 @@ public class PlannedRakingListShowActivity extends AppCompatActivity {
         if (itemId == -1)
             throw new ItemIdNotSuppliedException("Item id is not stored in this Intent");
 
-        plannedRakingList = CollectionUtil.findById(Bullshit.dataLoader.getPlannedRakingsListsList(), itemId);
-
+        mPlannedRakingList = CollectionUtil.findById(Bullshit.dataLoader.getPlannedRakingsListsList(), itemId);
 
         setContentView(R.layout.activity_show_planned_raking_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setTitle(plannedRakingList.getTitle() + " (" + plannedRakingList.getSubject().getName() + ")");
+        setTitle(mPlannedRakingList.getTitle() + " (" + mPlannedRakingList.getSubject().getName() + ")");
 
+        List<PlannedRakingRound> plannedRakingRounds = mPlannedRakingList.getPlannedRakingRounds();
         List<UtuDescribedSpinnerAdapter.DescribedItem<PlannedRakingRound>> describedRounds = new ArrayList<>();
-        for (PlannedRakingRound round : plannedRakingList.getPlannedRakingRounds()) {
-            int alreadyRekt = CollectionUtil.filter(round.getPlannedRakingEntries(), new Predicate<PlannedRakingEntry>() {
-                @Override
-                public boolean test(PlannedRakingEntry plannedRakingEntry) {
-                    return false;
+        for (PlannedRakingRound round : plannedRakingRounds) {
+            List<ClassMember> rektClassMembers = new ArrayList<>();
+            for (PlannedRakingEntry entry : round.getPlannedRakingEntries()) {
+                if (entry.isFinished() && !rektClassMembers.contains(entry.getClassMember())) {
+                    rektClassMembers.add(entry.getClassMember());
                 }
-            }).size();
+            }
             int totalPossiblyRekt;
-            if (plannedRakingList.getSgroup() == Bullshit.dataLoader.getAllSgroup())
+            if (mPlannedRakingList.getSgroup() == Bullshit.dataLoader.getAllSgroup())
                 totalPossiblyRekt = Bullshit.dataLoader.getLastSclass().getClassMembers().size();
             else
                 totalPossiblyRekt = CollectionUtil.filter(Bullshit.dataLoader.getLastSclass().getClassMembers(), new Predicate<ClassMember>() {
                     @Override
                     public boolean test(ClassMember classMember) {
-                        return classMember.getSgroups().contains(plannedRakingList.getSgroup());
+                        return classMember.getSgroups().contains(mPlannedRakingList.getSgroup());
                     }
                 }).size();
 
-            describedRounds.add(new UtuDescribedSpinnerAdapter.DescribedItem<PlannedRakingRound>(round, getString(R.string.rekt_x_out_of, alreadyRekt, totalPossiblyRekt)));
+            describedRounds.add(new UtuDescribedSpinnerAdapter.DescribedItem<PlannedRakingRound>(round, getString(R.string.rekt_x_out_of, rektClassMembers.size(), totalPossiblyRekt)));
         }
 
         RecyclerView entriesListView = (RecyclerView) findViewById(R.id.prl_entries_list);
         entriesListView.setLayoutManager(new LinearLayoutManager(this));
-        final PlannedRakingEntriesRecyclerViewAdapter plrAdapter = new PlannedRakingEntriesRecyclerViewAdapter(this, plannedRakingList.getCurrentRound().getPlannedRakingEntries());
-        entriesListView.setAdapter(plrAdapter);
+        final PlannedRakingEntriesRecyclerViewAdapter preAdapter = new PlannedRakingEntriesRecyclerViewAdapter(this, mPlannedRakingList.getCurrentRound().getPlannedRakingEntries());
+        entriesListView.setAdapter(preAdapter);
 
-        Spinner roundSelector = (Spinner) findViewById(R.id.prl_round_selector);
-        roundSelector.setAdapter(new UtuDescribedSpinnerAdapter<PlannedRakingRound>(this, describedRounds, new ToStringConverter<PlannedRakingRound>() {
+        CheckBox showAlreadyRekt = (CheckBox) findViewById(R.id.prl_show_rekt);
+        Spinner roundsSelector = (Spinner) findViewById(R.id.prl_round_selector);
+
+        roundsSelector.setAdapter(new UtuDescribedSpinnerAdapter<PlannedRakingRound>(this, describedRounds, new ToStringConverter<PlannedRakingRound>() {
             @Override
             public String stringify(PlannedRakingRound object) {
                 return getString(R.string.nth_raking_round, object.getRoundNumber());
             }
         }));
-        roundSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        roundsSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                UtuDescribedSpinnerAdapter.DescribedItem<PlannedRakingRound> describedItem = (UtuDescribedSpinnerAdapter.DescribedItem<PlannedRakingRound>)adapterView.getItemAtPosition(i);
-                plrAdapter.setData(describedItem.getItem().getPlannedRakingEntries());
+                UtuDescribedSpinnerAdapter.DescribedItem<PlannedRakingRound> describedItem = (UtuDescribedSpinnerAdapter.DescribedItem<PlannedRakingRound>) adapterView.getSelectedItem();
+                mCurrentRound = describedItem.getItem();
+                updatePreAdapterData(preAdapter);
             }
 
             @Override
@@ -104,7 +111,28 @@ public class PlannedRakingListShowActivity extends AppCompatActivity {
 
             }
         });
-        roundSelector.setSelection(describedRounds.size() - 1); // select the last round
+        roundsSelector.setSelection(plannedRakingRounds.indexOf(mPlannedRakingList.getCurrentRound())); // select the last round
+
+        showAlreadyRekt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mShowAlreadyRekt = b;
+                updatePreAdapterData(preAdapter);
+            }
+        });
+    }
+
+    private void updatePreAdapterData(PlannedRakingEntriesRecyclerViewAdapter adapter) {
+        List<PlannedRakingEntry> entries = mCurrentRound.getPlannedRakingEntries();
+        if (!mShowAlreadyRekt) {
+            entries = CollectionUtil.filter(entries, new Predicate<PlannedRakingEntry>() {
+                @Override
+                public boolean test(PlannedRakingEntry plannedRakingEntry) {
+                    return !plannedRakingEntry.isFinished();
+                }
+            });
+        }
+        adapter.setData(entries);
     }
 
     @Override

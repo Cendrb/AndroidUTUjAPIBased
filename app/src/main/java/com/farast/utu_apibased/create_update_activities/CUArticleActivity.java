@@ -88,9 +88,9 @@ public class CUArticleActivity extends AppCompatActivity {
                 selectedInfoIds.add(info.getId());
             mAISelectView.setSelectedAIIds(selectedInfoIds);
 
-            setTitle(getString(R.string.editing) + " " + getString(R.string.article).toLowerCase());
+            setTitle(getString(R.string.editing) + " " + getString(R.string.item_article).toLowerCase());
         } else {
-            setTitle(getString(R.string.creating) + " " + getString(R.string.article).toLowerCase());
+            setTitle(getString(R.string.creating) + " " + getString(R.string.item_article).toLowerCase());
         }
 
         mSubmitView.setOnClickListener(new View.OnClickListener() {

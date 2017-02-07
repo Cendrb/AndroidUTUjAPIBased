@@ -69,9 +69,9 @@ public class CUExamActivity extends AppCompatActivity {
                 selectedInfoIds.add(info.getId());
             mAISelectView.setSelectedAIIds(selectedInfoIds);
 
-            setTitle(getString(R.string.editing) + " " + getString(R.string.exam).toLowerCase());
+            setTitle(getString(R.string.editing) + " " + getString(R.string.item_exam).toLowerCase());
         } else {
-            setTitle(getString(R.string.creating) + " " + getString(R.string.exam).toLowerCase());
+            setTitle(getString(R.string.creating) + " " + getString(R.string.item_exam).toLowerCase());
         }
 
         mSubmitView.setOnClickListener(new View.OnClickListener() {

@@ -6,6 +6,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.farast.utu_apibased.Localizer;
 import com.farast.utu_apibased.R;
 import com.farast.utuapi.util.operations.Operation;
 import com.farast.utuapi.util.operations.OperationListener;
@@ -23,8 +24,11 @@ public class StatusOperationListener implements OperationListener {
     private TextView mCurrentOperationText;
     private ProgressBar mCurrentOperationProgress;
 
+    private Localizer mLocalizer;
+
     public StatusOperationListener(Activity parent) {
         this.mParent = parent;
+        mLocalizer = new Localizer(parent.getResources());
         mCurrentOperation = (RelativeLayout) parent.findViewById(R.id.currentOperation);
         mCurrentOperationText = (TextView) parent.findViewById(R.id.currentOperationText);
         mCurrentOperationProgress = (ProgressBar) parent.findViewById(R.id.currentOperationProgress);
@@ -37,7 +41,7 @@ public class StatusOperationListener implements OperationListener {
             @Override
             public void run() {
                 mCurrentOperation.setVisibility(View.VISIBLE);
-                mCurrentOperationText.setText(operation.getName().toLowerCase() + "...");
+                mCurrentOperationText.setText(mLocalizer.localizeOperation(operation) + "...");
             }
         });
     }

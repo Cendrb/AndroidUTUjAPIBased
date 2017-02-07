@@ -3,7 +3,7 @@ package com.farast.utu_apibased;
 import android.app.Activity;
 
 import com.farast.utuapi.data.DataLoader;
-import com.farast.utuapi.data.Updatable;
+import com.farast.utuapi.data.interfaces.Updatable;
 
 import java.io.IOException;
 

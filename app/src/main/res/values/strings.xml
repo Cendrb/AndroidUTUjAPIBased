@@ -20,9 +20,9 @@
     <string name="action_load_without_login">load without login</string>
     <string name="failed_to_connect">Failed to connect the server</string>
     <string name="try_again">Do you want to try again?</string>
-    <string name="event">Event</string>
-    <string name="task">Task</string>
-    <string name="exam">Exam</string>
+    <string name="item_event">Event</string>
+    <string name="item_task">Task</string>
+    <string name="item_exam">Exam</string>
     <string name="prompt_description">Description</string>
     <string name="prompt_title">Title</string>
     <string name="prompt_location">Location</string>
@@ -34,7 +34,7 @@
     <string name="sclass_not_set">Class is not set</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
-    <string name="article">Article</string>
+    <string name="item_article">Article</string>
     <string name="prompt_published">Published</string>
     <string name="prompt_show_in_details_until">Show in details until</string>
     <string name="prompt_show_in_details">Show in details</string>
@@ -46,8 +46,8 @@
     <string name="choose_additional_infos">Choose infos you want to include</string>
     <string name="additional_infos">Additional URLs</string>
     <string name="none">none</string>
-    <string name="loading_predata">fetching Utu for classes list</string>
-    <string name="logging_in">logging in</string>
+    <string name="operation_downloading_predata">fetching Utu for classes list</string>
+    <string name="operation_logging_in">logging in</string>
     <string name="action_open_web_version">Open web version</string>
     <string name="nav_summary">Summary</string>
     <string name="nav_events">Events</string>
@@ -63,8 +63,14 @@
     <string name="rekt_x_out_of">rekt %1$d out of %2$d</string>
     <string name="raking_rekt" translatable="false">REKT</string>
     <string name="signup_for_rekt">Signup for rekt</string>
-    <string name="action_kana">KANA</string>
+    <string name="action_kana">7:45</string>
     <string name="app_drawer_title">UTU for Android</string>
     <string name="app_drawer_subtitle">What exactly is supposed to be in here?</string>
     <string name="application_icon">Application icon</string>
+    <string name="prompt_show_rekt">Show already rekt</string>
+    <string name="operation_submitting_new_of_type_x">submitting new %1$s</string>
+    <string name="operation_updating_x_of_type_x">updating %2$s %1$s</string>
+    <string name="operation_deleting_x_of_type_x">deleting %2$s %1$s</string>
+    <string name="operation_downloading_timetables">downloading timetables</string>
+    <string name="operation_downloading_utu_data">downloading utu data</string>
 </resources>

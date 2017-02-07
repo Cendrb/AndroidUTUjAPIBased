@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/colorAccentPressed"
-            app:fab_title="@string/event"
+            app:fab_title="@string/item_event"
             app:fab_icon="@drawable/ic_rakings"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/colorAccentPressed"
-            app:fab_title="@string/task"
+            app:fab_title="@string/item_task"
             app:fab_icon="@drawable/ic_rakings"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/colorAccentPressed"
-            app:fab_title="@string/exam"
+            app:fab_title="@string/item_exam"
             app:fab_icon="@drawable/ic_rakings"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/colorAccentPressed"
-            app:fab_title="@string/article"
+            app:fab_title="@string/item_article"
             app:fab_icon="@drawable/ic_rakings"/>
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

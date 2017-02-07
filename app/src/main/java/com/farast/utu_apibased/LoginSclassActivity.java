@@ -221,7 +221,7 @@ public class LoginSclassActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             showProgress(true);
-            mProgressTextView.setText(R.string.logging_in);
+            mProgressTextView.setText(R.string.operation_logging_in);
         }
 
         @Override
@@ -288,7 +288,7 @@ public class LoginSclassActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             showProgress(true);
-            mProgressTextView.setText(R.string.loading_predata);
+            mProgressTextView.setText(R.string.operation_downloading_predata);
         }
 
         @Override

@@ -6,16 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UtuLineGenericViewHolder;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
-import com.farast.utuapi.data.Article;
 import com.farast.utuapi.data.DataLoader;
-import com.farast.utuapi.data.TEItem;
-import com.farast.utuapi.util.DateUtil;
+import com.farast.utuapi.data.interfaces.TEItem;
 
 import java.util.List;
 

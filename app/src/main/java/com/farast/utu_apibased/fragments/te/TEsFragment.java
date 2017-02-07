@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
 import com.farast.utu_apibased.show_activities.TEShowActivity;
-import com.farast.utuapi.data.TEItem;
+import com.farast.utuapi.data.interfaces.TEItem;
 
 /**
  * Created by cendr_000 on 05.08.2016.

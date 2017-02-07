@@ -79,9 +79,9 @@ public class CUEventActivity extends AppCompatActivity {
                 selectedInfoIds.add(info.getId());
             mAISelectView.setSelectedAIIds(selectedInfoIds);
 
-            setTitle(getString(R.string.editing) + " " + getString(R.string.event).toLowerCase());
+            setTitle(getString(R.string.editing) + " " + getString(R.string.item_event).toLowerCase());
         } else {
-            setTitle(getString(R.string.creating) + " " + getString(R.string.event).toLowerCase());
+            setTitle(getString(R.string.creating) + " " + getString(R.string.item_event).toLowerCase());
         }
 
         mStartView.setOnDateSelectedListener(new SpinnerLikeDateSelect.OnDateSetListener() {

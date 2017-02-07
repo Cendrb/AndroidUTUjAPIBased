@@ -69,9 +69,9 @@ public class CUTaskActivity extends AppCompatActivity {
                 selectedInfoIds.add(info.getId());
             mAISelectView.setSelectedAIIds(selectedInfoIds);
 
-            setTitle(getString(R.string.editing) + " " + getString(R.string.task).toLowerCase());
+            setTitle(getString(R.string.editing) + " " + getString(R.string.item_task).toLowerCase());
         } else {
-            setTitle(getString(R.string.creating) + " " + getString(R.string.task).toLowerCase());
+            setTitle(getString(R.string.creating) + " " + getString(R.string.item_task).toLowerCase());
         }
 
         mSubmitView.setOnClickListener(new View.OnClickListener() {
