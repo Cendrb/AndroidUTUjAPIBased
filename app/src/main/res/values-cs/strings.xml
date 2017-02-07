@@ -16,7 +16,6 @@
     <string name="edit">Upravit</string>
     <string name="editing">Upravuji</string>
     <string name="error_field_required">Toto pole je povinné</string>
-    <string name="error_incorrect_password">Nesprávné heslo</string>
     <string name="item_event">Událost</string>
     <string name="item_exam">Test</string>
     <string name="failed_to_connect">Nepodařilo se připojit k serveru</string>
@@ -62,4 +61,5 @@
     <string name="app_drawer_subtitle">A co mám sakra dát sem?</string>
     <string name="application_icon">Ikonka aplikace</string>
     <string name="prompt_show_rekt">Zobrazit již zkoušené</string>
+    <string name="error_login_incorrect">Nesprávný email nebo heslo</string>
 </resources>

@@ -49,13 +49,13 @@ public class Localizer {
     public String localizeUtuItemType(UtuType utuType) {
         switch (utuType) {
             case ARTICLE:
-                return mResources.getString(R.string.item_article);
+                return mResources.getString(R.string.item_article).toLowerCase();
             case EVENT:
-                return mResources.getString(R.string.item_event);
+                return mResources.getString(R.string.item_event).toLowerCase();
             case EXAM:
-                return mResources.getString(R.string.item_exam);
+                return mResources.getString(R.string.item_exam).toLowerCase();
             case TASK:
-                return mResources.getString(R.string.item_task);
+                return mResources.getString(R.string.item_task).toLowerCase();
             default:
                 throw new IllegalArgumentException("UtuType " + utuType.toString() + " is not translatable at the moment");
         }

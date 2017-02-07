@@ -239,7 +239,7 @@ public class LoginSclassActivity extends AppCompatActivity {
                     startMain(dataLoader.getCurrentUser().getSclassId());
                     break;
                 case incorrect_password:
-                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.setError(getString(R.string.error_login_incorrect));
                     mPasswordView.requestFocus();
                     break;
                 case failed_to_connect:

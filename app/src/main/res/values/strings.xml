@@ -5,7 +5,7 @@
     <string name="prompt_email" translatable="false">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_login_incorrect">Wrong email or password</string>
     <string name="error_field_required">This field is required</string>
     <string name="or">- or -</string>
     <string name="network_required">Access to the network is required to download data from UTU.</string>

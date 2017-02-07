@@ -5,9 +5,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.farast.utu_apibased.Localizer;
 import com.farast.utu_apibased.R;
+import com.farast.utuapi.util.operations.ItemRelatedOperation;
 import com.farast.utuapi.util.operations.Operation;
 import com.farast.utuapi.util.operations.OperationListener;
 import com.farast.utuapi.util.operations.OperationManager;
@@ -37,11 +39,15 @@ public class StatusOperationListener implements OperationListener {
     @Override
     public void started(final Operation operation, OperationManager manager) {
         // TODO display all current running operations
+        final String operationText = mLocalizer.localizeOperation(operation) + "...";
         mCurrentOperation.post(new Runnable() {
             @Override
             public void run() {
                 mCurrentOperation.setVisibility(View.VISIBLE);
-                mCurrentOperationText.setText(mLocalizer.localizeOperation(operation) + "...");
+                mCurrentOperationText.setText(operationText);
+                if (operation instanceof ItemRelatedOperation) {
+                    Toast.makeText(mParent, operationText, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

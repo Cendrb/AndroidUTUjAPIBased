@@ -43,9 +43,7 @@ public abstract class UtuSubmitter extends AsyncTask<Void, Void, String[]> {
     @Override
     protected void onPostExecute(String[] strings) {
         super.onPostExecute(strings);
-        if (strings == null)
-            Toast.makeText(mContext, "Successfully submited", Toast.LENGTH_LONG).show();
-        else
+        if (strings != null)
             Toast.makeText(mContext, TextUtils.join(", ", strings), Toast.LENGTH_LONG).show();
         // TODO get better error notification system
     }
