@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mSclassId = getIntent().getExtras().getInt("sclass_id");
+        new DataDownloadTask().execute(new DataDownloadTaskParams(this, mSclassId));
+
         mActivity = this;
 
         setContentView(R.layout.activity_main);
@@ -112,8 +115,6 @@ public class MainActivity extends AppCompatActivity
             mFloatingActionsMenu.setVisibility(View.VISIBLE);
 
         dataLoader.getOperationManager().setOperationListener(new StatusOperationListener(this));
-        mSclassId = getIntent().getExtras().getInt("sclass_id");
-        new DataDownloadTask().execute(new DataDownloadTaskParams(this, mSclassId));
     }
 
     @Override
