@@ -56,7 +56,7 @@ public class TimetableFragment extends Fragment {
         gridView.setAdapter(mAdapter);
 
         final Handler handler = new Handler(getActivity().getMainLooper());
-        Bullshit.dataLoader.getNotifier().setRakingsListener(new DataLoader.OnDataSetListener() {
+        Bullshit.dataLoader.getNotifier().setTimetablesListener(new DataLoader.OnDataSetListener() {
             @Override
             public void onDataSetChanged() {
                 handler.post(new Runnable() {

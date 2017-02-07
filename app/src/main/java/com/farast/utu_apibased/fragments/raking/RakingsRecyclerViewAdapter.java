@@ -58,7 +58,11 @@ public class RakingsRecyclerViewAdapter extends RecyclerView.Adapter<UtuLineGene
         final PlannedRakingList item = mValues.get(position);
         holder.mTitleView.setText(mContext.getString(R.string.planned_raking_list_title, item.getTitle(), item.getCurrentRound().getRoundNumber()));
         holder.mAvatarTextView.setText(item.getSubject().getName());
-        holder.mLeftBottomView.setText(mContext.getResources().getQuantityText(R.plurals.planned_raking_list_description, item.getCurrentRound().getSignedUpRemainingCount()));
+        holder.mLeftBottomView.setText(mContext.getResources()
+                .getQuantityString(
+                        R.plurals.planned_raking_list_description,
+                        item.getCurrentRound().getSignedUpRemainingCount(),
+                        item.getCurrentRound().getSignedUpRemainingCount()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
