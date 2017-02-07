@@ -104,6 +104,7 @@ public class PlannedRakingListShowActivity extends AppCompatActivity {
 
             }
         });
+        roundSelector.setSelection(describedRounds.size() - 1); // select the last round
     }
 
     @Override
