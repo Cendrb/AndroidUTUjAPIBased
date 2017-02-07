@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.ToStringConverter;
 
 import java.util.List;
@@ -24,10 +25,7 @@ public class UtuAdapter<T> extends ArrayAdapter<T> {
     private int mResourceId;
 
     public UtuAdapter(Context context, List<T> objects, ToStringConverter<T> converter) {
-        super(context, android.R.layout.simple_spinner_item, objects);
-        mData = objects;
-        mConverter = converter;
-        mResourceId = android.R.layout.simple_spinner_item;
+        this(context, objects, converter, R.layout.simple_spinner_item);
     }
 
     public UtuAdapter(Context context, List<T> objects, ToStringConverter<T> converter, int resourceId) {
@@ -44,10 +42,10 @@ public class UtuAdapter<T> extends ArrayAdapter<T> {
 
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
-            convertView = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
+            convertView = inflater.inflate(mResourceId, parent, false);
 
             holder = new UtuAdapter.Holder();
-            holder.theOnlyTextView = (TextView) convertView.findViewById(android.R.id.text1);
+            holder.theOnlyTextView = (TextView) convertView.findViewById(R.id.text1);
 
             convertView.setTag(holder);
         } else {
