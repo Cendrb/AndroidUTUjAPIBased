@@ -67,4 +67,6 @@
     <string name="operation_downloading_utu_data">stahuji všechno ostatní</string>
     <string name="operation_submitting_new_of_type_x">přidávám novou položku (%1$s)</string>
     <string name="operation_updating_x_of_type_x">upravuji %1$s (%2$s)</string>
+    <string name="nav_next_week">Příští týden</string>
+    <string name="nav_previous_week">Tento týden</string>
 </resources>

@@ -74,5 +74,5 @@
     <string name="operation_downloading_timetables">downloading timetables</string>
     <string name="operation_downloading_utu_data">downloading utu data</string>
     <string name="nav_next_week">Next week</string>
-    <string name="nav_previous_week">Previous week</string>
+    <string name="nav_previous_week">Current week</string>
 </resources>
