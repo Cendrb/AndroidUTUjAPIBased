@@ -28,17 +28,20 @@ import java.util.List;
 
 public class TimetableAdapter extends BaseAdapter {
 
-    private static final int gridWidth = 11;
+    private static int gridWidth;
 
-    private List<SchoolDay> schoolDays;
+    private List<SchoolDay> mSchoolDays;
     private Timetable timetable;
     private final Context context;
     private final LayoutInflater inflater;
+    private final ArrayList<LessonViewData> mGridedLessons;
 
     public TimetableAdapter(Context context) {
-        schoolDays = new ArrayList<>();
+        mGridedLessons = new ArrayList<>();
+        mSchoolDays = new ArrayList<>();
         this.context = context;
         inflater = LayoutInflater.from(context);
+        gridWidth = 10;
     }
 
     @Override
@@ -48,17 +51,17 @@ public class TimetableAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return schoolDays.size() * gridWidth;
+        return mGridedLessons.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return mGridedLessons.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
@@ -68,56 +71,104 @@ public class TimetableAdapter extends BaseAdapter {
             relativeLayout = (RelativeLayout) inflater.inflate(R.layout.timetable_cell, null);
         else
             relativeLayout = (RelativeLayout) view;
-        TextView subject = (TextView) relativeLayout.findViewById(R.id.tcell_subject);
-        TextView room = (TextView) relativeLayout.findViewById(R.id.tcell_room);
-        TextView teacher = (TextView) relativeLayout.findViewById(R.id.tcell_teacher);
 
-        int row = i / gridWidth;
-        int col = i % gridWidth;
+        mGridedLessons.get(i).populate(relativeLayout, context);
 
-        SchoolDay day = schoolDays.get(row);
-        Calendar c = Calendar.getInstance();
-        c.setTime(day.getDate());
-
-        relativeLayout.setBackgroundResource(R.drawable.lesson_background);
-
-        if (col == 0) {
-            subject.setText(DateUtil.CZ_WEEK_DATE_FORMAT.format(day.getDate()));
-        }
-        else {
-            boolean found = false;
-            List<Lesson> lessons = day.getLessons();
-            for (Lesson lesson : lessons) {
-                if (lesson.getSerialNumber() == col) {
-                    found = true;
-                    if (lesson.getSubject() != null)
-                        subject.setText(lesson.getSubject().getName());
-                    if (lesson.getTeacher() != null)
-                        teacher.setText(lesson.getTeacher().getAbbr());
-                    room.setText(lesson.getRoom());
-                    if (lesson.isNotNormal())
-                        ((GradientDrawable) relativeLayout.getBackground()).setColor(ContextCompat.getColor(context, R.color.colorNotNormalCell));
-                    else
-                        ((GradientDrawable) relativeLayout.getBackground()).setColor(ContextCompat.getColor(context, R.color.colorNormalCell));
-                    break;
-                }
-            }
-            if (!found) {
-                // cell is empty
-                subject.setText("");
-                room.setText("");
-                teacher.setText("");
-                ((GradientDrawable) relativeLayout.getBackground()).setColor(ContextCompat.getColor(context, R.color.white));
-            }
-        }
-        relativeLayout.setLayoutParams(new GridView.LayoutParams(UnitsUtil.dpToPx(60), UnitsUtil.dpToPx(70)));
         return relativeLayout;
     }
 
     public void setTimetable(Timetable timetable) {
         this.timetable = timetable;
-        schoolDays.clear();
-        schoolDays.addAll(timetable.getSchoolDays());
-        notifyDataSetChanged();
+        mGridedLessons.clear();
+        mSchoolDays.clear();
+        mSchoolDays.addAll(timetable.getSchoolDays());
+        int maxLessonNumber = 0;
+        for (SchoolDay schoolDay : mSchoolDays) {
+            for (Lesson lesson : schoolDay.getLessons()) {
+                if (maxLessonNumber < lesson.getSerialNumber()) {
+                    maxLessonNumber = lesson.getSerialNumber();
+                }
+            }
+        }
+        gridWidth = maxLessonNumber + 1; // add one for current day/date
+
+        for (int i = 0; i < gridWidth * mSchoolDays.size(); i++) {
+            int row = i / gridWidth;
+            int col = i % gridWidth;
+
+            SchoolDay schoolDay = mSchoolDays.get(row);
+            LessonViewData lessonViewData = null;
+            if (col == 0) {
+                Calendar c = Calendar.getInstance();
+                c.setTime(schoolDay.getDate());
+                lessonViewData = new LessonViewData(DateUtil.CZ_WEEK_DATE_FORMAT.format(schoolDay.getDate()), "", "", LessonCellType.DATE);
+            } else {
+                for (Lesson lesson : schoolDay.getLessons()) {
+                    if (lesson.getSerialNumber() == col) {
+                        String subject = lesson.getSubject() != null ? lesson.getSubject().getName() : "";
+                        String teacher = lesson.getTeacher() != null ? lesson.getTeacher().getAbbr() : "";
+                        String room = lesson.getRoom();
+                        if (lesson.isNotNormal()) {
+                            lessonViewData = new LessonViewData(subject, teacher, room, LessonCellType.IRREGULAR);
+                        } else {
+                            lessonViewData = new LessonViewData(subject, teacher, room, LessonCellType.NORMAL);
+                        }
+                    }
+                    if (lessonViewData == null) {
+                        lessonViewData = new LessonViewData("", "", "", LessonCellType.EMPTY);
+                    }
+                }
+            }
+
+            mGridedLessons.add(i, lessonViewData);
+        }
+
+        notifyDataSetInvalidated();
     }
+
+    private static class LessonViewData {
+        private String mSubject;
+        private String mTeacher;
+        private String mRoom;
+        private LessonCellType mCellType;
+
+        public LessonViewData(String subject, String teacher, String room, LessonCellType cellType) {
+            this.mSubject = subject;
+            this.mTeacher = teacher;
+            this.mRoom = room;
+            this.mCellType = cellType;
+        }
+
+        public void populate(RelativeLayout targetView, Context context) {
+            TextView subject = (TextView) targetView.findViewById(R.id.tcell_subject);
+            TextView room = (TextView) targetView.findViewById(R.id.tcell_room);
+            TextView teacher = (TextView) targetView.findViewById(R.id.tcell_teacher);
+
+            subject.setText(mSubject);
+            room.setText(mRoom);
+            teacher.setText(mTeacher);
+
+            targetView.setBackgroundResource(R.drawable.lesson_background);
+            GradientDrawable cellBackground = ((GradientDrawable) targetView.getBackground());
+
+            switch (mCellType) {
+                case DATE:
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.white));
+                    break;
+                case NORMAL:
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.colorNormalCell));
+                    break;
+                case IRREGULAR:
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.colorNotNormalCell));
+                    break;
+                case EMPTY:
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.white));
+                    break;
+            }
+
+            targetView.setLayoutParams(new GridView.LayoutParams(UnitsUtil.dpToPx(60), UnitsUtil.dpToPx(70)));
+        }
+    }
+
+    private enum LessonCellType {DATE, NORMAL, IRREGULAR, EMPTY}
 }
