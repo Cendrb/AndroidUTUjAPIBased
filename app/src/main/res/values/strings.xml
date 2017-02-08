@@ -16,7 +16,7 @@
     <string name="action_settings">Settings</string>
     <string name="idle">Idle</string>
     <string name="placeholder" translatable="false">Sample text</string>
-    <string name="action_refresh">Refresh</string>
+    <string name="nav_refresh">Refresh</string>
     <string name="action_load_without_login">load without login</string>
     <string name="failed_to_connect">Failed to connect the server</string>
     <string name="try_again">Do you want to try again?</string>
@@ -32,8 +32,8 @@
     <string name="editing">Editing</string>
     <string name="admin_required">Admin priviligies required</string>
     <string name="sclass_not_set">Class is not set</string>
-    <string name="edit">Edit</string>
-    <string name="delete">Delete</string>
+    <string name="nav_edit">Edit</string>
+    <string name="nav_delete">Delete</string>
     <string name="item_article">Article</string>
     <string name="prompt_published">Published</string>
     <string name="prompt_show_in_details_until">Show in details until</string>
@@ -48,7 +48,7 @@
     <string name="none">none</string>
     <string name="operation_downloading_predata">fetching Utu for classes list</string>
     <string name="operation_logging_in">logging in</string>
-    <string name="action_open_web_version">Open web version</string>
+    <string name="nav_open_web_version">Open web version</string>
     <string name="nav_summary">Summary</string>
     <string name="nav_events">Events</string>
     <string name="nav_tes">TEs</string>
@@ -57,7 +57,7 @@
     <string name="nav_articles">Articles</string>
     <string name="current_user">Current user</string>
     <string name="none_selected_class">none, selected class: %1$s</string>
-    <string name="timetable_select">Timetable select</string>
+    <string name="nav_timetable_select">Timetable select</string>
     <string name="planned_raking_list_title">%1$s - %2$d. round</string>
     <string name="nth_raking_round">%1$d. round</string>
     <string name="rekt_x_out_of">rekt %1$d out of %2$d</string>
@@ -73,4 +73,6 @@
     <string name="operation_deleting_x_of_type_x">deleting %2$s %1$s</string>
     <string name="operation_downloading_timetables">downloading timetables</string>
     <string name="operation_downloading_utu_data">downloading utu data</string>
+    <string name="nav_next_week">Next week</string>
+    <string name="nav_previous_week">Previous week</string>
 </resources>

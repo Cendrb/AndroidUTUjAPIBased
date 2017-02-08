@@ -5,12 +5,12 @@
         android:id="@+id/menu_item_refresh"
         android:icon="@drawable/ic_refresh"
         android:orderInCategory="100"
-        android:title="@string/action_refresh"
+        android:title="@string/nav_refresh"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_item_web_version"
         android:icon="@drawable/ic_public"
         android:orderInCategory="100"
-        android:title="@string/action_open_web_version"
+        android:title="@string/nav_open_web_version"
         app:showAsAction="never" />
 </menu>

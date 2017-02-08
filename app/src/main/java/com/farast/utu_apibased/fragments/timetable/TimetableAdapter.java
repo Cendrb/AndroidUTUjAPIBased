@@ -15,7 +15,6 @@ import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UnitsUtil;
 import com.farast.utuapi.data.Lesson;
 import com.farast.utuapi.data.SchoolDay;
-import com.farast.utuapi.data.Timetable;
 import com.farast.utuapi.util.DateUtil;
 
 import java.util.ArrayList;
@@ -31,7 +30,6 @@ public class TimetableAdapter extends BaseAdapter {
     private static int gridWidth;
 
     private List<SchoolDay> mSchoolDays;
-    private Timetable timetable;
     private final Context context;
     private final LayoutInflater inflater;
     private final ArrayList<LessonViewData> mGridedLessons;
@@ -77,11 +75,10 @@ public class TimetableAdapter extends BaseAdapter {
         return relativeLayout;
     }
 
-    public void setTimetable(Timetable timetable) {
-        this.timetable = timetable;
+    public void setSchoolDayData(List<SchoolDay> schoolDays) {
         mGridedLessons.clear();
         mSchoolDays.clear();
-        mSchoolDays.addAll(timetable.getSchoolDays());
+        mSchoolDays.addAll(schoolDays);
         int maxLessonNumber = 0;
         for (SchoolDay schoolDay : mSchoolDays) {
             for (Lesson lesson : schoolDay.getLessons()) {

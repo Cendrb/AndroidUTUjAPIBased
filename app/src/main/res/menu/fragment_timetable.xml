@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_item_timetables_select"
+    <item
+        android:id="@+id/menu_item_timetables_select"
         android:icon="@drawable/ic_menu"
-        android:title="@string/timetable_select"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/nav_timetable_select"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_item_timetables_switch_week"
+        android:icon="@drawable/ic_navigate_next"
+        android:title="@string/nav_next_week"
+        app:showAsAction="ifRoom" />
 </menu>
