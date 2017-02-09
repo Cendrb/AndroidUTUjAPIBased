@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
+import com.farast.utuapi.data.ClassMember;
 import com.farast.utuapi.data.User;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -23,6 +25,7 @@ import java.util.Random;
 public class SummaryFragment extends Fragment {
 
     private TextView mCurrentUserView;
+    private TextView mCurrentServiceView;
     private Button mActionEventsView;
     private Button mActionTEsView;
     private Button mActionTimetablesView;
@@ -43,10 +46,26 @@ public class SummaryFragment extends Fragment {
 
         mCurrentUserView = (TextView) view.findViewById(R.id.summary_current_user);
         User user = Bullshit.dataLoader.getCurrentUser();
-        if (user == null)
+        if (user == null) {
             mCurrentUserView.setText(getString(R.string.none_selected_class, Bullshit.dataLoader.getLastSclass().getName()));
-        else
-            mCurrentUserView.setText(user.getClassMember().getFullName());
+        } else {
+            mCurrentUserView.setText(getString(R.string.welcome_x, user.getClassMember().getFullName()));
+        }
+
+        mCurrentServiceView = (TextView) view.findViewById(R.id.summary_current_service);
+        List<ClassMember> currentService = Bullshit.dataLoader.getCurrentServices();
+        if (currentService.size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (ClassMember serviceMember : currentService) {
+                stringBuilder.append(serviceMember.getFullName());
+                if (currentService.indexOf(serviceMember) != currentService.size() - 1) {
+                    stringBuilder.append(", ");
+                }
+            }
+            mCurrentServiceView.setText(stringBuilder.toString());
+        } else {
+            mCurrentServiceView.setText(R.string.no_service_found);
+        }
 
         final OpenFragmentListener listener = (OpenFragmentListener) getActivity();
 

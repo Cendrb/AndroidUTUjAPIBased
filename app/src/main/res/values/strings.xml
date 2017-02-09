@@ -75,4 +75,6 @@
     <string name="operation_downloading_utu_data">downloading utu data</string>
     <string name="nav_next_week">Next week</string>
     <string name="nav_previous_week">Current week</string>
+    <string name="welcome_x">Welcome %s</string>
+    <string name="no_service_found">No boardcleaners found</string>
 </resources>

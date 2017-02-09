@@ -6,17 +6,14 @@
     android:orientation="vertical"
     android:paddingEnd="15dp"
     android:paddingStart="15dp">
-
-    <TextView
-        android:id="@+id/textView2"
-        style="@style/TextAppearance.AppCompat.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/current_user" />
-
     <TextView
         android:id="@+id/summary_current_user"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/summary_current_service"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

@@ -69,4 +69,6 @@
     <string name="operation_updating_x_of_type_x">upravuji %1$s (%2$s)</string>
     <string name="nav_next_week">Příští týden</string>
     <string name="nav_previous_week">Tento týden</string>
+    <string name="welcome_x">Hehou %s</string>
+    <string name="no_service_found">Pro tento týden nemáme službu</string>
 </resources>
