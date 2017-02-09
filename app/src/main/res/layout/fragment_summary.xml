@@ -6,11 +6,13 @@
     android:orientation="vertical"
     android:paddingEnd="15dp"
     android:paddingStart="15dp">
+
     <TextView
         android:id="@+id/summary_current_user"
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/summary_current_service"
