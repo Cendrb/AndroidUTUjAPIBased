@@ -41,7 +41,7 @@ public class PlannedRakingListShowActivity extends AppCompatActivity {
 
     private PlannedRakingList mPlannedRakingList;
     private PlannedRakingRound mCurrentRound;
-    private boolean mShowAlreadyRekt;
+    private boolean mShowAlreadyRekt = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +86,7 @@ public class PlannedRakingListShowActivity extends AppCompatActivity {
 
         RecyclerView entriesListView = (RecyclerView) findViewById(R.id.prl_entries_list);
         entriesListView.setLayoutManager(new LinearLayoutManager(this));
-        final PlannedRakingEntriesRecyclerViewAdapter preAdapter = new PlannedRakingEntriesRecyclerViewAdapter(this, mPlannedRakingList.getCurrentRound().getPlannedRakingEntries());
-        entriesListView.setAdapter(preAdapter);
+        final PlannedRakingEntriesRecyclerViewAdapter preAdapter = new PlannedRakingEntriesRecyclerViewAdapter(this, new ArrayList<PlannedRakingEntry>());
 
         CheckBox showAlreadyRekt = (CheckBox) findViewById(R.id.prl_show_rekt);
         Spinner roundsSelector = (Spinner) findViewById(R.id.prl_round_selector);
@@ -112,6 +111,8 @@ public class PlannedRakingListShowActivity extends AppCompatActivity {
             }
         });
         roundsSelector.setSelection(plannedRakingRounds.indexOf(mPlannedRakingList.getCurrentRound())); // select the last round
+
+        entriesListView.setAdapter(preAdapter);
 
         showAlreadyRekt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
