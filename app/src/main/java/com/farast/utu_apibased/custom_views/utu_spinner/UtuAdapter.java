@@ -22,17 +22,11 @@ public class UtuAdapter<T> extends ArrayAdapter<T> {
 
     private List<T> mData;
     private ToStringConverter<T> mConverter;
-    private int mResourceId;
 
     public UtuAdapter(Context context, List<T> objects, ToStringConverter<T> converter) {
-        this(context, objects, converter, R.layout.simple_spinner_item);
-    }
-
-    public UtuAdapter(Context context, List<T> objects, ToStringConverter<T> converter, int resourceId) {
-        super(context, resourceId, objects);
-        mData = objects;
+        super(context, R.layout.simple_spinner_item, objects);
         mConverter = converter;
-        mResourceId = resourceId;
+        mData = objects;
     }
 
     @NonNull
@@ -42,14 +36,14 @@ public class UtuAdapter<T> extends ArrayAdapter<T> {
 
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
-            convertView = inflater.inflate(mResourceId, parent, false);
+            convertView = inflater.inflate(R.layout.simple_spinner_item, parent, false);
 
             holder = new UtuAdapter.Holder();
             holder.theOnlyTextView = (TextView) convertView.findViewById(R.id.text1);
 
             convertView.setTag(holder);
         } else {
-            holder = (Holder) convertView.getTag();
+            holder = (UtuAdapter.Holder) convertView.getTag();
         }
 
         T item = mData.get(position);

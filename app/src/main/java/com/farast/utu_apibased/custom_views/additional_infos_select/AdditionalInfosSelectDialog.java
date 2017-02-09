@@ -118,8 +118,7 @@ public class AdditionalInfosSelectDialog extends DialogFragment {
         outState.putIntegerArrayList("selected_ai_ids", getModifiedInfos());
     }
 
-    private List<UtuDescribedSpinnerAdapter.DescribedItem<Subject>> getDescribedSubjects()
-    {
+    private List<UtuDescribedSpinnerAdapter.DescribedItem<Subject>> getDescribedSubjects() {
         List<AdditionalInfo> totalInfos = Bullshit.dataLoader.getAdditionalInfosList();
         List<UtuDescribedSpinnerAdapter.DescribedItem<Subject>> describedSubjects = new ArrayList<>();
         List<Subject> subjects = Bullshit.dataLoader.getSubjects();
@@ -136,7 +135,9 @@ public class AdditionalInfosSelectDialog extends DialogFragment {
                     return additionalInfo.getSubject() == subject;
                 }
             }).size();
-            describedSubjects.add(new UtuDescribedSpinnerAdapter.DescribedItem<Subject>(subject, String.valueOf(selectedInfosForSubject) + "/" + String.valueOf(totalInfosForSubject)));
+            if (totalInfosForSubject > 0) {
+                describedSubjects.add(new UtuDescribedSpinnerAdapter.DescribedItem<Subject>(subject, String.valueOf(selectedInfosForSubject) + "/" + String.valueOf(totalInfosForSubject)));
+            }
         }
         return describedSubjects;
     }
@@ -148,12 +149,10 @@ public class AdditionalInfosSelectDialog extends DialogFragment {
         return ids;
     }
 
-    public class SelectionsChangedEvent
-    {
+    public class SelectionsChangedEvent {
         private AdditionalInfosSelectDialog caller;
 
-        public SelectionsChangedEvent(AdditionalInfosSelectDialog caller)
-        {
+        public SelectionsChangedEvent(AdditionalInfosSelectDialog caller) {
             this.caller = caller;
         }
 

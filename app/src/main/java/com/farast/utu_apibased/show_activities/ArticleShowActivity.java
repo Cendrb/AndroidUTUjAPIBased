@@ -14,6 +14,7 @@ import com.farast.utu_apibased.ItemIdNotSuppliedException;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UtuDestroyer;
 import com.farast.utu_apibased.create_update_activities.CUArticleActivity;
+import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
 import com.farast.utuapi.data.Article;
 import com.farast.utuapi.util.CollectionUtil;
 
@@ -45,9 +46,11 @@ public class ArticleShowActivity extends AppCompatActivity {
 
         TextView title = (TextView) findViewById(R.id.article_title);
         TextView description = (TextView) findViewById(R.id.article_description);
+        AdditionalInfosViewer additionalInfosViewer = (AdditionalInfosViewer) findViewById(R.id.article_additional_infos);
 
         title.setText(article.getTitle());
         description.setText(Html.fromHtml(article.getDescription()));
+        additionalInfosViewer.setInfos(article.getAdditionalInfos());
     }
 
     @Override

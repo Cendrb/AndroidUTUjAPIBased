@@ -76,9 +76,9 @@ public class CUArticleActivity extends AppCompatActivity {
             mPublishedView.setChecked(mLoaded.isPublished());
             if (mLoaded.isShowInDetails()) {
                 mShowInDetailsView.setChecked(true);
+                mShowInDetailsUntilView.setSelectedDate(mLoaded.getShowInDetailsUntil());
             } else {
                 mShowInDetailsView.setChecked(false);
-                mShowInDetailsUntilView.setSelectedDate(mLoaded.getShowInDetailsUntil());
             }
             mSgroupView.setItem(mLoaded.getSgroup());
 

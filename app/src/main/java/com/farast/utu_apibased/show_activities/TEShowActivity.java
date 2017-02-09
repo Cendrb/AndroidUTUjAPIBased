@@ -14,6 +14,7 @@ import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UtuDestroyer;
 import com.farast.utu_apibased.create_update_activities.CUExamActivity;
 import com.farast.utu_apibased.create_update_activities.CUTaskActivity;
+import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
 import com.farast.utuapi.data.Exam;
 import com.farast.utuapi.data.interfaces.TEItem;
 import com.farast.utuapi.data.interfaces.Updatable;
@@ -47,9 +48,11 @@ public class TEShowActivity extends AppCompatActivity {
 
         TextView title = (TextView) findViewById(R.id.te_title);
         TextView description = (TextView) findViewById(R.id.te_description);
+        AdditionalInfosViewer additionalInfosViewer = (AdditionalInfosViewer) findViewById(R.id.te_additional_infos);
 
         title.setText(te.getTitle());
         description.setText(te.getDescription());
+        additionalInfosViewer.setInfos(te.getAdditionalInfos());
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.farast.utu_apibased.ItemIdNotSuppliedException;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UtuDestroyer;
 import com.farast.utu_apibased.create_update_activities.CUEventActivity;
+import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
 import com.farast.utuapi.data.Event;
 import com.farast.utuapi.util.CollectionUtil;
 
@@ -42,10 +43,12 @@ public class EventShowActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.show_title);
         TextView description = (TextView) findViewById(R.id.show_description);
         TextView location = (TextView) findViewById(R.id.event_location);
+        AdditionalInfosViewer additionalInfosViewer = (AdditionalInfosViewer) findViewById(R.id.event_additional_infos);
 
         title.setText(event.getTitle());
         description.setText(event.getDescription());
         location.setText(event.getLocation());
+        additionalInfosViewer.setInfos(event.getAdditionalInfos());
     }
 
     @Override
