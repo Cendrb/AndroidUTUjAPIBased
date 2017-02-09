@@ -51,7 +51,6 @@
     <string name="nav_open_web_version">Open web version</string>
     <string name="nav_summary">Summary</string>
     <string name="nav_events">Events</string>
-    <string name="nav_tes">TEs</string>
     <string name="nav_timetables">Timetables</string>
     <string name="nav_rakings">Rakings</string>
     <string name="nav_articles">Articles</string>
@@ -77,4 +76,5 @@
     <string name="nav_previous_week">Current week</string>
     <string name="welcome_x">Welcome %s</string>
     <string name="no_service_found">No boardcleaners found</string>
+    <string name="nav_tes">Exams and tasks</string>
 </resources>
