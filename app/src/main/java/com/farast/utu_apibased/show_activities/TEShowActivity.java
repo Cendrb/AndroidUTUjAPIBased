@@ -79,13 +79,17 @@ public class TEShowActivity extends AppCompatActivity implements ReloadableActiv
 
     @Override
     public void reloadData() {
-        mTe = CollectionUtil.findById(Bullshit.dataLoader.getTEsList(), mItemId);
+        try {
+            mTe = CollectionUtil.findById(Bullshit.dataLoader.getTEsList(), mItemId);
 
-        mViewHolder.mTitleView.setText(mTe.getTitle());
-        mViewHolder.mDescriptionView.setText(Html.fromHtml(mTe.getDescription()));
-        mViewHolder.mAdditionalInfosViewerView.setInfos(mTe.getAdditionalInfos());
+            mViewHolder.mTitleView.setText(mTe.getTitle());
+            mViewHolder.mDescriptionView.setText(Html.fromHtml(mTe.getDescription()));
+            mViewHolder.mAdditionalInfosViewerView.setInfos(mTe.getAdditionalInfos());
 
-        setTitle(mTe.getTitle());
+            setTitle(mTe.getTitle());
+        } catch (CollectionUtil.RecordNotFoundException e) {
+            // record was deleted
+        }
     }
 
     @Override

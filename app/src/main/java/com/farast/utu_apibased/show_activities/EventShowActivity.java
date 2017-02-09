@@ -58,14 +58,18 @@ public class EventShowActivity extends AppCompatActivity implements ReloadableAc
 
     @Override
     public void reloadData() {
-        mEvent = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), mItemId);
+        try {
+            mEvent = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), mItemId);
 
-        mViewHolder.mTitleView.setText(mEvent.getTitle());
-        mViewHolder.mDescriptionView.setText(mEvent.getDescription());
-        mViewHolder.mLocationView.setText(mEvent.getLocation());
-        mViewHolder.mAdditionalInfosView.setInfos(mEvent.getAdditionalInfos());
+            mViewHolder.mTitleView.setText(mEvent.getTitle());
+            mViewHolder.mDescriptionView.setText(mEvent.getDescription());
+            mViewHolder.mLocationView.setText(mEvent.getLocation());
+            mViewHolder.mAdditionalInfosView.setInfos(mEvent.getAdditionalInfos());
 
-        setTitle(mEvent.getTitle());
+            setTitle(mEvent.getTitle());
+        } catch (CollectionUtil.RecordNotFoundException e) {
+            // record was deleted
+        }
     }
 
     @Override

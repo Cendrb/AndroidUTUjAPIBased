@@ -20,6 +20,8 @@ import com.farast.utuapi.data.Service;
 import com.farast.utuapi.data.User;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by cendr_000 on 21.08.2016.
@@ -31,6 +33,8 @@ public class SummaryFragment extends Fragment implements ReloadableActivity {
     private ViewHolder mViewHolder;
 
     private SoundPool mCenaPool;
+
+    private Timer mLastUpdatedTimer;
 
     public SummaryFragment() {
 
@@ -59,6 +63,19 @@ public class SummaryFragment extends Fragment implements ReloadableActivity {
                 });
             }
         });
+
+        mLastUpdatedTimer = new Timer();
+        mLastUpdatedTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateLastUpdated();
+                    }
+                });
+            }
+        }, 1000, 60000);
 
         final OpenFragmentListener listener = (OpenFragmentListener) getActivity();
 
@@ -125,6 +142,7 @@ public class SummaryFragment extends Fragment implements ReloadableActivity {
     @Override
     public void onDetach() {
         super.onDetach();
+        mLastUpdatedTimer.cancel();
         Bullshit.dataLoader.getNotifier().setOnLoadFinishedListener(null);
     }
 
@@ -137,6 +155,8 @@ public class SummaryFragment extends Fragment implements ReloadableActivity {
             mViewHolder.mCurrentUserView.setText(getString(R.string.welcome_x, user.getClassMember().getFullName()));
         }
 
+        updateLastUpdated();
+
         Service service = Bullshit.dataLoader.getCurrentService();
         if (!Bullshit.dataLoader.isLoaded()) {
             mViewHolder.mCurrentServiceView.setText(R.string.operation_generic_loading);
@@ -147,6 +167,12 @@ public class SummaryFragment extends Fragment implements ReloadableActivity {
         }
     }
 
+    private void updateLastUpdated() {
+        if (Bullshit.dataLoader.isLoaded()) {
+            mViewHolder.mLastUpdateView.setText(getString(R.string.last_updated_at_x, Bullshit.prettyTime.formatUnrounded(Bullshit.dataLoader.getLastDataUpdate())));
+        }
+    }
+
     public interface OpenFragmentListener {
         void setSelectedFragmentAndOpen(int id);
     }
@@ -154,6 +180,7 @@ public class SummaryFragment extends Fragment implements ReloadableActivity {
     private class ViewHolder implements BindableViewHolder {
         private TextView mCurrentUserView;
         private TextView mCurrentServiceView;
+        private TextView mLastUpdateView;
         private Button mNavEventsView;
         private Button mNavTEsView;
         private Button mNavTimetablesView;
@@ -166,6 +193,7 @@ public class SummaryFragment extends Fragment implements ReloadableActivity {
         public void bindViewFields() {
             mCurrentUserView = (TextView) mView.findViewById(R.id.summary_current_user);
             mCurrentServiceView = (TextView) mView.findViewById(R.id.summary_current_service);
+            mLastUpdateView = (TextView) mView.findViewById(R.id.summary_last_update);
             mNavEventsView = (Button) mView.findViewById(R.id.summary_action_events);
             mNavTEsView = (Button) mView.findViewById(R.id.summary_action_tes);
             mNavTimetablesView = (Button) mView.findViewById(R.id.summary_action_timetable);

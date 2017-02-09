@@ -63,13 +63,17 @@ public class ArticleShowActivity extends AppCompatActivity implements Reloadable
 
     @Override
     public void reloadData() {
-        mArticle = CollectionUtil.findById(Bullshit.dataLoader.getArticlesList(), mItemId);
+        try {
+            mArticle = CollectionUtil.findById(Bullshit.dataLoader.getArticlesList(), mItemId);
 
-        mViewHolder.mTitleView.setText(mArticle.getTitle());
-        mViewHolder.mDescriptionView.setText(Html.fromHtml(mArticle.getDescription()));
-        mViewHolder.mAdditionalInfosViewerView.setInfos(mArticle.getAdditionalInfos());
+            mViewHolder.mTitleView.setText(mArticle.getTitle());
+            mViewHolder.mDescriptionView.setText(Html.fromHtml(mArticle.getDescription()));
+            mViewHolder.mAdditionalInfosViewerView.setInfos(mArticle.getAdditionalInfos());
 
-        setTitle(mArticle.getTitle());
+            setTitle(mArticle.getTitle());
+        } catch (CollectionUtil.RecordNotFoundException e) {
+            // record was deleted
+        }
     }
 
     @Override
