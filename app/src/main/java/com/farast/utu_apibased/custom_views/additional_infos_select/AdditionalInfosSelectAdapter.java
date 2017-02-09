@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.custom_views.additional_infos;
+package com.farast.utu_apibased.custom_views.additional_infos_select;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

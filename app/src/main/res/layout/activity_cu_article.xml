@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.farast.utu_apibased.custom_views.SpinnerLikeDateSelect
+            <com.farast.utu_apibased.custom_views.date_select.SpinnerLikeDateSelect
                 android:id="@+id/cu_show_in_details_until"
                 style="@android:style/Widget.DeviceDefault.Light.Spinner"
                 android:layout_width="match_parent"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             app:utuItemType="sgroup" />
 
-        <com.farast.utu_apibased.custom_views.SpinnerLikeAdditionalInfoDialoger
+        <com.farast.utu_apibased.custom_views.additional_infos_select.SpinnerLikeAdditionalInfoDialoger
             android:id="@+id/cu_additional_info_select"
             style="@android:style/Widget.DeviceDefault.Light.Spinner"
             android:layout_width="match_parent"

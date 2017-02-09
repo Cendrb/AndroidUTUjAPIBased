@@ -1,8 +1,7 @@
-package com.farast.utu_apibased.custom_views;
+package com.farast.utu_apibased.custom_views.additional_infos_select;
 
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -15,7 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.custom_views.additional_infos.AdditionalInfosSelectDialog;
+import com.farast.utu_apibased.custom_views.additional_infos_select.AdditionalInfosSelectDialog;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.UnitsUtil;
 import com.farast.utuapi.data.AdditionalInfo;

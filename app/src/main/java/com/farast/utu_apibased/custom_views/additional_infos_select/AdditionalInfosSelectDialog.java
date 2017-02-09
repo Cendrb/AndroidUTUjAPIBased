@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.custom_views.additional_infos;
+package com.farast.utu_apibased.custom_views.additional_infos_select;
 
 import android.app.Dialog;
 import android.app.DialogFragment;

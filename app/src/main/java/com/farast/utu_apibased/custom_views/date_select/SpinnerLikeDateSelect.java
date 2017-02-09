@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.custom_views;
+package com.farast.utu_apibased.custom_views.date_select;
 
 import android.app.DatePickerDialog;
 import android.app.FragmentManager;

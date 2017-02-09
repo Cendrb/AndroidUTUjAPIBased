@@ -41,7 +41,7 @@
         </android.support.design.widget.TextInputLayout>
 
 
-        <com.farast.utu_apibased.custom_views.SpinnerLikeDateSelect
+        <com.farast.utu_apibased.custom_views.date_select.SpinnerLikeDateSelect
             android:id="@+id/cu_date"
             style="@android:style/Widget.DeviceDefault.Light.Spinner"
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             app:utuItemType="sgroup" />
 
-        <com.farast.utu_apibased.custom_views.SpinnerLikeAdditionalInfoDialoger
+        <com.farast.utu_apibased.custom_views.additional_infos_select.SpinnerLikeAdditionalInfoDialoger
             android:id="@+id/cu_additional_info_select"
             style="@android:style/Widget.DeviceDefault.Light.Spinner"
             android:layout_width="match_parent"
