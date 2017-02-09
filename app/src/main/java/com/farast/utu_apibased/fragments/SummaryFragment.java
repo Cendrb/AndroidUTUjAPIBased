@@ -3,7 +3,6 @@ package com.farast.utu_apibased.fragments;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.ReloadableActivity;
 import com.farast.utuapi.data.ClassMember;
-import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.User;
 
 import java.util.List;
@@ -45,21 +43,7 @@ public class SummaryFragment extends Fragment implements ReloadableActivity {
         mViewHolder = new ViewHolder();
         mViewHolder.bindViewFields();
 
-        final Handler handler = new Handler(getContext().getMainLooper());
-
         reloadData();
-
-        Bullshit.dataLoader.getNotifier().setAnyDataListener(new DataLoader.OnDataSetListener() {
-            @Override
-            public void onDataSetChanged() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        reloadData();
-                    }
-                });
-            }
-        });
 
         final OpenFragmentListener listener = (OpenFragmentListener) getActivity();
 
