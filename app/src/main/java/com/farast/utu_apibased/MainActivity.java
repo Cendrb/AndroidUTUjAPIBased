@@ -27,6 +27,7 @@ import com.farast.utu_apibased.fragments.SummaryFragment;
 import com.farast.utu_apibased.fragments.article.ArticlesFragment;
 import com.farast.utu_apibased.fragments.event.EventsFragment;
 import com.farast.utu_apibased.fragments.raking.RakingsFragment;
+import com.farast.utu_apibased.fragments.service.ServicesFragment;
 import com.farast.utu_apibased.fragments.te.TEsFragment;
 import com.farast.utu_apibased.fragments.timetable.TimetableFragment;
 import com.farast.utu_apibased.listeners.StatusOperationListener;
@@ -122,11 +123,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if(mCurrentFragment != null && !(mCurrentFragment instanceof SummaryFragment))
-        {
+        } else if (mCurrentFragment != null && !(mCurrentFragment instanceof SummaryFragment)) {
             setSelectedFragmentAndOpen(R.id.nav_summary);
-        }
-        else{
+        } else {
             super.onBackPressed();
         }
     }
@@ -169,8 +168,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void setSelectedFragmentAndOpen(int id)
-    {
+    public void setSelectedFragmentAndOpen(int id) {
         openFragment(id);
         mNavigationView.setCheckedItem(id);
     }
@@ -189,8 +187,10 @@ public class MainActivity extends AppCompatActivity
             mCurrentFragment = new RakingsFragment();
         } else if (id == R.id.nav_articles) {
             mCurrentFragment = new ArticlesFragment();
-
+        } else if (id == R.id.nav_services) {
+            mCurrentFragment = new ServicesFragment();
         }
+
         if (mCurrentFragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main, mCurrentFragment).commit();

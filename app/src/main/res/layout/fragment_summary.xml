@@ -65,12 +65,12 @@
             android:text="@string/nav_articles" />
 
         <Button
-            android:id="@+id/summary_action_kana"
+            android:id="@+id/summary_action_services"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:text="@string/action_kana" />
+            android:text="@string/nav_services" />
 
         <Button
             android:id="@+id/summary_action_rakings"
@@ -79,5 +79,33 @@
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
             android:text="@string/nav_rakings" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:weightSum="3">
+
+        <Button
+            android:id="@+id/summary_action_nothing1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/summary_action_kana"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/nav_kana" />
+
+        <Button
+            android:id="@+id/summary_action_nothing2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary" />
     </LinearLayout>
 </LinearLayout>

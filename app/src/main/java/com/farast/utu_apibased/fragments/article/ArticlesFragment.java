@@ -32,14 +32,14 @@ public class ArticlesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.utu_list_fragment_something, container, false);
+        View view = inflater.inflate(R.layout.utu_list_recycler_view, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new ArticlesRecyclerViewFragment(new OnListFragmentInteractionListener<Article>() {
+            recyclerView.setAdapter(new ArticlesAdapter(new OnListFragmentInteractionListener<Article>() {
                 @Override
                 public void onListFragmentInteraction(Article item) {
                     Intent intent = new Intent(getContext(), ArticleShowActivity.class);

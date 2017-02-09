@@ -62,7 +62,7 @@
     <string name="rekt_x_out_of">rekt %1$d out of %2$d</string>
     <string name="raking_rekt" translatable="false">REKT</string>
     <string name="signup_for_rekt">Signup for rekt</string>
-    <string name="action_kana">7:45</string>
+    <string name="nav_kana">7:45</string>
     <string name="app_drawer_title">UTU for Android</string>
     <string name="app_drawer_subtitle">What exactly is supposed to be in here?</string>
     <string name="application_icon">Application icon</string>
@@ -77,4 +77,7 @@
     <string name="welcome_x">Welcome %s</string>
     <string name="no_service_found">No boardcleaners found</string>
     <string name="nav_tes">Exams and tasks</string>
+    <string name="and">and</string>
+    <string name="operation_generic_loading">Loading...</string>
+    <string name="nav_services">Services</string>
 </resources>

@@ -20,11 +20,11 @@ import java.util.List;
  * Created by cendr_000 on 05.08.2016.
  */
 
-public class TEsRecyclerViewAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder> {
+public class TEsAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder> {
     private final List<TEItem> mValues;
     private final OnListFragmentInteractionListener<TEItem> mListener;
 
-    public TEsRecyclerViewAdapter(OnListFragmentInteractionListener<TEItem> listener, Context context) {
+    public TEsAdapter(OnListFragmentInteractionListener<TEItem> listener, Context context) {
         mValues = Bullshit.dataLoader.getTEsList();
         mListener = listener;
 
@@ -60,7 +60,7 @@ public class TEsRecyclerViewAdapter extends RecyclerView.Adapter<UtuLineGenericV
         final TEItem item = mValues.get(position);
         holder.mTitleView.setText(item.getTitle());
         holder.mAvatarTextView.setText(item.getSubject().getName());
-        holder.mLeftBottomView.setText(Bullshit.formatDate(item.getDate()));
+        holder.mLeftBottomView.setText(Bullshit.prettyDate(item.getDate()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

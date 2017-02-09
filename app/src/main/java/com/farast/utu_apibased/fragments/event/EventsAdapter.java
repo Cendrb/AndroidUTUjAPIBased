@@ -1,9 +1,8 @@
-package com.farast.utu_apibased.fragments.article;
+package com.farast.utu_apibased.fragments.event;
 
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,36 +11,34 @@ import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UtuLineGenericViewHolder;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
-import com.farast.utuapi.data.Article;
 import com.farast.utuapi.data.DataLoader;
-import com.farast.utuapi.util.DateUtil;
+import com.farast.utuapi.data.Event;
 
 import java.util.List;
 
 /**
- * Created by cendr_000 on 05.08.2016.
+ * {@link RecyclerView.Adapter} that can display a {@link Event} and makes a call to the
+ * specified {@link OnListFragmentInteractionListener<Event> }.
  */
+public class EventsAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder> {
 
-public class ArticlesRecyclerViewFragment extends RecyclerView.Adapter<UtuLineGenericViewHolder> {
-    private final List<Article> mValues;
-    private final OnListFragmentInteractionListener<Article> mListener;
-    private Context mContext;
+    private final List<Event> mValues;
+    private final OnListFragmentInteractionListener<Event> mListener;
 
-    public ArticlesRecyclerViewFragment(OnListFragmentInteractionListener<Article> listener, Context context) {
-        mValues = Bullshit.dataLoader.getArticlesList();
+    public EventsAdapter(OnListFragmentInteractionListener<Event> listener, Context context) {
+        mValues = Bullshit.dataLoader.getEventsList();
         mListener = listener;
-        mContext = context;
 
         final Handler handler = new Handler(context.getMainLooper());
 
-        Bullshit.dataLoader.getNotifier().setArticlesListener(new DataLoader.OnDataSetListener() {
+        Bullshit.dataLoader.getNotifier().setEventsListener(new DataLoader.OnDataSetListener() {
             @Override
             public void onDataSetChanged() {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                         mValues.clear();
-                        mValues.addAll(Bullshit.dataLoader.getArticlesList());
+                        mValues.addAll(Bullshit.dataLoader.getEventsList());
                         notifyDataSetChanged();
                     }
                 });
@@ -58,13 +55,10 @@ public class ArticlesRecyclerViewFragment extends RecyclerView.Adapter<UtuLineGe
 
     @Override
     public void onBindViewHolder(final UtuLineGenericViewHolder holder, int position) {
-        final Article item = mValues.get(position);
+        final Event item = mValues.get(position);
         holder.mTitleView.setText(item.getTitle());
         holder.mAvatarParent.setVisibility(View.GONE);
-        if (item.isPublished())
-            holder.mLeftBottomView.setText(Bullshit.formatDate(item.getPublishedOn()));
-        else
-            holder.mLeftBottomView.setText(R.string.not_published);
+        holder.mLeftBottomView.setText(Bullshit.prettyDate(item.getStart()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

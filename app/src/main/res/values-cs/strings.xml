@@ -55,7 +55,7 @@
     <string name="item_task">Úkol</string>
     <string name="nav_timetable_select">Výběr rozvrhu</string>
     <string name="try_again">Chcete to zkusit znovu?</string>
-    <string name="action_kana">7:45</string>
+    <string name="nav_kana">7:45</string>
     <string name="signup_for_rekt">Přihlásit ke zkoušení</string>
     <string name="app_drawer_title">UTU pro Android</string>
     <string name="app_drawer_subtitle">A co mám sakra dát sem?</string>
@@ -71,4 +71,7 @@
     <string name="nav_previous_week">Tento týden</string>
     <string name="welcome_x">Hehou %s</string>
     <string name="no_service_found">Pro tento týden nemáme službu</string>
+    <string name="and">a</string>
+    <string name="nav_services">Služby</string>
+    <string name="operation_generic_loading">Probíhá stahování...</string>
 </resources>

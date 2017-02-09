@@ -11,12 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.fragments.event.EventsRecyclerViewAdapter;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
-import com.farast.utu_apibased.show_activities.EventShowActivity;
 import com.farast.utu_apibased.show_activities.PlannedRakingListShowActivity;
-import com.farast.utu_apibased.show_activities.TEShowActivity;
-import com.farast.utuapi.data.Event;
 import com.farast.utuapi.data.PlannedRakingList;
 
 /**
@@ -32,7 +28,7 @@ public class RakingsFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.utu_list_fragment_something, container, false);
+        View view = inflater.inflate(R.layout.utu_list_recycler_view, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {

@@ -28,14 +28,14 @@ public class EventsFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.utu_list_fragment_something, container, false);
+        View view = inflater.inflate(R.layout.utu_list_recycler_view, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new EventsRecyclerViewAdapter(new OnListFragmentInteractionListener<Event>() {
+            recyclerView.setAdapter(new EventsAdapter(new OnListFragmentInteractionListener<Event>() {
                 @Override
                 public void onListFragmentInteraction(Event item) {
                     Intent intent = new Intent(getContext(), EventShowActivity.class);
