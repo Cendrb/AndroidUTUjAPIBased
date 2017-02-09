@@ -9,48 +9,67 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.farast.utu_apibased.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.ItemIdNotSuppliedException;
+import com.farast.utu_apibased.ItemUtil;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.ReloadableActivity;
 import com.farast.utu_apibased.UtuDestroyer;
 import com.farast.utu_apibased.create_update_activities.CUArticleActivity;
 import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
 import com.farast.utuapi.data.Article;
+import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.util.CollectionUtil;
 
 /**
  * Created by cendr_000 on 14.08.2016.
  */
 
-public class ArticleShowActivity extends AppCompatActivity {
-    Article article;
+public class ArticleShowActivity extends AppCompatActivity implements ReloadableActivity {
+
+    private int mItemId;
+    private Article mArticle;
+
+    private ViewHolder mViewHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getIntent() == null)
-            throw new ItemIdNotSuppliedException("Intent is null");
-        int itemId = getIntent().getIntExtra("item_id", -1);
-        if (itemId == -1)
-            throw new ItemIdNotSuppliedException("Item id is not stored in this Intent");
-
-        article = CollectionUtil.findById(Bullshit.dataLoader.getArticlesList(), itemId);
-
+        mItemId = ItemUtil.getItemIdFromIntent(getIntent());
 
         setContentView(R.layout.activity_show_article);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setTitle(article.getTitle());
+        mViewHolder = new ViewHolder();
+        mViewHolder.bindViewFields();
 
-        TextView title = (TextView) findViewById(R.id.article_title);
-        TextView description = (TextView) findViewById(R.id.article_description);
-        AdditionalInfosViewer additionalInfosViewer = (AdditionalInfosViewer) findViewById(R.id.article_additional_infos);
+        reloadData();
 
-        title.setText(article.getTitle());
-        description.setText(Html.fromHtml(article.getDescription()));
-        additionalInfosViewer.setInfos(article.getAdditionalInfos());
+        Bullshit.dataLoader.getNotifier().setArticlesListener(new DataLoader.OnDataSetListener() {
+            @Override
+            public void onDataSetChanged() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        reloadData();
+                    }
+                });
+            }
+        });
+    }
+
+
+    @Override
+    public void reloadData() {
+        mArticle = CollectionUtil.findById(Bullshit.dataLoader.getArticlesList(), mItemId);
+
+        mViewHolder.mTitleView.setText(mArticle.getTitle());
+        mViewHolder.mDescriptionView.setText(Html.fromHtml(mArticle.getDescription()));
+        mViewHolder.mAdditionalInfosViewerView.setInfos(mArticle.getAdditionalInfos());
+
+        setTitle(mArticle.getTitle());
     }
 
     @Override
@@ -65,14 +84,27 @@ public class ArticleShowActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_item_edit:
                 Intent intent = new Intent(this, CUArticleActivity.class);
-                intent.putExtra("item_id", article.getId());
+                intent.putExtra("item_id", mArticle.getId());
                 startActivity(intent);
                 return true;
             case R.id.menu_item_delete:
-                new UtuDestroyer(this, article).execute();
+                new UtuDestroyer(this, mArticle).execute();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class ViewHolder implements BindableViewHolder {
+        private TextView mTitleView;
+        private TextView mDescriptionView;
+        private AdditionalInfosViewer mAdditionalInfosViewerView;
+
+        @Override
+        public void bindViewFields() {
+            mTitleView = (TextView) findViewById(R.id.article_title);
+            mDescriptionView = (TextView) findViewById(R.id.article_description);
+            mAdditionalInfosViewerView = (AdditionalInfosViewer) findViewById(R.id.article_additional_infos);
         }
     }
 }

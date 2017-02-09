@@ -8,47 +8,64 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.farast.utu_apibased.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.ItemIdNotSuppliedException;
+import com.farast.utu_apibased.ItemUtil;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.ReloadableActivity;
 import com.farast.utu_apibased.UtuDestroyer;
 import com.farast.utu_apibased.create_update_activities.CUEventActivity;
 import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
+import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Event;
 import com.farast.utuapi.util.CollectionUtil;
 
-public class EventShowActivity extends AppCompatActivity {
+public class EventShowActivity extends AppCompatActivity implements ReloadableActivity {
 
-    Event event;
+    private Event mEvent;
+    private int mItemId;
+
+    private ViewHolder mViewHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getIntent() == null)
-            throw new ItemIdNotSuppliedException("Intent is null");
-        int itemId = getIntent().getIntExtra("item_id", -1);
-        if (itemId == -1)
-            throw new ItemIdNotSuppliedException("Item id is not stored in this Intent");
-
-        event = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), itemId);
-
+        mItemId = ItemUtil.getItemIdFromIntent(getIntent());
 
         setContentView(R.layout.activity_show_event);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setTitle(event.getTitle());
+        mViewHolder = new ViewHolder();
+        mViewHolder.bindViewFields();
 
-        TextView title = (TextView) findViewById(R.id.show_title);
-        TextView description = (TextView) findViewById(R.id.show_description);
-        TextView location = (TextView) findViewById(R.id.event_location);
-        AdditionalInfosViewer additionalInfosViewer = (AdditionalInfosViewer) findViewById(R.id.event_additional_infos);
+        Bullshit.dataLoader.getNotifier().setEventsListener(new DataLoader.OnDataSetListener() {
+            @Override
+            public void onDataSetChanged() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        reloadData();
+                    }
+                });
+            }
+        });
 
-        title.setText(event.getTitle());
-        description.setText(event.getDescription());
-        location.setText(event.getLocation());
-        additionalInfosViewer.setInfos(event.getAdditionalInfos());
+        reloadData();
+    }
+
+    @Override
+    public void reloadData() {
+        mEvent = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), mItemId);
+
+        mViewHolder.mTitleView.setText(mEvent.getTitle());
+        mViewHolder.mDescriptionView.setText(mEvent.getDescription());
+        mViewHolder.mLocationView.setText(mEvent.getLocation());
+        mViewHolder.mAdditionalInfosView.setInfos(mEvent.getAdditionalInfos());
+
+        setTitle(mEvent.getTitle());
     }
 
     @Override
@@ -63,14 +80,29 @@ public class EventShowActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_item_edit:
                 Intent intent = new Intent(this, CUEventActivity.class);
-                intent.putExtra("item_id", event.getId());
+                intent.putExtra("item_id", mEvent.getId());
                 startActivity(intent);
                 return true;
             case R.id.menu_item_delete:
-                new UtuDestroyer(this, event).execute();
+                new UtuDestroyer(this, mEvent).execute();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class ViewHolder implements BindableViewHolder {
+        private TextView mTitleView;
+        private TextView mDescriptionView;
+        private TextView mLocationView;
+        private AdditionalInfosViewer mAdditionalInfosView;
+
+        @Override
+        public void bindViewFields() {
+            mTitleView = (TextView) findViewById(R.id.show_title);
+            mDescriptionView = (TextView) findViewById(R.id.show_description);
+            mLocationView = (TextView) findViewById(R.id.event_location);
+            mAdditionalInfosView = (AdditionalInfosViewer) findViewById(R.id.event_additional_infos);
         }
     }
 }
