@@ -24,6 +24,7 @@ public class EventsAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder
 
     private final List<Event> mValues;
     private final OnListFragmentInteractionListener<Event> mListener;
+    private DataLoader.OnDataSetListener mDataSetListener;
 
     public EventsAdapter(OnListFragmentInteractionListener<Event> listener, Context context) {
         mValues = Bullshit.dataLoader.getEventsList();
@@ -31,7 +32,7 @@ public class EventsAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder
 
         final Handler handler = new Handler(context.getMainLooper());
 
-        Bullshit.dataLoader.getNotifier().setEventsListener(new DataLoader.OnDataSetListener() {
+        mDataSetListener = new DataLoader.OnDataSetListener() {
             @Override
             public void onDataSetChanged() {
                 handler.post(new Runnable() {
@@ -43,7 +44,17 @@ public class EventsAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder
                     }
                 });
             }
-        });
+        };
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.EVENTS, mDataSetListener);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.EVENTS, mDataSetListener);
     }
 
     @Override

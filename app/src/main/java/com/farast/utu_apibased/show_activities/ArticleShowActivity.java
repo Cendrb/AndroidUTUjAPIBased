@@ -13,7 +13,6 @@ import com.farast.utu_apibased.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.ItemUtil;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.ReloadableActivity;
 import com.farast.utu_apibased.UtuDestroyer;
 import com.farast.utu_apibased.create_update_activities.CUArticleActivity;
 import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
@@ -25,7 +24,7 @@ import com.farast.utuapi.util.CollectionUtil;
  * Created by cendr_000 on 14.08.2016.
  */
 
-public class ArticleShowActivity extends AppCompatActivity implements ReloadableActivity {
+public class ArticleShowActivity extends AppCompatActivity implements DataLoader.OnDataSetListener {
 
     private int mItemId;
     private Article mArticle;
@@ -45,35 +44,36 @@ public class ArticleShowActivity extends AppCompatActivity implements Reloadable
         mViewHolder = new ViewHolder();
         mViewHolder.bindViewFields();
 
-        reloadData();
+        onDataSetChanged();
 
-        Bullshit.dataLoader.getNotifier().setArticlesListener(new DataLoader.OnDataSetListener() {
-            @Override
-            public void onDataSetChanged() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        reloadData();
-                    }
-                });
-            }
-        });
+        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.ARTICLES, this);
     }
 
 
     @Override
-    public void reloadData() {
-        try {
-            mArticle = CollectionUtil.findById(Bullshit.dataLoader.getArticlesList(), mItemId);
+    protected void onDestroy() {
+        super.onDestroy();
+        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.ARTICLES, this);
+    }
 
-            mViewHolder.mTitleView.setText(mArticle.getTitle());
-            mViewHolder.mDescriptionView.setText(Html.fromHtml(mArticle.getDescription()));
-            mViewHolder.mAdditionalInfosViewerView.setInfos(mArticle.getAdditionalInfos());
+    @Override
+    public void onDataSetChanged() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mArticle = CollectionUtil.findById(Bullshit.dataLoader.getArticlesList(), mItemId);
 
-            setTitle(mArticle.getTitle());
-        } catch (CollectionUtil.RecordNotFoundException e) {
-            // record was deleted
-        }
+                    mViewHolder.mTitleView.setText(mArticle.getTitle());
+                    mViewHolder.mDescriptionView.setText(Html.fromHtml(mArticle.getDescription()));
+                    mViewHolder.mAdditionalInfosViewerView.setInfos(mArticle.getAdditionalInfos());
+
+                    setTitle(mArticle.getTitle());
+                } catch (CollectionUtil.RecordNotFoundException e) {
+                    // record was deleted
+                }
+            }
+        });
     }
 
     @Override

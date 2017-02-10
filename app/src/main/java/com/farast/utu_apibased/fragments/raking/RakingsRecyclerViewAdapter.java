@@ -23,6 +23,7 @@ public class RakingsRecyclerViewAdapter extends RecyclerView.Adapter<UtuLineGene
     private final List<PlannedRakingList> mValues;
     private final OnListFragmentInteractionListener<PlannedRakingList> mListener;
     private final Context mContext;
+    private DataLoader.OnDataSetListener mDataSetListener;
 
     public RakingsRecyclerViewAdapter(OnListFragmentInteractionListener<PlannedRakingList> listener, Context context) {
         mValues = Bullshit.dataLoader.getPlannedRakingsListsList();
@@ -31,7 +32,7 @@ public class RakingsRecyclerViewAdapter extends RecyclerView.Adapter<UtuLineGene
 
         final Handler handler = new Handler(context.getMainLooper());
 
-        Bullshit.dataLoader.getNotifier().setRakingsListener(new DataLoader.OnDataSetListener() {
+        mDataSetListener = new DataLoader.OnDataSetListener() {
             @Override
             public void onDataSetChanged() {
                 handler.post(new Runnable() {
@@ -43,7 +44,17 @@ public class RakingsRecyclerViewAdapter extends RecyclerView.Adapter<UtuLineGene
                     }
                 });
             }
-        });
+        };
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.RAKINGS, mDataSetListener);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.RAKINGS, mDataSetListener);
     }
 
     @Override

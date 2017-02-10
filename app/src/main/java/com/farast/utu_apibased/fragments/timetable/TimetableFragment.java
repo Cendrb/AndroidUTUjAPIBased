@@ -1,5 +1,6 @@
 package com.farast.utu_apibased.fragments.timetable;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,10 +32,11 @@ import java.util.List;
 
 public class TimetableFragment extends Fragment {
 
-    TimetableAdapter mAdapter;
-    List<Timetable> mAvailableTimetables;
-    int mSelectedItem = 0;
-    boolean showNextWeek = false;
+    private TimetableAdapter mAdapter;
+    private List<Timetable> mAvailableTimetables;
+    private int mSelectedItem = 0;
+    private boolean showNextWeek = false;
+    private DataLoader.OnDataSetListener mDataSetListener;
 
     public TimetableFragment() {
 
@@ -65,7 +67,7 @@ public class TimetableFragment extends Fragment {
         gridView.setAdapter(mAdapter);
 
         final Handler handler = new Handler(getActivity().getMainLooper());
-        Bullshit.dataLoader.getNotifier().setTimetablesListener(new DataLoader.OnDataSetListener() {
+        mDataSetListener = new DataLoader.OnDataSetListener() {
             @Override
             public void onDataSetChanged() {
                 handler.post(new Runnable() {
@@ -77,9 +79,21 @@ public class TimetableFragment extends Fragment {
                     }
                 });
             }
-        });
+        };
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.TIMETABLES, mDataSetListener);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.TIMETABLES, mDataSetListener);
     }
 
     private void updateTimetableRender() {

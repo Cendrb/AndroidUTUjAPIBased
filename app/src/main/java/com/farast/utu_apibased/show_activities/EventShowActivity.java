@@ -12,7 +12,6 @@ import com.farast.utu_apibased.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.ItemUtil;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.ReloadableActivity;
 import com.farast.utu_apibased.UtuDestroyer;
 import com.farast.utu_apibased.create_update_activities.CUEventActivity;
 import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
@@ -20,7 +19,7 @@ import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Event;
 import com.farast.utuapi.util.CollectionUtil;
 
-public class EventShowActivity extends AppCompatActivity implements ReloadableActivity {
+public class EventShowActivity extends AppCompatActivity implements DataLoader.OnDataSetListener {
 
     private Event mEvent;
     private int mItemId;
@@ -41,23 +40,19 @@ public class EventShowActivity extends AppCompatActivity implements ReloadableAc
         mViewHolder = new ViewHolder();
         mViewHolder.bindViewFields();
 
-        Bullshit.dataLoader.getNotifier().setEventsListener(new DataLoader.OnDataSetListener() {
-            @Override
-            public void onDataSetChanged() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        reloadData();
-                    }
-                });
-            }
-        });
+        onDataSetChanged();
 
-        reloadData();
+        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.EVENTS, this);
     }
 
     @Override
-    public void reloadData() {
+    protected void onDestroy() {
+        super.onDestroy();
+        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.EVENTS, this);
+    }
+
+    @Override
+    public void onDataSetChanged() {
         try {
             mEvent = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), mItemId);
 

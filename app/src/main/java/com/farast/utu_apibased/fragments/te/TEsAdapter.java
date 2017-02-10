@@ -8,12 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.farast.utu_apibased.Bullshit;
+import com.farast.utu_apibased.DateOffseter;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UtuLineGenericViewHolder;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
 import com.farast.utuapi.data.DataLoader;
+import com.farast.utuapi.data.Lesson;
+import com.farast.utuapi.data.SchoolDay;
+import com.farast.utuapi.data.Timetable;
 import com.farast.utuapi.data.interfaces.TEItem;
+import com.farast.utuapi.util.CollectionUtil;
+import com.farast.utuapi.util.functional_interfaces.Predicate;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,16 +29,38 @@ import java.util.List;
  */
 
 public class TEsAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder> {
-    private final List<TEItem> mValues;
-    private final OnListFragmentInteractionListener<TEItem> mListener;
+    private List<TEItem> mValues;
+    private OnListFragmentInteractionListener<TEItem> mListener;
+    private List<Lesson> mAllAvailableLessons;
+    private DataLoader.OnDataSetListener mDataSetListener;
 
     public TEsAdapter(OnListFragmentInteractionListener<TEItem> listener, Context context) {
         mValues = Bullshit.dataLoader.getTEsList();
         mListener = listener;
 
+        List<Timetable> allTimetables = Bullshit.dataLoader.getTimetablesList();
+        Timetable mBestTimetable;
+        if (Bullshit.dataLoader.getCurrentUser() != null) {
+            mBestTimetable = Timetable.getBestTimetableForClassMember(
+                    allTimetables,
+                    Bullshit.dataLoader.getCurrentUser().getClassMember());
+        } else {
+            if (allTimetables.size() > 0) {
+                mBestTimetable = allTimetables.get(0);
+            } else {
+                throw new RuntimeException("No timetables downloaded");
+            }
+        }
+        mAllAvailableLessons = new ArrayList<>();
+        if (mBestTimetable != null) {
+            for (SchoolDay day : mBestTimetable.getSchoolDays()) {
+                mAllAvailableLessons.addAll(day.getLessons());
+            }
+        }
+
         final Handler handler = new Handler(context.getMainLooper());
 
-        DataLoader.OnDataSetListener dataSetListener = new DataLoader.OnDataSetListener() {
+        mDataSetListener = new DataLoader.OnDataSetListener() {
             @Override
             public void onDataSetChanged() {
                 handler.post(new Runnable() {
@@ -43,9 +73,18 @@ public class TEsAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder> {
                 });
             }
         };
+    }
 
-        Bullshit.dataLoader.getNotifier().setExamsListener(dataSetListener);
-        Bullshit.dataLoader.getNotifier().setTasksListener(dataSetListener);
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.TASKS, mDataSetListener);
+        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.EXAMS, mDataSetListener);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.TASKS, mDataSetListener);
+        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.EXAMS, mDataSetListener);
     }
 
     @Override
@@ -60,7 +99,20 @@ public class TEsAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder> {
         final TEItem item = mValues.get(position);
         holder.mTitleView.setText(item.getTitle());
         holder.mAvatarTextView.setText(item.getSubject().getName());
-        holder.mLeftBottomView.setText(Bullshit.prettyDate(item.getDate()));
+
+        List<Lesson> goodLessons = CollectionUtil.filter(item.getLessons(), new Predicate<Lesson>() {
+            @Override
+            public boolean test(Lesson lesson) {
+                return item.getLessons().contains(lesson);
+            }
+        });
+        Date dateToSet;
+        if (goodLessons.size() > 0) {
+            dateToSet = goodLessons.get(0).getLessonTiming().getStart().getOffsetDate(item.getDate());
+        } else {
+            dateToSet = DateOffseter.addRegularDateOffset(item.getDate());
+        }
+        holder.mLeftBottomView.setText(Bullshit.prettyDate(dateToSet));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

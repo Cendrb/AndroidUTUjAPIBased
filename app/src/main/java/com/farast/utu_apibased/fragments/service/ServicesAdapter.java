@@ -28,6 +28,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<UtuLineGenericViewHold
     private Context mContext;
 
     private List<Service> mServices;
+    private DataLoader.OnDataSetListener mDataSetListener;
 
     public ServicesAdapter(Context context) {
         mContext = context;
@@ -41,7 +42,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<UtuLineGenericViewHold
 
         final Handler handler = new Handler(context.getMainLooper());
 
-        Bullshit.dataLoader.getNotifier().setOnLoadFinishedListener(new DataLoader.OnDataSetListener() {
+        mDataSetListener = new DataLoader.OnDataSetListener() {
             @Override
             public void onDataSetChanged() {
                 handler.post(new Runnable() {
@@ -53,7 +54,17 @@ public class ServicesAdapter extends RecyclerView.Adapter<UtuLineGenericViewHold
                     }
                 });
             }
-        });
+        };
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.LOAD_FINISHED, mDataSetListener);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.LOAD_FINISHED, mDataSetListener);
     }
 
     @Override

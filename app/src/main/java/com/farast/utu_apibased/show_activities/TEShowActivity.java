@@ -13,7 +13,6 @@ import com.farast.utu_apibased.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.ItemUtil;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.ReloadableActivity;
 import com.farast.utu_apibased.UtuDestroyer;
 import com.farast.utu_apibased.create_update_activities.CUExamActivity;
 import com.farast.utu_apibased.create_update_activities.CUTaskActivity;
@@ -28,7 +27,7 @@ import com.farast.utuapi.util.CollectionUtil;
  * Created by cendr_000 on 14.08.2016.
  */
 
-public class TEShowActivity extends AppCompatActivity implements ReloadableActivity {
+public class TEShowActivity extends AppCompatActivity implements DataLoader.OnDataSetListener {
 
     private int mItemId;
     private TEItem mTe;
@@ -48,37 +47,26 @@ public class TEShowActivity extends AppCompatActivity implements ReloadableActiv
         mViewHolder = new ViewHolder();
         mViewHolder.bindViewFields();
 
-        reloadData();
-
+        onDataSetChanged();
         if (mTe instanceof Exam) {
-            Bullshit.dataLoader.getNotifier().setExamsListener(new DataLoader.OnDataSetListener() {
-                @Override
-                public void onDataSetChanged() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            reloadData();
-                        }
-                    });
-                }
-            });
+            Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.EXAMS, this);
         } else {
-            Bullshit.dataLoader.getNotifier().setTasksListener(new DataLoader.OnDataSetListener() {
-                @Override
-                public void onDataSetChanged() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            reloadData();
-                        }
-                    });
-                }
-            });
+            Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.TASKS, this);
         }
     }
 
     @Override
-    public void reloadData() {
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mTe instanceof Exam) {
+            Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.EXAMS, this);
+        } else {
+            Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.TASKS, this);
+        }
+    }
+
+    @Override
+    public void onDataSetChanged() {
         try {
             mTe = CollectionUtil.findById(Bullshit.dataLoader.getTEsList(), mItemId);
 

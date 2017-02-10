@@ -1,5 +1,6 @@
 package com.farast.utu_apibased.fragments;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.widget.TextView;
 import com.farast.utu_apibased.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.ReloadableActivity;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Service;
 import com.farast.utuapi.data.User;
@@ -25,7 +25,7 @@ import java.util.Random;
  * Created by cendr_000 on 21.08.2016.
  */
 
-public class SummaryFragment extends Fragment implements ReloadableActivity {
+public class SummaryFragment extends Fragment implements DataLoader.OnDataSetListener {
 
     private View mView;
     private ViewHolder mViewHolder;
@@ -44,21 +44,7 @@ public class SummaryFragment extends Fragment implements ReloadableActivity {
         mViewHolder = new ViewHolder();
         mViewHolder.bindViewFields();
 
-        reloadData();
-
-        final Handler handler = new Handler(getActivity().getMainLooper());
-
-        Bullshit.dataLoader.getNotifier().setOnLoadFinishedListener(new DataLoader.OnDataSetListener() {
-            @Override
-            public void onDataSetChanged() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        reloadData();
-                    }
-                });
-            }
-        });
+        onDataSetChanged();
 
         final OpenFragmentListener listener = (OpenFragmentListener) getActivity();
 
@@ -123,28 +109,41 @@ public class SummaryFragment extends Fragment implements ReloadableActivity {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        Bullshit.dataLoader.getNotifier().setOnLoadFinishedListener(null);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.LOAD_FINISHED, this);
     }
 
     @Override
-    public void reloadData() {
-        User user = Bullshit.dataLoader.getCurrentUser();
-        if (user == null) {
-            mViewHolder.mCurrentUserView.setText(getString(R.string.none_selected_class, Bullshit.dataLoader.getLastSclass().getName()));
-        } else {
-            mViewHolder.mCurrentUserView.setText(getString(R.string.welcome_x, user.getClassMember().getFullName()));
-        }
+    public void onDetach() {
+        super.onDetach();
+        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.LOAD_FINISHED, this);
+    }
 
-        Service service = Bullshit.dataLoader.getCurrentService();
-        if (!Bullshit.dataLoader.isLoaded()) {
-            mViewHolder.mCurrentServiceView.setText(R.string.operation_generic_loading);
-        } else if (service != null) {
-            mViewHolder.mCurrentServiceView.setText(service.getFirstMember().getFullName() + " " + getString(R.string.and) + " " + service.getSecondMember().getFullName());
-        } else {
-            mViewHolder.mCurrentServiceView.setText(R.string.no_service_found);
-        }
+    @Override
+    public void onDataSetChanged() {
+        final Handler handler = new Handler(getActivity().getMainLooper());
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                User user = Bullshit.dataLoader.getCurrentUser();
+                if (user == null) {
+                    mViewHolder.mCurrentUserView.setText(getString(R.string.none_selected_class, Bullshit.dataLoader.getLastSclass().getName()));
+                } else {
+                    mViewHolder.mCurrentUserView.setText(getString(R.string.welcome_x, user.getClassMember().getFullName()));
+                }
+
+                Service service = Bullshit.dataLoader.getCurrentService();
+                if (!Bullshit.dataLoader.isLoaded()) {
+                    mViewHolder.mCurrentServiceView.setText(R.string.operation_generic_loading);
+                } else if (service != null) {
+                    mViewHolder.mCurrentServiceView.setText(service.getFirstMember().getFullName() + " " + getString(R.string.and) + " " + service.getSecondMember().getFullName());
+                } else {
+                    mViewHolder.mCurrentServiceView.setText(R.string.no_service_found);
+                }
+            }
+        });
     }
 
     public interface OpenFragmentListener {
