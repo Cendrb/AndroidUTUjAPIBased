@@ -18,7 +18,6 @@ import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.SchoolDay;
-import com.farast.utuapi.data.Sgroup;
 import com.farast.utuapi.data.Timetable;
 
 import java.util.ArrayList;
@@ -58,22 +57,7 @@ public class TimetableFragment extends Fragment {
         mAdapter = new TimetableAdapter(getActivity());
         // choose the best timetable if logged in
         if (Bullshit.dataLoader.getCurrentUser() != null) {
-            List<Sgroup> currentUserSgroups = Bullshit.dataLoader.getCurrentUser().getClassMember().getSgroups();
-            int bestPoints = 0;
-            Timetable bestTimetable = null;
-            for (Timetable timetable : mAvailableTimetables) {
-                int thisPoints = 0;
-                for (Sgroup sgroup : timetable.getValidSgroups()) {
-                    if (currentUserSgroups.contains(sgroup)) {
-                        thisPoints++;
-                    }
-                }
-                if (thisPoints > bestPoints) {
-                    bestTimetable = timetable;
-                }
-            }
-
-            mSelectedItem = mAvailableTimetables.indexOf(bestTimetable);
+            mSelectedItem = mAvailableTimetables.indexOf(Timetable.getBestTimetableForClassMember(mAvailableTimetables, Bullshit.dataLoader.getCurrentUser().getClassMember()));
         }
         updateTimetableRender();
 
@@ -148,8 +132,7 @@ public class TimetableFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.menu_item_timetables_select)
-        {
+        if (item.getItemId() == R.id.menu_item_timetables_select) {
             ArrayAdapter<Timetable> timetablesAdapter = new ArrayAdapter<Timetable>(getActivity(), android.R.layout.simple_list_item_single_choice);
             timetablesAdapter.addAll(mAvailableTimetables);
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
