@@ -64,7 +64,7 @@
     <string name="error_login_incorrect">Nesprávný email nebo heslo</string>
     <string name="operation_deleting_x_of_type_x">probíhá mazání %1$s (%2$s)</string>
     <string name="operation_downloading_timetables">stahuji rozvrhy</string>
-    <string name="operation_downloading_utu_data">stahuji všechno ostatní</string>
+    <string name="operation_downloading_utu_data">stahuji utu data</string>
     <string name="operation_submitting_new_of_type_x">přidávám novou položku (%1$s)</string>
     <string name="operation_updating_x_of_type_x">upravuji %1$s (%2$s)</string>
     <string name="nav_next_week">Příští týden</string>

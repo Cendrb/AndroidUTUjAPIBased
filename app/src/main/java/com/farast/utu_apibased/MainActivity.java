@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity
 
         if (mCurrentFragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_main, mCurrentFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_placeholder, mCurrentFragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

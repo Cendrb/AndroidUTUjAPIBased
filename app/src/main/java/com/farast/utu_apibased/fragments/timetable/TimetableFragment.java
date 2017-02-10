@@ -53,7 +53,7 @@ public class TimetableFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        View view = inflater.inflate(R.layout.timetable_grid, container, false);
+        View view = inflater.inflate(R.layout.fragment_timetable_grid, container, false);
 
         mAdapter = new TimetableAdapter(getActivity());
         // choose the best timetable if logged in
