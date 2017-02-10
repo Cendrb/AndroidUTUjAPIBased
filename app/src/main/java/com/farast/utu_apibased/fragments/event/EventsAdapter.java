@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.farast.utu_apibased.Bullshit;
+import com.farast.utu_apibased.DateOffseter;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UtuLineGenericViewHolder;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
@@ -69,7 +70,7 @@ public class EventsAdapter extends RecyclerView.Adapter<UtuLineGenericViewHolder
         final Event item = mValues.get(position);
         holder.mTitleView.setText(item.getTitle());
         holder.mAvatarParent.setVisibility(View.GONE);
-        holder.mLeftBottomView.setText(Bullshit.prettyDate(item.getStart()));
+        holder.mLeftBottomView.setText(Bullshit.prettyDate(DateOffseter.addRegularDateOffset(item.getStart())));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
