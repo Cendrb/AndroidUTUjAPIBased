@@ -13,12 +13,14 @@ import android.widget.TextView;
 
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.UnitsUtil;
+import com.farast.utuapi.data.AbsoluteTime;
 import com.farast.utuapi.data.Lesson;
 import com.farast.utuapi.data.SchoolDay;
 import com.farast.utuapi.util.DateUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,10 +77,7 @@ public class TimetableAdapter extends BaseAdapter {
         return relativeLayout;
     }
 
-    public void setSchoolDayData(List<SchoolDay> schoolDays) {
-        mGridedLessons.clear();
-        mSchoolDays.clear();
-        mSchoolDays.addAll(schoolDays);
+    private void refresh() {
         int maxLessonNumber = 0;
         for (SchoolDay schoolDay : mSchoolDays) {
             for (Lesson lesson : schoolDay.getLessons()) {
@@ -105,7 +104,13 @@ public class TimetableAdapter extends BaseAdapter {
                         String subject = lesson.getSubject() != null ? lesson.getSubject().getName() : "";
                         String teacher = lesson.getTeacher() != null ? lesson.getTeacher().getAbbr() : "";
                         String room = lesson.getRoom();
-                        if (lesson.isNotNormal()) {
+                        Date lessonStart = lesson.getLessonTiming().getStart().getOffsetDate(schoolDay.getDate());
+                        Date lessonEnd = lesson.getLessonTiming().getDuration().getOffsetDate(lessonStart);
+                        Date startOfBreakBeforeLesson = new AbsoluteTime(0, -5, 0).getOffsetDate(lessonStart);
+                        Date now = new Date();
+                        if (now.after(startOfBreakBeforeLesson) && now.before(lessonEnd)) {
+                            lessonViewData = new LessonViewData(subject, teacher, room, LessonCellType.RIGHT_NOW);
+                        } else if (lesson.isNotNormal()) {
                             lessonViewData = new LessonViewData(subject, teacher, room, LessonCellType.IRREGULAR);
                         } else {
                             lessonViewData = new LessonViewData(subject, teacher, room, LessonCellType.NORMAL);
@@ -121,6 +126,14 @@ public class TimetableAdapter extends BaseAdapter {
         }
 
         notifyDataSetInvalidated();
+    }
+
+    public void setSchoolDayData(List<SchoolDay> schoolDays) {
+        mGridedLessons.clear();
+        mSchoolDays.clear();
+        mSchoolDays.addAll(schoolDays);
+
+        refresh();
     }
 
     private static class LessonViewData {
@@ -158,6 +171,9 @@ public class TimetableAdapter extends BaseAdapter {
                 case IRREGULAR:
                     cellBackground.setColor(ContextCompat.getColor(context, R.color.colorNotNormalCell));
                     break;
+                case RIGHT_NOW:
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.colorRightNowCell));
+                    break;
                 case EMPTY:
                     cellBackground.setColor(ContextCompat.getColor(context, R.color.white));
                     break;
@@ -167,5 +183,5 @@ public class TimetableAdapter extends BaseAdapter {
         }
     }
 
-    private enum LessonCellType {DATE, NORMAL, IRREGULAR, EMPTY}
+    private enum LessonCellType {DATE, NORMAL, IRREGULAR, EMPTY, RIGHT_NOW}
 }
