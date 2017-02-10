@@ -10,6 +10,7 @@
     <color name="colorCellStroke">#e0e0e0</color>
     <color name="black_semi_transparent">#B2000000</color>
     <color name="lightText">#9e9e9e</color>
-    <color name="rekt">#ee2222</color>
+    <color name="rekt">#e53935</color>
     <color name="colorRightNowCell">#ffea00</color>
+    <color name="colorBackgroundGray">#e0e0e0</color>
 </resources>

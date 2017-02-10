@@ -60,7 +60,7 @@
     <string name="planned_raking_list_title">%1$s - %2$d. round</string>
     <string name="nth_raking_round">%1$d. round</string>
     <string name="rekt_x_out_of">rekt %1$d out of %2$d</string>
-    <string name="raking_rekt" translatable="false">REKT</string>
+    <string name="raking_rekt">REKT</string>
     <string name="signup_for_rekt">Signup for rekt</string>
     <string name="nav_kana">7:45</string>
     <string name="app_drawer_title">UTU for Android</string>

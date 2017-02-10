@@ -49,6 +49,9 @@ public class PlannedRakingEntriesRecyclerViewAdapter extends RecyclerView.Adapte
                 holder.mStateView.setText(plannedRakingEntry.getGrade());
             else
                 holder.mStateView.setText(R.string.raking_rekt);
+        } else {
+            holder.mLayoutView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorBackgroundGray));
+            holder.mStateView.setText("");
         }
     }
 
