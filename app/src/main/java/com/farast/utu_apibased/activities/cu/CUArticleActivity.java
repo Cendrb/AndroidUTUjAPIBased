@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.create_update_activities;
+package com.farast.utu_apibased.activities.cu;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.widget.CompoundButton;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.TextUtil;
-import com.farast.utu_apibased.UtuSubmitter;
+import com.farast.utu_apibased.util.TextUtil;
+import com.farast.utu_apibased.tasks.UtuSubmitter;
 import com.farast.utu_apibased.custom_views.additional_infos_select.SpinnerLikeAdditionalInfoDialoger;
 import com.farast.utu_apibased.custom_views.date_select.SpinnerLikeDateSelect;
 import com.farast.utu_apibased.custom_views.utu_spinner.UtuSpinner;

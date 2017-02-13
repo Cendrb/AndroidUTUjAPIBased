@@ -1,10 +1,9 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -19,10 +18,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.farast.utu_apibased.create_update_activities.CUArticleActivity;
-import com.farast.utu_apibased.create_update_activities.CUEventActivity;
-import com.farast.utu_apibased.create_update_activities.CUExamActivity;
-import com.farast.utu_apibased.create_update_activities.CUTaskActivity;
+import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.activities.cu.CUArticleActivity;
+import com.farast.utu_apibased.activities.cu.CUEventActivity;
+import com.farast.utu_apibased.activities.cu.CUExamActivity;
+import com.farast.utu_apibased.activities.cu.CUTaskActivity;
 import com.farast.utu_apibased.fragments.SummaryFragment;
 import com.farast.utu_apibased.fragments.article.ArticlesFragment;
 import com.farast.utu_apibased.fragments.event.EventsFragment;
@@ -32,12 +32,7 @@ import com.farast.utu_apibased.fragments.te.TEsFragment;
 import com.farast.utu_apibased.fragments.timetable.TimetableFragment;
 import com.farast.utu_apibased.listeners.StatusOperationListener;
 import com.farast.utu_apibased.tasks.DataDownloadTask;
-import com.farast.utuapi.util.SclassDoesNotExistException;
 import com.getbase.floatingactionbutton.FloatingActionButton;
-
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
 
 import static com.farast.utu_apibased.Bullshit.dataLoader;
 

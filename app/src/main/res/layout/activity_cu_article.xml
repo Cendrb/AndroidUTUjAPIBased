@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.farast.utu_apibased.create_update_activities.CUEventActivity">
+    tools:context="com.farast.utu_apibased.activities.cu.CUEventActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

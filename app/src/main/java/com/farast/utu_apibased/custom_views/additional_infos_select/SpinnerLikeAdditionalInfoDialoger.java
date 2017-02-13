@@ -14,9 +14,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.custom_views.additional_infos_select.AdditionalInfosSelectDialog;
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.UnitsUtil;
+import com.farast.utu_apibased.util.UnitsUtil;
 import com.farast.utuapi.data.AdditionalInfo;
 import com.farast.utuapi.util.CollectionUtil;
 

@@ -1,7 +1,8 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.util;
 
 import android.content.res.Resources;
 
+import com.farast.utu_apibased.R;
 import com.farast.utuapi.data.common.UtuType;
 import com.farast.utuapi.util.operations.ItemRelatedOperation;
 import com.farast.utuapi.util.operations.LoggingInOperation;

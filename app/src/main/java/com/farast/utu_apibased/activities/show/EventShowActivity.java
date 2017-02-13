@@ -1,33 +1,28 @@
-package com.farast.utu_apibased.show_activities;
+package com.farast.utu_apibased.activities.show;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.BindableViewHolder;
+import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.ItemUtil;
+import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.UtuDestroyer;
-import com.farast.utu_apibased.create_update_activities.CUArticleActivity;
+import com.farast.utu_apibased.tasks.UtuDestroyer;
+import com.farast.utu_apibased.activities.cu.CUEventActivity;
 import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
-import com.farast.utuapi.data.Article;
 import com.farast.utuapi.data.DataLoader;
+import com.farast.utuapi.data.Event;
 import com.farast.utuapi.util.CollectionUtil;
 
-/**
- * Created by cendr_000 on 14.08.2016.
- */
+public class EventShowActivity extends AppCompatActivity implements DataLoader.OnDataSetListener {
 
-public class ArticleShowActivity extends AppCompatActivity implements DataLoader.OnDataSetListener {
-
+    private Event mEvent;
     private int mItemId;
-    private Article mArticle;
 
     private ViewHolder mViewHolder;
 
@@ -37,7 +32,8 @@ public class ArticleShowActivity extends AppCompatActivity implements DataLoader
 
         mItemId = ItemUtil.getItemIdFromIntent(getIntent());
 
-        setContentView(R.layout.activity_show_article);
+        setContentView(R.layout.activity_show_event);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -46,16 +42,15 @@ public class ArticleShowActivity extends AppCompatActivity implements DataLoader
 
         onDataSetChanged();
 
-        setTitle(R.string.item_article);
+        setTitle(R.string.item_event);
 
-        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.ARTICLES, this);
+        Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.EVENTS, this);
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.ARTICLES, this);
+        Bullshit.dataLoader.getNotifier().removeListener(DataLoader.EventType.EVENTS, this);
     }
 
     @Override
@@ -64,11 +59,12 @@ public class ArticleShowActivity extends AppCompatActivity implements DataLoader
             @Override
             public void run() {
                 try {
-                    mArticle = CollectionUtil.findById(Bullshit.dataLoader.getArticlesList(), mItemId);
+                    mEvent = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), mItemId);
 
-                    mViewHolder.mTitleView.setText(mArticle.getTitle());
-                    mViewHolder.mDescriptionView.setText(Html.fromHtml(mArticle.getDescription()));
-                    mViewHolder.mAdditionalInfosViewerView.setInfos(mArticle.getAdditionalInfos());
+                    mViewHolder.mTitleView.setText(mEvent.getTitle());
+                    mViewHolder.mDescriptionView.setText(mEvent.getDescription());
+                    mViewHolder.mLocationView.setText(mEvent.getLocation());
+                    mViewHolder.mAdditionalInfosView.setInfos(mEvent.getAdditionalInfos());
                 } catch (CollectionUtil.RecordNotFoundException e) {
                     // record was deleted
                 }
@@ -87,12 +83,12 @@ public class ArticleShowActivity extends AppCompatActivity implements DataLoader
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_edit:
-                Intent intent = new Intent(this, CUArticleActivity.class);
-                intent.putExtra("item_id", mArticle.getId());
+                Intent intent = new Intent(this, CUEventActivity.class);
+                intent.putExtra("item_id", mEvent.getId());
                 startActivity(intent);
                 return true;
             case R.id.menu_item_delete:
-                new UtuDestroyer(this, mArticle).execute();
+                new UtuDestroyer(this, mEvent).execute();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -102,13 +98,15 @@ public class ArticleShowActivity extends AppCompatActivity implements DataLoader
     private class ViewHolder implements BindableViewHolder {
         private TextView mTitleView;
         private TextView mDescriptionView;
-        private AdditionalInfosViewer mAdditionalInfosViewerView;
+        private TextView mLocationView;
+        private AdditionalInfosViewer mAdditionalInfosView;
 
         @Override
         public void bindViewFields() {
-            mTitleView = (TextView) findViewById(R.id.article_title);
-            mDescriptionView = (TextView) findViewById(R.id.article_description);
-            mAdditionalInfosViewerView = (AdditionalInfosViewer) findViewById(R.id.article_additional_infos);
+            mTitleView = (TextView) findViewById(R.id.show_title);
+            mDescriptionView = (TextView) findViewById(R.id.show_description);
+            mLocationView = (TextView) findViewById(R.id.event_location);
+            mAdditionalInfosView = (AdditionalInfosViewer) findViewById(R.id.event_additional_infos);
         }
     }
 }

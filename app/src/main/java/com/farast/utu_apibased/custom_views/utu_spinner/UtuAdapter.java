@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.ToStringConverter;
 
 import java.util.List;
 

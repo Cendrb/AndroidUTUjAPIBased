@@ -7,7 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.Localizer;
+import com.farast.utu_apibased.util.Localizer;
 import com.farast.utu_apibased.R;
 import com.farast.utuapi.util.operations.ItemRelatedOperation;
 import com.farast.utuapi.util.operations.Operation;

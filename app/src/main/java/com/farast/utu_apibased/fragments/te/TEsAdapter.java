@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.DateOffseter;
+import com.farast.utu_apibased.util.DateOffseter;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.UtuLineGenericViewHolder;
+import com.farast.utu_apibased.custom_views.UtuLineGenericViewHolder;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Lesson;

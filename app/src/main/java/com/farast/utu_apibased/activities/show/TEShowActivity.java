@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.show_activities;
+package com.farast.utu_apibased.activities.show;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.BindableViewHolder;
+import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.ItemUtil;
+import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.UtuDestroyer;
-import com.farast.utu_apibased.create_update_activities.CUExamActivity;
-import com.farast.utu_apibased.create_update_activities.CUTaskActivity;
+import com.farast.utu_apibased.tasks.UtuDestroyer;
+import com.farast.utu_apibased.activities.cu.CUExamActivity;
+import com.farast.utu_apibased.activities.cu.CUTaskActivity;
 import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Exam;

@@ -1,4 +1,4 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.exceptions;
 
 /**
  * Created by cendr_000 on 14.08.2016.

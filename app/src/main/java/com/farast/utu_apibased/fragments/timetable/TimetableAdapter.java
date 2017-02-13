@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.UnitsUtil;
+import com.farast.utu_apibased.util.UnitsUtil;
 import com.farast.utuapi.data.AbsoluteTime;
 import com.farast.utuapi.data.Lesson;
 import com.farast.utuapi.data.SchoolDay;

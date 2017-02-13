@@ -1,7 +1,8 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.tasks;
 
 import android.app.Activity;
 
+import com.farast.utu_apibased.Bullshit;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.interfaces.Updatable;
 

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
-import com.farast.utu_apibased.show_activities.PlannedRakingListShowActivity;
+import com.farast.utu_apibased.activities.show.PlannedRakingListShowActivity;
 import com.farast.utuapi.data.PlannedRakingList;
 
 /**

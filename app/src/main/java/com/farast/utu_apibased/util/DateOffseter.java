@@ -1,4 +1,4 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.util;
 
 import java.util.Calendar;
 import java.util.Date;

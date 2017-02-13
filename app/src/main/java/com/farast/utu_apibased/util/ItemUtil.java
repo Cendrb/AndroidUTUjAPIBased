@@ -1,6 +1,8 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.util;
 
 import android.content.Intent;
+
+import com.farast.utu_apibased.exceptions.ItemIdNotSuppliedException;
 
 /**
  * Created by cendr on 09/02/2017.

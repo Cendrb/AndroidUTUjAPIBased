@@ -1,7 +1,6 @@
 package com.farast.utu_apibased.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -13,9 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.BindableViewHolder;
+import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.NotificationReceiver;
 import com.farast.utu_apibased.R;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Service;

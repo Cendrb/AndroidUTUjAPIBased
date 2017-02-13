@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
-import com.farast.utu_apibased.show_activities.ArticleShowActivity;
+import com.farast.utu_apibased.activities.show.ArticleShowActivity;
 import com.farast.utuapi.data.Article;
 
 /**

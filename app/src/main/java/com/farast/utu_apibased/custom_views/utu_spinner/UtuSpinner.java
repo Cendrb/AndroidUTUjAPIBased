@@ -10,7 +10,6 @@ import android.widget.Spinner;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.ToStringConverter;
 import com.farast.utuapi.data.interfaces.OnelineRepresentable;
 
 import java.util.Collections;

@@ -16,8 +16,8 @@ import android.widget.Spinner;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.ToStringConverter;
-import com.farast.utu_apibased.UtuDescribedSpinnerAdapter;
+import com.farast.utu_apibased.custom_views.utu_spinner.ToStringConverter;
+import com.farast.utu_apibased.tasks.UtuDescribedSpinnerAdapter;
 import com.farast.utuapi.data.AdditionalInfo;
 import com.farast.utuapi.data.Subject;
 import com.farast.utuapi.util.CollectionUtil;

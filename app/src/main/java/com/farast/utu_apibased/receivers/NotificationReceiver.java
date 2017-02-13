@@ -1,15 +1,17 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.receivers;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.farast.utu_apibased.Bullshit;
+import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.activities.MainActivity;
 import com.farast.utu_apibased.tasks.DataDownloadTask;
 import com.farast.utu_apibased.tasks.PredataDownloadTask;
 import com.farast.utuapi.data.AbsoluteTime;
@@ -18,7 +20,6 @@ import com.farast.utuapi.data.LessonTiming;
 import com.farast.utuapi.data.SchoolDay;
 import com.farast.utuapi.data.Timetable;
 import com.farast.utuapi.util.CollectionUtil;
-import com.farast.utuapi.util.functional_interfaces.Action;
 import com.farast.utuapi.util.functional_interfaces.Predicate;
 
 import java.util.Calendar;

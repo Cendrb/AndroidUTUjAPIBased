@@ -1,10 +1,11 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.farast.utu_apibased.R;
 import com.farast.utuapi.data.DataLoader;
 
 import java.io.IOException;

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginSclassActivity"
+            android:name=".activities.LoginSclassActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,59 +22,59 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".show_activities.EventShowActivity"
+            android:name=".activities.show.EventShowActivity"
             android:label="@string/placeholder"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.farast.utu_apibased.MainActivity" />
+                android:value="com.farast.utu_apibased.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".show_activities.TEShowActivity"
+            android:name=".activities.show.TEShowActivity"
             android:label="@string/placeholder"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.farast.utu_apibased.MainActivity" />
+                android:value="com.farast.utu_apibased.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".show_activities.ArticleShowActivity"
+            android:name=".activities.show.ArticleShowActivity"
             android:label="@string/placeholder"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.farast.utu_apibased.MainActivity" />
+                android:value="com.farast.utu_apibased.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".show_activities.PlannedRakingListShowActivity"
+            android:name=".activities.show.PlannedRakingListShowActivity"
             android:label="@string/placeholder"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".create_update_activities.CUEventActivity"
+            android:name=".activities.cu.CUEventActivity"
             android:label="@string/placeholder"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".create_update_activities.CUExamActivity"
+            android:name=".activities.cu.CUExamActivity"
             android:label="@string/placeholder"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".create_update_activities.CUTaskActivity"
+            android:name=".activities.cu.CUTaskActivity"
             android:label="@string/placeholder"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".create_update_activities.CUArticleActivity"
+            android:name=".activities.cu.CUArticleActivity"
             android:label="@string/placeholder"
             android:theme="@style/AppTheme" />
 
-        <receiver android:name=".NotificationReceiver" />
+        <receiver android:name=".receivers.NotificationReceiver" />
     </application>
 
 </manifest>

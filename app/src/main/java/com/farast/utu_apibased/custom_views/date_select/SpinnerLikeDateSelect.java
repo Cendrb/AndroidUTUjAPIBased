@@ -11,19 +11,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.UnitsUtil;
+import com.farast.utu_apibased.util.UnitsUtil;
 import com.farast.utu_apibased.fragments.DatePickerDialogFragment;
 import com.farast.utuapi.util.DateUtil;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 /**
  * Created by cendr_000 on 18.08.2016.

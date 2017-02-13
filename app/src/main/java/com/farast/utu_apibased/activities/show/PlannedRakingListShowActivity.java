@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.show_activities;
+package com.farast.utu_apibased.activities.show;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,12 +15,11 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.ItemIdNotSuppliedException;
-import com.farast.utu_apibased.PlannedRakingEntriesRecyclerViewAdapter;
+import com.farast.utu_apibased.exceptions.ItemIdNotSuppliedException;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.ToStringConverter;
-import com.farast.utu_apibased.UtuDescribedSpinnerAdapter;
-import com.farast.utu_apibased.UtuSubmitter;
+import com.farast.utu_apibased.custom_views.utu_spinner.ToStringConverter;
+import com.farast.utu_apibased.tasks.UtuDescribedSpinnerAdapter;
+import com.farast.utu_apibased.tasks.UtuSubmitter;
 import com.farast.utuapi.data.ClassMember;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.PlannedRakingEntry;

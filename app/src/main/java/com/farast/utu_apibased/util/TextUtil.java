@@ -1,4 +1,4 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.util;
 
 /**
  * Created by cendr on 13/02/2017.

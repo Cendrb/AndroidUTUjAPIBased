@@ -1,4 +1,4 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -23,11 +23,13 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.farast.utu_apibased.Bullshit;
+import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.custom_views.utu_spinner.ToStringConverter;
 import com.farast.utu_apibased.custom_views.utu_spinner.UtuAdapter;
+import com.farast.utu_apibased.exceptions.WTFIsHappeningException;
 import com.farast.utu_apibased.tasks.PredataDownloadTask;
 import com.farast.utuapi.data.Sclass;
-
-import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.util.List;

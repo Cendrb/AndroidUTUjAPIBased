@@ -1,4 +1,4 @@
-package com.farast.utu_apibased;
+package com.farast.utu_apibased.util;
 
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
