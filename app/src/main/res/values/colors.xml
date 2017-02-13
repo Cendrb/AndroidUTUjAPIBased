@@ -5,12 +5,15 @@
     <color name="colorPrimaryDark">#388e3c</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccentPressed">#f06292</color>
-    <color name="colorNotNormalCell">#ff7043</color>
-    <color name="colorNormalCell">#efa350</color>
+    <color name="cellNotNormal">#ff7043</color>
+    <color name="cellNormal">#efa350</color>
     <color name="colorCellStroke">#e0e0e0</color>
     <color name="black_semi_transparent">#B2000000</color>
     <color name="lightText">#9e9e9e</color>
     <color name="rekt">#e53935</color>
-    <color name="colorRightNowCell">#ffea00</color>
+    <color name="cellRightNow">#ffea00</color>
     <color name="colorBackgroundGray">#e0e0e0</color>
+    <color name="cellDateSection">#ffffff</color>
+    <color name="cellEvent">#388e3c</color>
+    <color name="cellEmpty">#ffffff</color>
 </resources>

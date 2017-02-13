@@ -101,19 +101,31 @@ public class TimetableAdapter extends BaseAdapter {
             } else {
                 for (Lesson lesson : schoolDay.getLessons()) {
                     if (lesson.getSerialNumber() == col) {
-                        String subject = lesson.getSubject() != null ? lesson.getSubject().getName() : "";
-                        String teacher = lesson.getTeacher() != null ? lesson.getTeacher().getAbbr() : "";
-                        String room = lesson.getRoom();
+                        String title;
+                        String subLeft;
+                        String subRight;
+                        if (!lesson.getEventName().equals("")) {
+                            title = lesson.getEventName();
+                            subLeft = "";
+                            subRight = "";
+                        } else {
+                            title = lesson.getSubject() != null ? lesson.getSubject().getName() : "";
+                            subLeft = lesson.getRoom();
+                            subRight = lesson.getTeacher() != null ? lesson.getTeacher().getAbbr() : "";
+                        }
+
                         Date lessonStart = lesson.getLessonTiming().getStart().getOffsetDate(schoolDay.getDate());
                         Date lessonEnd = lesson.getLessonTiming().getDuration().getOffsetDate(lessonStart);
                         Date startOfBreakBeforeLesson = new AbsoluteTime(0, -5, 0).getOffsetDate(lessonStart);
                         Date now = new Date();
                         if (now.after(startOfBreakBeforeLesson) && now.before(lessonEnd)) {
-                            lessonViewData = new LessonViewData(subject, teacher, room, LessonCellType.RIGHT_NOW);
+                            lessonViewData = new LessonViewData(title, subRight, subLeft, LessonCellType.RIGHT_NOW);
+                        } else if (!lesson.getEventName().equals("")) {
+                            lessonViewData = new LessonViewData(title, subRight, subLeft, LessonCellType.EVENT);
                         } else if (lesson.isNotNormal()) {
-                            lessonViewData = new LessonViewData(subject, teacher, room, LessonCellType.IRREGULAR);
+                            lessonViewData = new LessonViewData(title, subRight, subLeft, LessonCellType.IRREGULAR);
                         } else {
-                            lessonViewData = new LessonViewData(subject, teacher, room, LessonCellType.NORMAL);
+                            lessonViewData = new LessonViewData(title, subRight, subLeft, LessonCellType.NORMAL);
                         }
                     }
                     if (lessonViewData == null) {
@@ -163,19 +175,22 @@ public class TimetableAdapter extends BaseAdapter {
 
             switch (mCellType) {
                 case DATE:
-                    cellBackground.setColor(ContextCompat.getColor(context, R.color.white));
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.cellDateSection));
                     break;
                 case NORMAL:
-                    cellBackground.setColor(ContextCompat.getColor(context, R.color.colorNormalCell));
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.cellNormal));
                     break;
                 case IRREGULAR:
-                    cellBackground.setColor(ContextCompat.getColor(context, R.color.colorNotNormalCell));
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.cellNotNormal));
                     break;
                 case RIGHT_NOW:
-                    cellBackground.setColor(ContextCompat.getColor(context, R.color.colorRightNowCell));
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.cellRightNow));
                     break;
                 case EMPTY:
-                    cellBackground.setColor(ContextCompat.getColor(context, R.color.white));
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.cellEmpty));
+                    break;
+                case EVENT:
+                    cellBackground.setColor(ContextCompat.getColor(context, R.color.cellEvent));
                     break;
             }
 
@@ -183,5 +198,5 @@ public class TimetableAdapter extends BaseAdapter {
         }
     }
 
-    private enum LessonCellType {DATE, NORMAL, IRREGULAR, EMPTY, RIGHT_NOW}
+    private enum LessonCellType {DATE, NORMAL, IRREGULAR, EMPTY, RIGHT_NOW, EVENT}
 }
