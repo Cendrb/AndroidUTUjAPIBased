@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.TextUtil;
 import com.farast.utu_apibased.UtuSubmitter;
 import com.farast.utu_apibased.custom_views.additional_infos_select.SpinnerLikeAdditionalInfoDialoger;
 import com.farast.utu_apibased.custom_views.date_select.SpinnerLikeDateSelect;
@@ -88,9 +89,9 @@ public class CUArticleActivity extends AppCompatActivity {
                 selectedInfoIds.add(info.getId());
             mAISelectView.setSelectedAIIds(selectedInfoIds);
 
-            setTitle(getString(R.string.editing) + " " + getString(R.string.item_article).toLowerCase());
+            setTitle(TextUtil.capitalize(getString(R.string.operation_edit_x, getString(R.string.item_article)).toLowerCase()));
         } else {
-            setTitle(getString(R.string.creating) + " " + getString(R.string.item_article).toLowerCase());
+            setTitle(TextUtil.capitalize(getString(R.string.operation_new_x, getString(R.string.item_article)).toLowerCase()));
         }
 
         mSubmitView.setOnClickListener(new View.OnClickListener() {

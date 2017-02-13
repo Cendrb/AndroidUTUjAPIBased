@@ -28,8 +28,8 @@
     <string name="prompt_location">Location</string>
     <string name="prompt_price">Price</string>
     <string name="submit">submit</string>
-    <string name="creating">Creating</string>
-    <string name="editing">Editing</string>
+    <string name="operation_new_x">New %s</string>
+    <string name="operation_edit_x">%s edit</string>
     <string name="admin_required">Admin priviligies required</string>
     <string name="sclass_not_set">Class is not set</string>
     <string name="nav_edit">Edit</string>

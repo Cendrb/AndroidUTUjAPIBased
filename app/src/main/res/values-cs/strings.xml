@@ -10,11 +10,9 @@
     <string name="admin_required">Nemáte dostatečná práva</string>
     <string name="item_article">Článek</string>
     <string name="choose_additional_infos">Vyberte další informace pro tuto položku</string>
-    <string name="creating">Vytvářím</string>
     <string name="current_user">Aktuálně přihlášen</string>
     <string name="nav_delete">Odstranit</string>
     <string name="nav_edit">Upravit</string>
-    <string name="editing">Upravuji</string>
     <string name="error_field_required">Toto pole je povinné</string>
     <string name="item_event">Událost</string>
     <string name="item_exam">Test</string>
@@ -76,4 +74,6 @@
     <string name="operation_generic_loading">Probíhá stahování...</string>
     <string name="last_updated_at_x">Naposledy aktualizováno %s</string>
     <string name="raking_rekt">REKT</string>
+    <string name="operation_edit_x">Upravit %s</string>
+    <string name="operation_new_x">Nový %s</string>
 </resources>
