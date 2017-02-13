@@ -69,15 +69,20 @@ public class TEShowActivity extends AppCompatActivity implements DataLoader.OnDa
 
     @Override
     public void onDataSetChanged() {
-        try {
-            mTe = CollectionUtil.findById(Bullshit.dataLoader.getTEsList(), mItemId);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mTe = CollectionUtil.findById(Bullshit.dataLoader.getTEsList(), mItemId);
 
-            mViewHolder.mTitleView.setText(mTe.getTitle());
-            mViewHolder.mDescriptionView.setText(Html.fromHtml(mTe.getDescription()));
-            mViewHolder.mAdditionalInfosViewerView.setInfos(mTe.getAdditionalInfos());
-        } catch (CollectionUtil.RecordNotFoundException e) {
-            // record was deleted
-        }
+                    mViewHolder.mTitleView.setText(mTe.getTitle());
+                    mViewHolder.mDescriptionView.setText(Html.fromHtml(mTe.getDescription()));
+                    mViewHolder.mAdditionalInfosViewerView.setInfos(mTe.getAdditionalInfos());
+                } catch (CollectionUtil.RecordNotFoundException e) {
+                    // record was deleted
+                }
+            }
+        });
     }
 
     @Override

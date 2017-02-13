@@ -55,16 +55,21 @@ public class EventShowActivity extends AppCompatActivity implements DataLoader.O
 
     @Override
     public void onDataSetChanged() {
-        try {
-            mEvent = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), mItemId);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mEvent = CollectionUtil.findById(Bullshit.dataLoader.getEventsList(), mItemId);
 
-            mViewHolder.mTitleView.setText(mEvent.getTitle());
-            mViewHolder.mDescriptionView.setText(mEvent.getDescription());
-            mViewHolder.mLocationView.setText(mEvent.getLocation());
-            mViewHolder.mAdditionalInfosView.setInfos(mEvent.getAdditionalInfos());
-        } catch (CollectionUtil.RecordNotFoundException e) {
-            // record was deleted
-        }
+                    mViewHolder.mTitleView.setText(mEvent.getTitle());
+                    mViewHolder.mDescriptionView.setText(mEvent.getDescription());
+                    mViewHolder.mLocationView.setText(mEvent.getLocation());
+                    mViewHolder.mAdditionalInfosView.setInfos(mEvent.getAdditionalInfos());
+                } catch (CollectionUtil.RecordNotFoundException e) {
+                    // record was deleted
+                }
+            }
+        });
     }
 
     @Override
