@@ -3,9 +3,6 @@
     package="com.farast.utu_apibased">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -76,6 +73,8 @@
             android:name=".create_update_activities.CUArticleActivity"
             android:label="@string/placeholder"
             android:theme="@style/AppTheme" />
+
+        <receiver android:name=".NotificationReceiver" />
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.farast.utu_apibased.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.farast.utu_apibased.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
+import com.farast.utu_apibased.NotificationReceiver;
 import com.farast.utu_apibased.R;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Service;
@@ -105,6 +107,14 @@ public class SummaryFragment extends Fragment implements DataLoader.OnDataSetLis
             }
         });
 
+        mViewHolder.mNavTempView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent notificationIntent = new Intent(getContext(), NotificationReceiver.class);
+                //getContext().sendBroadcast(notificationIntent);
+            }
+        });
+
         return mView;
     }
 
@@ -160,6 +170,7 @@ public class SummaryFragment extends Fragment implements DataLoader.OnDataSetLis
         private Button mNavKanaView;
         private Button mNavRakingsView;
         private Button mNavServicesView;
+        private Button mNavTempView;
 
         @Override
         public void bindViewFields() {
@@ -172,6 +183,7 @@ public class SummaryFragment extends Fragment implements DataLoader.OnDataSetLis
             mNavKanaView = (Button) mView.findViewById(R.id.summary_action_kana);
             mNavRakingsView = (Button) mView.findViewById(R.id.summary_action_rakings);
             mNavServicesView = (Button) mView.findViewById(R.id.summary_action_services);
+            mNavTempView = (Button) mView.findViewById(R.id.summary_action_nothing1);
         }
     }
 }

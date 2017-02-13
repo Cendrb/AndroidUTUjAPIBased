@@ -31,6 +31,7 @@ import com.farast.utu_apibased.fragments.service.ServicesFragment;
 import com.farast.utu_apibased.fragments.te.TEsFragment;
 import com.farast.utu_apibased.fragments.timetable.TimetableFragment;
 import com.farast.utu_apibased.listeners.StatusOperationListener;
+import com.farast.utu_apibased.tasks.DataDownloadTask;
 import com.farast.utuapi.util.SclassDoesNotExistException;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         mSclassId = getIntent().getExtras().getInt("sclass_id");
-        new DataDownloadTask().execute(new DataDownloadTaskParams(this, mSclassId));
+        new MainActivityDataDownloadTask().execute(new DataDownloadTask.Params(mSclassId));
 
         mActivity = this;
 
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_item_refresh) {
-            new DataDownloadTask().execute(new DataDownloadTaskParams(this, mSclassId));
+            new MainActivityDataDownloadTask().execute(new DataDownloadTask.Params(mSclassId));
         }
         if (id == R.id.menu_item_web_version) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://utu.herokuapp.com"));
@@ -200,29 +201,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
     }
 
-    private static class DataDownloadTaskParams {
-        private final Activity activity;
-        private final int sclassId;
-
-        public DataDownloadTaskParams(Activity activity, int sclassId) {
-            this.activity = activity;
-            this.sclassId = sclassId;
-        }
-
-        public Activity getActivity() {
-            return activity;
-        }
-
-        public int getSclassId() {
-            return sclassId;
-        }
-    }
-
-    public class DataDownloadTask extends AsyncTask<DataDownloadTaskParams, Void, Boolean> {
-
-        DataDownloadTaskParams params;
-        Activity activity;
-
+    private class MainActivityDataDownloadTask extends DataDownloadTask {
         @Override
         protected void onPreExecute() {
             if (mRefreshMenuItem != null)
@@ -231,26 +210,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        protected Boolean doInBackground(DataDownloadTaskParams... paramses) {
-            this.params = paramses[0];
-            activity = params.getActivity();
-            try {
-                dataLoader.load(params.getSclassId());
-                return true;
-            } catch (SclassDoesNotExistException | SAXException | IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        @Override
         protected void onPostExecute(Boolean aBoolean) {
             if (mRefreshMenuItem != null)
                 mRefreshMenuItem.setEnabled(true);
             if (aBoolean) {
 
-            } else if (!activity.isFinishing())
-                new AlertDialog.Builder(activity)
+            } else if (!mActivity.isFinishing())
+                new AlertDialog.Builder(mActivity)
                         .setTitle("Failed to download data")
                         .setMessage("Do you want to try again?")
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -260,7 +226,7 @@ public class MainActivity extends AppCompatActivity
                         })
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                new MainActivity.DataDownloadTask().execute(params);
+                                new DataDownloadTask().execute(params);
                             }
                         })
                         .setCancelable(false)

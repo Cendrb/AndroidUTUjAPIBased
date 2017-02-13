@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.farast.utu_apibased.custom_views.utu_spinner.UtuAdapter;
+import com.farast.utu_apibased.tasks.PredataDownloadTask;
 import com.farast.utuapi.data.Sclass;
 
 import org.xml.sax.SAXException;
@@ -270,19 +271,8 @@ public class LoginSclassActivity extends AppCompatActivity {
         }
     }
 
-    public class PredataDownloadTask extends AsyncTask<Void, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            try {
-                dataLoader.loadPredata();
-                return true;
-            } catch (SAXException | IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
+    private class LoginSclassPredataDownloadTask extends PredataDownloadTask
+    {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
