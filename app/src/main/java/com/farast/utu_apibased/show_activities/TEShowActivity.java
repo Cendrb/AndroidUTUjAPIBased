@@ -49,8 +49,10 @@ public class TEShowActivity extends AppCompatActivity implements DataLoader.OnDa
 
         onDataSetChanged();
         if (mTe instanceof Exam) {
+            setTitle(R.string.item_exam);
             Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.EXAMS, this);
         } else {
+            setTitle(R.string.item_task);
             Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.TASKS, this);
         }
     }
@@ -73,8 +75,6 @@ public class TEShowActivity extends AppCompatActivity implements DataLoader.OnDa
             mViewHolder.mTitleView.setText(mTe.getTitle());
             mViewHolder.mDescriptionView.setText(Html.fromHtml(mTe.getDescription()));
             mViewHolder.mAdditionalInfosViewerView.setInfos(mTe.getAdditionalInfos());
-
-            setTitle(mTe.getTitle());
         } catch (CollectionUtil.RecordNotFoundException e) {
             // record was deleted
         }

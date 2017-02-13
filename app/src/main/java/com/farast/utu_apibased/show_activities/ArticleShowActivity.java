@@ -46,6 +46,8 @@ public class ArticleShowActivity extends AppCompatActivity implements DataLoader
 
         onDataSetChanged();
 
+        setTitle(R.string.item_article);
+
         Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.ARTICLES, this);
     }
 
@@ -67,8 +69,6 @@ public class ArticleShowActivity extends AppCompatActivity implements DataLoader
                     mViewHolder.mTitleView.setText(mArticle.getTitle());
                     mViewHolder.mDescriptionView.setText(Html.fromHtml(mArticle.getDescription()));
                     mViewHolder.mAdditionalInfosViewerView.setInfos(mArticle.getAdditionalInfos());
-
-                    setTitle(mArticle.getTitle());
                 } catch (CollectionUtil.RecordNotFoundException e) {
                     // record was deleted
                 }

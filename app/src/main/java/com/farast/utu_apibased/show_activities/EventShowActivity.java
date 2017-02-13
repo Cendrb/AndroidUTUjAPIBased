@@ -42,6 +42,8 @@ public class EventShowActivity extends AppCompatActivity implements DataLoader.O
 
         onDataSetChanged();
 
+        setTitle(R.string.item_event);
+
         Bullshit.dataLoader.getNotifier().addListener(DataLoader.EventType.EVENTS, this);
     }
 
@@ -60,8 +62,6 @@ public class EventShowActivity extends AppCompatActivity implements DataLoader.O
             mViewHolder.mDescriptionView.setText(mEvent.getDescription());
             mViewHolder.mLocationView.setText(mEvent.getLocation());
             mViewHolder.mAdditionalInfosView.setInfos(mEvent.getAdditionalInfos());
-
-            setTitle(mEvent.getTitle());
         } catch (CollectionUtil.RecordNotFoundException e) {
             // record was deleted
         }
