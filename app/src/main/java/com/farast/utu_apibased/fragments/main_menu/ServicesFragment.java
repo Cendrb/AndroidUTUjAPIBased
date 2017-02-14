@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.fragments.service;
+package com.farast.utu_apibased.fragments.main_menu;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.adapters.generic_utu.ServicesAdapter;
 
 /**
  * Created by cendr on 09/02/2017.

@@ -9,13 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.tasks.UtuDestroyer;
+import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utu_apibased.activities.cu.CUArticleActivity;
 import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
+import com.farast.utu_apibased.tasks.UtuDestroyer;
+import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utuapi.data.Article;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.util.CollectionUtil;
@@ -88,7 +88,7 @@ public class ArticleShowActivity extends AppCompatActivity implements DataLoader
         switch (item.getItemId()) {
             case R.id.menu_item_edit:
                 Intent intent = new Intent(this, CUArticleActivity.class);
-                intent.putExtra("item_id", mArticle.getId());
+                intent.putExtra(ItemUtil.ITEM_ID, mArticle.getId());
                 startActivity(intent);
                 return true;
             case R.id.menu_item_delete:

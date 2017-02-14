@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.fragments.timetable;
+package com.farast.utu_apibased.fragments.main_menu;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +17,7 @@ import android.widget.GridView;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.adapters.TimetableAdapter;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.SchoolDay;
 import com.farast.utuapi.data.Timetable;

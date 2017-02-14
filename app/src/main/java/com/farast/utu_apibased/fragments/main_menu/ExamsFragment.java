@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.fragments.te;
+package com.farast.utu_apibased.fragments.main_menu;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,17 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
 import com.farast.utu_apibased.activities.show.TEShowActivity;
-import com.farast.utuapi.data.interfaces.TEItem;
+import com.farast.utu_apibased.adapters.generic_utu.ExamsAdapter;
+import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
+import com.farast.utu_apibased.util.ItemUtil;
+import com.farast.utuapi.data.Exam;
+import com.farast.utuapi.data.common.UtuType;
 
 /**
  * Created by cendr_000 on 05.08.2016.
  */
 
-public class TEsFragment extends Fragment {
+public class ExamsFragment extends Fragment {
 
-    public TEsFragment() {
+    public ExamsFragment() {
 
     }
 
@@ -31,7 +34,7 @@ public class TEsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.utu_list_recycler_view, container, false);
 
@@ -40,14 +43,17 @@ public class TEsFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new TEsAdapter(new OnListFragmentInteractionListener<TEItem>() {
+            ExamsAdapter adapter = new ExamsAdapter(context);
+            adapter.setOnItemClickListener(new OnListFragmentInteractionListener<Exam>() {
                 @Override
-                public void onListFragmentInteraction(TEItem item) {
+                public void onListFragmentInteraction(Exam item) {
                     Intent intent = new Intent(getContext(), TEShowActivity.class);
-                    intent.putExtra("item_id", item.getId());
+                    intent.putExtra(ItemUtil.ITEM_ID, item.getId());
+                    intent.putExtra(ItemUtil.ITEM_TYPE, UtuType.EXAM.ordinal());
                     getContext().startActivity(intent);
                 }
-            }, context));
+            });
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }

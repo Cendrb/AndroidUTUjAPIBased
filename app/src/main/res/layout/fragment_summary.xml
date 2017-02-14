@@ -50,20 +50,20 @@
             android:text="@string/nav_events" />
 
         <Button
-            android:id="@+id/summary_action_tes"
+            android:id="@+id/summary_action_tasks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
-            android:text="@string/nav_tes" />
+            android:text="@string/nav_tasks" />
 
         <Button
-            android:id="@+id/summary_action_timetable"
+            android:id="@+id/summary_action_exams"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:text="@string/nav_timetables" />
+            android:text="@string/nav_exams" />
     </LinearLayout>
 
     <LinearLayout
@@ -129,10 +129,11 @@
             android:text="@string/nav_kana" />
 
         <Button
-            android:id="@+id/summary_action_nothing2"
+            android:id="@+id/summary_action_timetables"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorPrimary" />
+            android:background="@color/colorPrimary"
+            android:text="@string/nav_timetables" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

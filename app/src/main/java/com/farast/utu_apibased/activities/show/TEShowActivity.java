@@ -9,16 +9,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.tasks.UtuDestroyer;
+import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utu_apibased.activities.cu.CUExamActivity;
 import com.farast.utu_apibased.activities.cu.CUTaskActivity;
 import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
+import com.farast.utu_apibased.exceptions.ItemTypeNotSuppliedException;
+import com.farast.utu_apibased.tasks.UtuDestroyer;
+import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Exam;
+import com.farast.utuapi.data.common.UtuType;
 import com.farast.utuapi.data.interfaces.TEItem;
 import com.farast.utuapi.data.interfaces.Updatable;
 import com.farast.utuapi.util.CollectionUtil;
@@ -30,6 +32,7 @@ import com.farast.utuapi.util.CollectionUtil;
 public class TEShowActivity extends AppCompatActivity implements DataLoader.OnDataSetListener {
 
     private int mItemId;
+    private UtuType mItemType;
     private TEItem mTe;
 
     private ViewHolder mViewHolder;
@@ -39,6 +42,10 @@ public class TEShowActivity extends AppCompatActivity implements DataLoader.OnDa
         super.onCreate(savedInstanceState);
 
         mItemId = ItemUtil.getItemIdFromIntent(getIntent());
+        mItemType = ItemUtil.getItemTypeFromIntent(getIntent());
+        if (mItemType != UtuType.EXAM && mItemType != UtuType.TASK) {
+            throw new ItemTypeNotSuppliedException("This activity supports only TASK and EXAM");
+        }
 
         setContentView(R.layout.activity_show_te);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -73,7 +80,11 @@ public class TEShowActivity extends AppCompatActivity implements DataLoader.OnDa
             @Override
             public void run() {
                 try {
-                    mTe = CollectionUtil.findById(Bullshit.dataLoader.getTEsList(), mItemId);
+                    if (mItemType == UtuType.EXAM) {
+                        mTe = CollectionUtil.findById(Bullshit.dataLoader.getExamsList(), mItemId);
+                    } else if (mItemType == UtuType.TASK) {
+                        mTe = CollectionUtil.findById(Bullshit.dataLoader.getTasksList(), mItemId);
+                    }
 
                     mViewHolder.mTitleView.setText(mTe.getTitle());
                     mViewHolder.mDescriptionView.setText(Html.fromHtml(mTe.getDescription()));
@@ -101,7 +112,7 @@ public class TEShowActivity extends AppCompatActivity implements DataLoader.OnDa
                     intent = new Intent(this, CUExamActivity.class);
                 else
                     intent = new Intent(this, CUTaskActivity.class);
-                intent.putExtra("item_id", mTe.getId());
+                intent.putExtra(ItemUtil.ITEM_ID, mTe.getId());
                 startActivity(intent);
                 return true;
             case R.id.menu_item_delete:

@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.fragments.raking;
+package com.farast.utu_apibased.fragments.main_menu;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,15 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.activities.show.TEShowActivity;
+import com.farast.utu_apibased.adapters.generic_utu.TasksAdapter;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
-import com.farast.utu_apibased.activities.show.PlannedRakingListShowActivity;
-import com.farast.utuapi.data.PlannedRakingList;
+import com.farast.utu_apibased.util.ItemUtil;
+import com.farast.utuapi.data.Task;
+import com.farast.utuapi.data.common.UtuType;
 
 /**
- * Created by cendr_000 on 27.08.2016.
+ * Created by cendr_000 on 05.08.2016.
  */
 
-public class RakingsFragment extends Fragment {
+public class TasksFragment extends Fragment {
+
+    public TasksFragment() {
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,14 +43,17 @@ public class RakingsFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new RakingsRecyclerViewAdapter(new OnListFragmentInteractionListener<PlannedRakingList>() {
+            TasksAdapter adapter = new TasksAdapter(context);
+            adapter.setOnItemClickListener(new OnListFragmentInteractionListener<Task>() {
                 @Override
-                public void onListFragmentInteraction(PlannedRakingList item) {
-                    Intent intent = new Intent(getContext(), PlannedRakingListShowActivity.class);
-                    intent.putExtra("item_id", item.getId());
+                public void onListFragmentInteraction(Task item) {
+                    Intent intent = new Intent(getContext(), TEShowActivity.class);
+                    intent.putExtra(ItemUtil.ITEM_ID, item.getId());
+                    intent.putExtra(ItemUtil.ITEM_TYPE, UtuType.TASK.ordinal());
                     getContext().startActivity(intent);
                 }
-            }, context));
+            });
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }

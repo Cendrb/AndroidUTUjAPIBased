@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.fragments.article;
+package com.farast.utu_apibased.fragments.main_menu;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
 import com.farast.utu_apibased.activities.show.ArticleShowActivity;
+import com.farast.utu_apibased.adapters.generic_utu.ArticlesAdapter;
+import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
+import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utuapi.data.Article;
 
 /**
@@ -39,14 +41,16 @@ public class ArticlesFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new ArticlesAdapter(new OnListFragmentInteractionListener<Article>() {
+            ArticlesAdapter adapter = new ArticlesAdapter(context);
+            adapter.setOnItemClickListener(new OnListFragmentInteractionListener<Article>() {
                 @Override
                 public void onListFragmentInteraction(Article item) {
                     Intent intent = new Intent(getContext(), ArticleShowActivity.class);
-                    intent.putExtra("item_id", item.getId());
+                    intent.putExtra(ItemUtil.ITEM_ID, item.getId());
                     getContext().startActivity(intent);
                 }
-            }, context));
+            });
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }

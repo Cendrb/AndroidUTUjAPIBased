@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.fragments.event;
+package com.farast.utu_apibased.fragments.main_menu;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,15 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.activities.show.PlannedRakingListShowActivity;
+import com.farast.utu_apibased.adapters.generic_utu.RakingListsAdapter;
 import com.farast.utu_apibased.listeners.OnListFragmentInteractionListener;
-import com.farast.utu_apibased.activities.show.EventShowActivity;
-import com.farast.utuapi.data.Event;
+import com.farast.utu_apibased.util.ItemUtil;
+import com.farast.utuapi.data.PlannedRakingList;
 
-public class EventsFragment extends Fragment {
+/**
+ * Created by cendr_000 on 27.08.2016.
+ */
 
-    public EventsFragment() {
-    }
-
+public class RakingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,14 +37,16 @@ public class EventsFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new EventsAdapter(new OnListFragmentInteractionListener<Event>() {
+            RakingListsAdapter adapter = new RakingListsAdapter(context);
+            adapter.setOnItemClickListener(new OnListFragmentInteractionListener<PlannedRakingList>() {
                 @Override
-                public void onListFragmentInteraction(Event item) {
-                    Intent intent = new Intent(getContext(), EventShowActivity.class);
-                    intent.putExtra("item_id", item.getId());
+                public void onListFragmentInteraction(PlannedRakingList item) {
+                    Intent intent = new Intent(getContext(), PlannedRakingListShowActivity.class);
+                    intent.putExtra(ItemUtil.ITEM_ID, item.getId());
                     getContext().startActivity(intent);
                 }
-            }, context));
+            });
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }

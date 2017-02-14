@@ -8,13 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.tasks.UtuDestroyer;
+import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utu_apibased.activities.cu.CUEventActivity;
 import com.farast.utu_apibased.custom_views.additional_infos_viewer.AdditionalInfosViewer;
+import com.farast.utu_apibased.tasks.UtuDestroyer;
+import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Event;
 import com.farast.utuapi.util.CollectionUtil;
@@ -84,7 +84,7 @@ public class EventShowActivity extends AppCompatActivity implements DataLoader.O
         switch (item.getItemId()) {
             case R.id.menu_item_edit:
                 Intent intent = new Intent(this, CUEventActivity.class);
-                intent.putExtra("item_id", mEvent.getId());
+                intent.putExtra(ItemUtil.ITEM_ID, mEvent.getId());
                 startActivity(intent);
                 return true;
             case R.id.menu_item_delete:

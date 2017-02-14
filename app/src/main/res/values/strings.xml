@@ -76,9 +76,10 @@
     <string name="nav_previous_week">Current week</string>
     <string name="welcome_x">Welcome %s</string>
     <string name="no_service_found">No boardcleaners found</string>
-    <string name="nav_tes">Exams and tasks</string>
     <string name="and">and</string>
     <string name="operation_generic_loading">Loading...</string>
     <string name="nav_services">Services</string>
     <string name="last_updated_at_x">Last updated %s</string>
+    <string name="nav_exams">Exams</string>
+    <string name="nav_tasks">Tasks</string>
 </resources>

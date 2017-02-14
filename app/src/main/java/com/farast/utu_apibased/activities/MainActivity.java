@@ -23,13 +23,14 @@ import com.farast.utu_apibased.activities.cu.CUArticleActivity;
 import com.farast.utu_apibased.activities.cu.CUEventActivity;
 import com.farast.utu_apibased.activities.cu.CUExamActivity;
 import com.farast.utu_apibased.activities.cu.CUTaskActivity;
-import com.farast.utu_apibased.fragments.SummaryFragment;
-import com.farast.utu_apibased.fragments.article.ArticlesFragment;
-import com.farast.utu_apibased.fragments.event.EventsFragment;
-import com.farast.utu_apibased.fragments.raking.RakingsFragment;
-import com.farast.utu_apibased.fragments.service.ServicesFragment;
-import com.farast.utu_apibased.fragments.te.TEsFragment;
-import com.farast.utu_apibased.fragments.timetable.TimetableFragment;
+import com.farast.utu_apibased.fragments.main_menu.ArticlesFragment;
+import com.farast.utu_apibased.fragments.main_menu.EventsFragment;
+import com.farast.utu_apibased.fragments.main_menu.ExamsFragment;
+import com.farast.utu_apibased.fragments.main_menu.RakingsFragment;
+import com.farast.utu_apibased.fragments.main_menu.ServicesFragment;
+import com.farast.utu_apibased.fragments.main_menu.SummaryFragment;
+import com.farast.utu_apibased.fragments.main_menu.TasksFragment;
+import com.farast.utu_apibased.fragments.main_menu.TimetableFragment;
 import com.farast.utu_apibased.listeners.StatusOperationListener;
 import com.farast.utu_apibased.tasks.DataDownloadTask;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -175,8 +176,10 @@ public class MainActivity extends AppCompatActivity
             mCurrentFragment = new SummaryFragment();
         } else if (id == R.id.nav_events) {
             mCurrentFragment = new EventsFragment();
-        } else if (id == R.id.nav_tes) {
-            mCurrentFragment = new TEsFragment();
+        } else if (id == R.id.nav_exams) {
+            mCurrentFragment = new ExamsFragment();
+        } else if (id == R.id.nav_tasks) {
+            mCurrentFragment = new TasksFragment();
         } else if (id == R.id.nav_timetables) {
             mCurrentFragment = new TimetableFragment();
         } else if (id == R.id.nav_rakings) {

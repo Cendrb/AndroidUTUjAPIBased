@@ -11,9 +11,13 @@
             android:icon="@drawable/ic_as"
             android:title="@string/nav_events" />
         <item
-            android:id="@+id/nav_tes"
+            android:id="@+id/nav_exams"
             android:icon="@drawable/ic_as"
-            android:title="@string/nav_tes" />
+            android:title="@string/nav_exams" />
+        <item
+            android:id="@+id/nav_tasks"
+            android:icon="@drawable/ic_as"
+            android:title="@string/nav_tasks" />
         <item
             android:id="@+id/nav_timetables"
             android:icon="@drawable/ic_timetable"

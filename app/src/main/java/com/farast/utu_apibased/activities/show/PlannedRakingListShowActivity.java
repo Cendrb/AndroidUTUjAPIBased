@@ -15,11 +15,11 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.exceptions.ItemIdNotSuppliedException;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.custom_views.utu_spinner.ToStringConverter;
 import com.farast.utu_apibased.tasks.UtuDescribedSpinnerAdapter;
 import com.farast.utu_apibased.tasks.UtuSubmitter;
+import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utuapi.data.ClassMember;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.PlannedRakingEntry;
@@ -46,11 +46,7 @@ public class PlannedRakingListShowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getIntent() == null)
-            throw new ItemIdNotSuppliedException("Intent is null");
-        int itemId = getIntent().getIntExtra("item_id", -1);
-        if (itemId == -1)
-            throw new ItemIdNotSuppliedException("Item id is not stored in this Intent");
+        int itemId = ItemUtil.getItemIdFromIntent(getIntent());
 
         mPlannedRakingList = CollectionUtil.findById(Bullshit.dataLoader.getPlannedRakingsListsList(), itemId);
 

@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.fragments.timetable;
+package com.farast.utu_apibased.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;

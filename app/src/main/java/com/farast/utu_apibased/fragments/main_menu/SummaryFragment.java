@@ -1,4 +1,4 @@
-package com.farast.utu_apibased.fragments;
+package com.farast.utu_apibased.fragments.main_menu;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.activities.BindableViewHolder;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Service;
 import com.farast.utuapi.data.User;
@@ -59,10 +59,17 @@ public class SummaryFragment extends Fragment implements DataLoader.OnDataSetLis
             }
         });
 
-        mViewHolder.mNavTEsView.setOnClickListener(new View.OnClickListener() {
+        mViewHolder.mNavTasksView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.setSelectedFragmentAndOpen(R.id.nav_tes);
+                listener.setSelectedFragmentAndOpen(R.id.nav_tasks);
+            }
+        });
+
+        mViewHolder.mNavExamsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.setSelectedFragmentAndOpen(R.id.nav_exams);
             }
         });
 
@@ -162,7 +169,8 @@ public class SummaryFragment extends Fragment implements DataLoader.OnDataSetLis
         private TextView mCurrentUserView;
         private TextView mCurrentServiceView;
         private Button mNavEventsView;
-        private Button mNavTEsView;
+        private Button mNavTasksView;
+        private Button mNavExamsView;
         private Button mNavTimetablesView;
         private Button mNavArticlesView;
         private Button mNavKanaView;
@@ -175,8 +183,9 @@ public class SummaryFragment extends Fragment implements DataLoader.OnDataSetLis
             mCurrentUserView = (TextView) mView.findViewById(R.id.summary_current_user);
             mCurrentServiceView = (TextView) mView.findViewById(R.id.summary_current_service);
             mNavEventsView = (Button) mView.findViewById(R.id.summary_action_events);
-            mNavTEsView = (Button) mView.findViewById(R.id.summary_action_tes);
-            mNavTimetablesView = (Button) mView.findViewById(R.id.summary_action_timetable);
+            mNavTasksView = (Button) mView.findViewById(R.id.summary_action_tasks);
+            mNavExamsView = (Button) mView.findViewById(R.id.summary_action_exams);
+            mNavTimetablesView = (Button) mView.findViewById(R.id.summary_action_timetables);
             mNavArticlesView = (Button) mView.findViewById(R.id.summary_action_articles);
             mNavKanaView = (Button) mView.findViewById(R.id.summary_action_kana);
             mNavRakingsView = (Button) mView.findViewById(R.id.summary_action_rakings);

@@ -24,7 +24,6 @@
     <string name="nav_events">Události</string>
     <string name="nav_rakings">Zkoušení</string>
     <string name="nav_summary">Přehled</string>
-    <string name="nav_tes">Testy a úkoly</string>
     <string name="nav_timetables">Rozvrh</string>
     <string name="navigation_drawer_close">Zavři tu kravinu napravo</string>
     <string name="navigation_drawer_open">Otevři tu kravinu napravo</string>
@@ -76,4 +75,6 @@
     <string name="raking_rekt">REKT</string>
     <string name="operation_edit_x">Upravit %s</string>
     <string name="operation_new_x">Nový %s</string>
+    <string name="nav_exams">Testy</string>
+    <string name="nav_tasks">Úkoly</string>
 </resources>
