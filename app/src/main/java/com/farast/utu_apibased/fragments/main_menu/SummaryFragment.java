@@ -1,6 +1,7 @@
 package com.farast.utu_apibased.fragments.main_menu;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.activities.BindableViewHolder;
+import com.farast.utu_apibased.receivers.NotificationReceiver;
 import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Service;
 import com.farast.utuapi.data.User;
@@ -115,8 +117,8 @@ public class SummaryFragment extends Fragment implements DataLoader.OnDataSetLis
         mViewHolder.mNavTempView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent notificationIntent = new Intent(getContext(), NotificationReceiver.class);
-                //getContext().sendBroadcast(notificationIntent);
+                Intent notificationIntent = new Intent(getContext(), NotificationReceiver.class);
+                getContext().sendBroadcast(notificationIntent);
             }
         });
 

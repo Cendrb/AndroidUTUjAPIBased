@@ -78,9 +78,6 @@ public class NotificationReceiver extends BroadcastReceiver {
                         Date lessonEnd = lesson.getLessonTiming().getDuration().getOffsetDate(lessonStart);
                         Date startOfBreakBeforeLesson = new AbsoluteTime(0, -5, 0).getOffsetDate(lessonStart);
                         Date now = new Date();
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.HOUR_OF_DAY, 8);
-                        calendar.set(Calendar.MINUTE, 15);
                         if (now.after(startOfBreakBeforeLesson) && now.before(lessonEnd)) {
                             sourceLesson = lesson;
                         }
@@ -115,7 +112,10 @@ public class NotificationReceiver extends BroadcastReceiver {
                     if (selectedTimings.size() > 0) {
                         Calendar calendar = Calendar.getInstance();
                         AbsoluteTime currentAbsoluteTime = new AbsoluteTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND));
-                        long milisecondsDiff = (selectedTimings.get(0).getStart().getTotalSeconds() - currentAbsoluteTime.getTotalSeconds()) * 1000;
+                        long milisecondsDiff = (AbsoluteTime.add(
+                                sourceLesson.getLessonTiming().getStart(),
+                                sourceLesson.getLessonTiming().getDuration())
+                                .getTotalSeconds() - currentAbsoluteTime.getTotalSeconds()) * 1000;
                         scheduleNotification(milisecondsDiff);
                     }
                 }
