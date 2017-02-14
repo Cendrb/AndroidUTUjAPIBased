@@ -91,15 +91,17 @@ public class NotificationReceiver extends BroadcastReceiver {
                     PendingIntent viewPendingIntent =
                             PendingIntent.getActivity(mContext, 0, viewIntent, 0);
 
-                    NotificationCompat.Builder notificationBuilder =
-                            new NotificationCompat.Builder(mContext)
-                                    .setSmallIcon(R.drawable.ic_event)
-                                    .setContentTitle(sourceLesson.getSubject().getName() + " " + sourceLesson.getRoom())
-                                    .setContentText(sourceLesson.getLessonTiming().getStart().getHoursMinutesString())
-                                    .setContentIntent(viewPendingIntent);
+                    if (!sourceLesson.isNotNormal()) {
+                        NotificationCompat.Builder notificationBuilder =
+                                new NotificationCompat.Builder(mContext)
+                                        .setSmallIcon(R.drawable.ic_event)
+                                        .setContentTitle(sourceLesson.getSubject().getName() + " " + sourceLesson.getRoom())
+                                        .setContentText(sourceLesson.getLessonTiming().getStart().getHoursMinutesString())
+                                        .setContentIntent(viewPendingIntent);
 
-                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
-                    notificationManager.notify(0, notificationBuilder.build());
+                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
+                        notificationManager.notify(0, notificationBuilder.build());
+                    }
 
                     // schedule new notification
                     final Lesson finalSourceLesson = sourceLesson;
