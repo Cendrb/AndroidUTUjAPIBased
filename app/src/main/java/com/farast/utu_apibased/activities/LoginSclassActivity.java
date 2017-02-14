@@ -119,7 +119,7 @@ public class LoginSclassActivity extends AppCompatActivity {
         mEmailView.setText(mPreferences.getString("email", ""));
         mPasswordView.setText(mPreferences.getString("password", ""));
 
-        new PredataDownloadTask().execute();
+        new LoginSclassPredataDownloadTask().execute();
     }
 
     private void startMain(int sclassId) {
