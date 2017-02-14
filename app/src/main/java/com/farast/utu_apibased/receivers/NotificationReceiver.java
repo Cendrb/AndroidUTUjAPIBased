@@ -68,7 +68,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 if (Bullshit.dataLoader.getCurrentUser() != null) {
                     sourceTimetable = Timetable.getBestTimetableForClassMember(Bullshit.dataLoader.getTimetablesList(), Bullshit.dataLoader.getCurrentUser().getClassMember());
                 } else {
-                    sourceTimetable = Bullshit.dataLoader.getTimetablesList().get(0);
+                    sourceTimetable = Bullshit.dataLoader.getTimetablesList().get(1); // temporarily use the second timetable
                 }
 
                 Lesson sourceLesson = null;
