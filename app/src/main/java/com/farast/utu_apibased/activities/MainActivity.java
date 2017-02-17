@@ -224,12 +224,12 @@ public class MainActivity extends AppCompatActivity
                         .setMessage("Do you want to try again?")
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                System.exit(0);
+
                             }
                         })
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                new UtuDataDownloader(mContext, mSclassId);
+                                new MainActivityUtuDataDownloader(mContext, mSclassId).execute();
                             }
                         })
                         .setCancelable(false)
