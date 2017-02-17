@@ -118,7 +118,7 @@ public class TimetableAdapter extends BaseAdapter {
                         Date lessonEnd = lesson.getLessonTiming().getDuration().getOffsetDate(lessonStart);
                         Date startOfBreakBeforeLesson = new AbsoluteTime(0, -5, 0).getOffsetDate(lessonStart);
                         Date now = new Date();
-                        if (now.after(startOfBreakBeforeLesson) && now.before(lessonEnd)) {
+                        if ((lesson.getSubject() != null || !lesson.getEventName().equals("")) && now.after(startOfBreakBeforeLesson) && now.before(lessonEnd)) {
                             lessonViewData = new LessonViewData(title, subRight, subLeft, LessonCellType.RIGHT_NOW);
                         } else if (!lesson.getEventName().equals("")) {
                             lessonViewData = new LessonViewData(title, subRight, subLeft, LessonCellType.EVENT);
