@@ -1,9 +1,8 @@
 package com.farast.utu_apibased.tasks;
 
-import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
 
+import com.farast.utuapi.exceptions.PredataNotLoadedException;
 import com.farast.utuapi.util.SclassDoesNotExistException;
 
 import org.xml.sax.SAXException;
@@ -26,7 +25,7 @@ public class DataDownloadTask extends AsyncTask<DataDownloadTask.Params, Void, B
         try {
             dataLoader.load(params.getSclassId());
             return true;
-        } catch (SclassDoesNotExistException | SAXException | IOException e) {
+        } catch (PredataNotLoadedException | SclassDoesNotExistException | SAXException | IOException e) {
             e.printStackTrace();
             return false;
         }

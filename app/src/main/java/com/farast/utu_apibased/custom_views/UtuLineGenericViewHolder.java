@@ -17,6 +17,7 @@ public class UtuLineGenericViewHolder extends RecyclerView.ViewHolder {
     public final TextView mRightView;
     public final TextView mLeftBottomView;
     public final View mAvatarParent;
+    public final TextView mRightIcon;
 
     public UtuLineGenericViewHolder(View view) {
         super(view);
@@ -26,5 +27,6 @@ public class UtuLineGenericViewHolder extends RecyclerView.ViewHolder {
         mTitleView = (TextView) view.findViewById(R.id.utu_line_title);
         mRightView = (TextView) view.findViewById(R.id.utu_line_right);
         mLeftBottomView = (TextView) view.findViewById(R.id.utu_line_bottom_left);
+        mRightIcon = (TextView) view.findViewById(R.id.utu_line_icon_right);
     }
 }

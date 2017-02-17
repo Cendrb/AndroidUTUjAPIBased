@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utuapi.data.interfaces.OnelineRepresentable;
+import com.farast.utuapi.exceptions.PredataNotLoadedException;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +46,9 @@ public class UtuSpinner<T extends OnelineRepresentable> extends Spinner {
                 mData = (List<T>) Bullshit.dataLoader.getSubjects();
             } else
                 throw new UtuTypeRequiredException();
+        } catch (PredataNotLoadedException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             a.recycle();
         }

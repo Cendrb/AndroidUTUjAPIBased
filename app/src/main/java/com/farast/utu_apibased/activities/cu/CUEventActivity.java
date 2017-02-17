@@ -10,15 +10,16 @@ import android.widget.Button;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.util.TextUtil;
-import com.farast.utu_apibased.tasks.UtuSubmitter;
 import com.farast.utu_apibased.custom_views.additional_infos_select.SpinnerLikeAdditionalInfoDialoger;
 import com.farast.utu_apibased.custom_views.date_select.SpinnerLikeDateSelect;
 import com.farast.utu_apibased.custom_views.utu_spinner.UtuSpinner;
+import com.farast.utu_apibased.tasks.UtuSubmitter;
+import com.farast.utu_apibased.util.TextUtil;
 import com.farast.utuapi.data.AdditionalInfo;
-import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Event;
 import com.farast.utuapi.data.Sgroup;
+import com.farast.utuapi.exceptions.AdminRequiredException;
+import com.farast.utuapi.exceptions.SclassUnknownException;
 import com.farast.utuapi.util.CollectionUtil;
 
 import java.io.IOException;
@@ -144,7 +145,7 @@ public class CUEventActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String[] executeInBackground() throws IOException, DataLoader.AdminRequiredException, DataLoader.SclassUnknownException {
+        protected String[] executeInBackground() throws IOException, AdminRequiredException, SclassUnknownException {
             return Bullshit.dataLoader.getEditor().requestCUEvent(mLoaded, mTitle, mDescription, mLocation, mPrice, mStart, mEnd, mPayDate, mSgroup, mSelectedInfos);
         }
     }

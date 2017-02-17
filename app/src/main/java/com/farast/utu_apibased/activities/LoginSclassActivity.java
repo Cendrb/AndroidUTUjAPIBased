@@ -30,6 +30,7 @@ import com.farast.utu_apibased.custom_views.utu_spinner.UtuAdapter;
 import com.farast.utu_apibased.exceptions.WTFIsHappeningException;
 import com.farast.utu_apibased.tasks.PredataDownloadTask;
 import com.farast.utuapi.data.Sclass;
+import com.farast.utuapi.exceptions.PredataNotLoadedException;
 
 import java.io.IOException;
 import java.util.List;
@@ -195,7 +196,7 @@ public class LoginSclassActivity extends AppCompatActivity {
 
     }
 
-    enum Result {success, failed_to_connect, incorrect_password}
+    enum Result {success, failed_to_connect, incorrect_password, predata_not_loaded}
 
     public class UserLoginTask extends AsyncTask<Void, Void, Result> {
 
@@ -217,6 +218,9 @@ public class LoginSclassActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
                 return Result.failed_to_connect;
+            } catch (PredataNotLoadedException e) {
+                e.printStackTrace();
+                return Result.predata_not_loaded;
             }
         }
 
@@ -263,6 +267,9 @@ public class LoginSclassActivity extends AppCompatActivity {
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
                     break;
+                case predata_not_loaded:
+                    new LoginSclassPredataDownloadTask().execute();
+                    break;
             }
         }
 
@@ -273,8 +280,7 @@ public class LoginSclassActivity extends AppCompatActivity {
         }
     }
 
-    private class LoginSclassPredataDownloadTask extends PredataDownloadTask
-    {
+    private class LoginSclassPredataDownloadTask extends PredataDownloadTask {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -284,33 +290,37 @@ public class LoginSclassActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            showProgress(false);
-            if (aBoolean) {
-                List<Sclass> sclasses = dataLoader.getSclasses();
-                final UtuAdapter<Sclass> androidSucksAdapter = new UtuAdapter<>(mActivity, sclasses, new ToStringConverter<Sclass>() {
-                    @Override
-                    public String stringify(Sclass object) {
-                        return object.getName();
-                    }
-                });
-                mSclassSelector.setAdapter(androidSucksAdapter);
-            } else if (!mActivity.isFinishing())
-                new AlertDialog.Builder(mActivity)
-                        .setTitle(R.string.failed_to_connect)
-                        .setMessage(R.string.try_again)
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                System.exit(0);
-                            }
-                        })
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                new PredataDownloadTask().execute();
-                            }
-                        })
-                        .setCancelable(false)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+            try {
+                showProgress(false);
+                if (aBoolean) {
+                    List<Sclass> sclasses = dataLoader.getSclasses();
+                    final UtuAdapter<Sclass> androidSucksAdapter = new UtuAdapter<>(mActivity, sclasses, new ToStringConverter<Sclass>() {
+                        @Override
+                        public String stringify(Sclass object) {
+                            return object.getName();
+                        }
+                    });
+                    mSclassSelector.setAdapter(androidSucksAdapter);
+                } else if (!mActivity.isFinishing())
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.failed_to_connect)
+                            .setMessage(R.string.try_again)
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    System.exit(0);
+                                }
+                            })
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new PredataDownloadTask().execute();
+                                }
+                            })
+                            .setCancelable(false)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+            } catch (PredataNotLoadedException e) {
+                new LoginSclassPredataDownloadTask().execute();
+            }
         }
     }
 }

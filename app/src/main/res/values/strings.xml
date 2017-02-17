@@ -70,6 +70,8 @@
     <string name="operation_submitting_new_of_type_x">submitting new %1$s</string>
     <string name="operation_updating_x_of_type_x">updating %2$s %1$s</string>
     <string name="operation_deleting_x_of_type_x">deleting %2$s %1$s</string>
+    <string name="operation_hiding_x_of_type">hiding %2$s %1$s</string>
+    <string name="operation_revealing_x_of_type_x">revealing %2$s %1$s</string>
     <string name="operation_downloading_timetables">downloading timetables</string>
     <string name="operation_downloading_utu_data">downloading utu data</string>
     <string name="nav_next_week">Next week</string>
@@ -82,4 +84,7 @@
     <string name="last_updated_at_x">Last updated %s</string>
     <string name="nav_exams">Exams</string>
     <string name="nav_tasks">Tasks</string>
+    <string name="nav_edit_mode">Edit mode</string>
+    <string name="nav_done">Done</string>
+    <string name="user_required">You need to login in order to perform this operation</string>
 </resources>

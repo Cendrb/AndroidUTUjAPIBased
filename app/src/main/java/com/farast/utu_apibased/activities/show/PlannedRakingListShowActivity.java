@@ -21,10 +21,11 @@ import com.farast.utu_apibased.tasks.UtuDescribedSpinnerAdapter;
 import com.farast.utu_apibased.tasks.UtuSubmitter;
 import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utuapi.data.ClassMember;
-import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.PlannedRakingEntry;
 import com.farast.utuapi.data.PlannedRakingList;
 import com.farast.utuapi.data.PlannedRakingRound;
+import com.farast.utuapi.exceptions.AdminRequiredException;
+import com.farast.utuapi.exceptions.SclassUnknownException;
 import com.farast.utuapi.util.CollectionUtil;
 import com.farast.utuapi.util.functional_interfaces.Predicate;
 
@@ -158,7 +159,7 @@ public class PlannedRakingListShowActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String[] executeInBackground() throws IOException, DataLoader.AdminRequiredException, DataLoader.SclassUnknownException {
+        protected String[] executeInBackground() throws IOException, AdminRequiredException, SclassUnknownException {
             return new String[0];
         }
     }

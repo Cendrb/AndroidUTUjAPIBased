@@ -141,6 +141,7 @@ public class TimetableFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // remember to call setHasOptionsMenu(true);
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_timetable, menu);
     }

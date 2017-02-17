@@ -14,11 +14,11 @@ import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.activities.MainActivity;
 import com.farast.utu_apibased.tasks.DataDownloadTask;
 import com.farast.utu_apibased.tasks.PredataDownloadTask;
-import com.farast.utuapi.data.AbsoluteTime;
 import com.farast.utuapi.data.Lesson;
 import com.farast.utuapi.data.LessonTiming;
 import com.farast.utuapi.data.SchoolDay;
 import com.farast.utuapi.data.Timetable;
+import com.farast.utuapi.data.common.AbsoluteTime;
 import com.farast.utuapi.util.CollectionUtil;
 import com.farast.utuapi.util.functional_interfaces.Predicate;
 

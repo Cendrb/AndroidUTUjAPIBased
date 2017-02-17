@@ -57,4 +57,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:textAppearance="@style/TextAppearance.Secondary" />
+
+    <TextView
+        android:id="@+id/utu_line_icon_right"
+        android:layout_alignParentEnd="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginTop="21dp"
+        android:textAppearance="@style/TextAppearance.Secondary" />
 </RelativeLayout>

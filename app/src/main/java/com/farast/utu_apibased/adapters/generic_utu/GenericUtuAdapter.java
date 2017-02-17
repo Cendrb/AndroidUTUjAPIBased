@@ -28,12 +28,14 @@ public abstract class GenericUtuAdapter<TItemType> extends RecyclerView.Adapter<
     private DataLoader.OnDataSetListener mDataSetChangedListener;
     private final List<DataLoader.EventType> mEventsToListenFor;
     private OnListFragmentInteractionListener<TItemType> mOnClickListener;
+    private Function<List<TItemType>> mItemsGetter;
 
-    public GenericUtuAdapter(Context context, final Function<List<TItemType>> itemsGetter, List<DataLoader.EventType> eventsToListenFor) {
+    public GenericUtuAdapter(Context context, Function<List<TItemType>> itemsGetter, List<DataLoader.EventType> eventsToListenFor) {
         super();
 
         mContext = context;
         mEventsToListenFor = eventsToListenFor;
+        mItemsGetter = itemsGetter;
 
         final Handler handler = new Handler(context.getMainLooper());
         mDataSetChangedListener = new DataLoader.OnDataSetListener() {
@@ -42,15 +44,23 @@ public abstract class GenericUtuAdapter<TItemType> extends RecyclerView.Adapter<
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mItems.clear();
-                        mItems.addAll(itemsGetter.execute());
-                        notifyDataSetChanged();
+                        reloadItemsAndNotifyDataSetChange();
                     }
                 });
             }
         };
 
         mDataSetChangedListener.onDataSetChanged();
+    }
+
+    protected void setItemsGetter(Function<List<TItemType>> itemsGetter) {
+        mItemsGetter = itemsGetter;
+    }
+
+    protected void reloadItemsAndNotifyDataSetChange() {
+        mItems.clear();
+        mItems.addAll(mItemsGetter.execute());
+        notifyDataSetChanged();
     }
 
     public void setOnItemClickListener(OnListFragmentInteractionListener<TItemType> listener) {

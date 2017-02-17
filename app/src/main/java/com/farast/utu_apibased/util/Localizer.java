@@ -33,6 +33,12 @@ public class Localizer {
                     return mResources.getString(R.string.operation_updating_x_of_type_x, itemRelatedOperation.getItemName(), localizeUtuItemType(itemRelatedOperation.getItemType()));
                 case DELETE:
                     return mResources.getString(R.string.operation_deleting_x_of_type_x, itemRelatedOperation.getItemName(), localizeUtuItemType(itemRelatedOperation.getItemType()));
+                case HIDE:
+                    return mResources.getString(R.string.operation_hiding_x_of_type, itemRelatedOperation.getItemName(), localizeUtuItemType(itemRelatedOperation.getItemType()));
+                case REVEAL:
+                    return mResources.getString(R.string.operation_revealing_x_of_type_x, itemRelatedOperation.getItemName(), localizeUtuItemType(itemRelatedOperation.getItemType()));
+                default:
+                    throw new RuntimeException("Unknown ItemRelatedOperation type");
             }
         } else if (operation instanceof LoggingInOperation) {
             return mResources.getString(R.string.operation_logging_in);

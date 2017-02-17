@@ -13,7 +13,7 @@ import com.farast.utuapi.util.functional_interfaces.Function;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventsAdapter extends GenericUtuAdapter<Event> {
+public class EventsAdapter extends HideableItemsAdapter<Event> {
 
     public EventsAdapter(Context context) {
         super(context, new Function<List<Event>>() {
@@ -28,6 +28,8 @@ public class EventsAdapter extends GenericUtuAdapter<Event> {
 
     @Override
     protected void bindViewHolderToItem(UtuLineGenericViewHolder viewHolder, Event item) {
+        super.bindViewHolderToItem(viewHolder, item);
+
         viewHolder.mTitleView.setText(item.getTitle());
         viewHolder.mAvatarParent.setVisibility(View.GONE);
         viewHolder.mLeftBottomView.setText(Bullshit.prettyDate(DateOffseter.addRegularDateOffset(item.getStart())));

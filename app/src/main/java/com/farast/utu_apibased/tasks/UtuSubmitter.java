@@ -6,7 +6,9 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.farast.utu_apibased.R;
-import com.farast.utuapi.data.DataLoader;
+import com.farast.utuapi.exceptions.AdminRequiredException;
+import com.farast.utuapi.exceptions.SclassUnknownException;
+import com.farast.utuapi.exceptions.UserRequiredException;
 
 import java.io.IOException;
 
@@ -29,12 +31,15 @@ public abstract class UtuSubmitter extends AsyncTask<Void, Void, String[]> {
         } catch (IOException e) {
             e.printStackTrace();
             return new String[]{mContext.getString(R.string.failed_to_connect)};
-        } catch (DataLoader.AdminRequiredException e) {
+        } catch (AdminRequiredException e) {
             e.printStackTrace();
             return new String[]{mContext.getString(R.string.admin_required)};
-        } catch (DataLoader.SclassUnknownException e) {
+        } catch (SclassUnknownException e) {
             e.printStackTrace();
             return new String[]{mContext.getString(R.string.sclass_not_set)};
+        } catch (UserRequiredException e) {
+            e.printStackTrace();
+            return new String[]{mContext.getString(R.string.user_required)};
         }
     }
 
@@ -49,5 +54,5 @@ public abstract class UtuSubmitter extends AsyncTask<Void, Void, String[]> {
         // TODO get better error notification system
     }
 
-    protected abstract String[] executeInBackground() throws IOException, DataLoader.AdminRequiredException, DataLoader.SclassUnknownException;
+    protected abstract String[] executeInBackground() throws IOException, AdminRequiredException, SclassUnknownException, UserRequiredException;
 }

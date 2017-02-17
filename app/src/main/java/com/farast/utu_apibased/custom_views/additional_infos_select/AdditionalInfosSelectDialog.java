@@ -20,6 +20,7 @@ import com.farast.utu_apibased.custom_views.utu_spinner.ToStringConverter;
 import com.farast.utu_apibased.tasks.UtuDescribedSpinnerAdapter;
 import com.farast.utuapi.data.AdditionalInfo;
 import com.farast.utuapi.data.Subject;
+import com.farast.utuapi.exceptions.PredataNotLoadedException;
 import com.farast.utuapi.util.CollectionUtil;
 import com.farast.utuapi.util.functional_interfaces.Predicate;
 
@@ -119,27 +120,35 @@ public class AdditionalInfosSelectDialog extends DialogFragment {
     }
 
     private List<UtuDescribedSpinnerAdapter.DescribedItem<Subject>> getDescribedSubjects() {
-        List<AdditionalInfo> totalInfos = Bullshit.dataLoader.getAdditionalInfosList();
-        List<UtuDescribedSpinnerAdapter.DescribedItem<Subject>> describedSubjects = new ArrayList<>();
-        List<Subject> subjects = Bullshit.dataLoader.getSubjects();
-        for (final Subject subject : subjects) {
-            int selectedInfosForSubject = CollectionUtil.filter(mModifiedInfos, new Predicate<AdditionalInfo>() {
-                @Override
-                public boolean test(AdditionalInfo additionalInfo) {
-                    return additionalInfo.getSubject() == subject;
+        try {
+            List<AdditionalInfo> totalInfos = Bullshit.dataLoader.getAdditionalInfosList();
+            List<UtuDescribedSpinnerAdapter.DescribedItem<Subject>> describedSubjects = new ArrayList<>();
+            List<Subject> subjects = null;
+
+            subjects = Bullshit.dataLoader.getSubjects();
+
+            for (final Subject subject : subjects) {
+                int selectedInfosForSubject = CollectionUtil.filter(mModifiedInfos, new Predicate<AdditionalInfo>() {
+                    @Override
+                    public boolean test(AdditionalInfo additionalInfo) {
+                        return additionalInfo.getSubject() == subject;
+                    }
+                }).size();
+                int totalInfosForSubject = CollectionUtil.filter(totalInfos, new Predicate<AdditionalInfo>() {
+                    @Override
+                    public boolean test(AdditionalInfo additionalInfo) {
+                        return additionalInfo.getSubject() == subject;
+                    }
+                }).size();
+                if (totalInfosForSubject > 0) {
+                    describedSubjects.add(new UtuDescribedSpinnerAdapter.DescribedItem<Subject>(subject, String.valueOf(selectedInfosForSubject) + "/" + String.valueOf(totalInfosForSubject)));
                 }
-            }).size();
-            int totalInfosForSubject = CollectionUtil.filter(totalInfos, new Predicate<AdditionalInfo>() {
-                @Override
-                public boolean test(AdditionalInfo additionalInfo) {
-                    return additionalInfo.getSubject() == subject;
-                }
-            }).size();
-            if (totalInfosForSubject > 0) {
-                describedSubjects.add(new UtuDescribedSpinnerAdapter.DescribedItem<Subject>(subject, String.valueOf(selectedInfosForSubject) + "/" + String.valueOf(totalInfosForSubject)));
             }
+            return describedSubjects;
+        } catch (PredataNotLoadedException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return describedSubjects;
     }
 
     public ArrayList<Integer> getModifiedInfos() {

@@ -9,6 +9,7 @@ import com.farast.utuapi.data.DataLoader;
 import com.farast.utuapi.data.Lesson;
 import com.farast.utuapi.data.SchoolDay;
 import com.farast.utuapi.data.Timetable;
+import com.farast.utuapi.data.interfaces.Hideable;
 import com.farast.utuapi.data.interfaces.TEItem;
 import com.farast.utuapi.util.CollectionUtil;
 import com.farast.utuapi.util.functional_interfaces.Function;
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by cendr_000 on 05.08.2016.
  */
 
-public class TEsAdapter<TItemType extends TEItem> extends GenericUtuAdapter<TItemType> {
+public class TEsAdapter<TItemType extends TEItem & Hideable> extends HideableItemsAdapter<TItemType> {
     private List<Lesson> mAllAvailableLessons;
 
     public TEsAdapter(Context context, Function<List<TItemType>> itemsGetter, List<DataLoader.EventType> eventsToListenFor) {
@@ -50,7 +51,9 @@ public class TEsAdapter<TItemType extends TEItem> extends GenericUtuAdapter<TIte
     }
 
     @Override
-    protected final void bindViewHolderToItem(UtuLineGenericViewHolder viewHolder, final TItemType item) {
+    protected void bindViewHolderToItem(UtuLineGenericViewHolder viewHolder, final TItemType item) {
+        super.bindViewHolderToItem(viewHolder, item);
+
         viewHolder.mTitleView.setText(item.getTitle());
         viewHolder.mAvatarTextView.setText(item.getSubject().getName());
 

@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.util.UnitsUtil;
-import com.farast.utuapi.data.AbsoluteTime;
 import com.farast.utuapi.data.Lesson;
 import com.farast.utuapi.data.SchoolDay;
+import com.farast.utuapi.data.common.AbsoluteTime;
 import com.farast.utuapi.util.DateUtil;
 
 import java.util.ArrayList;
