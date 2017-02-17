@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.util.TextUtil;
 import com.farast.utuapi.data.PlannedRakingEntry;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class PlannedRakingEntriesRecyclerViewAdapter extends RecyclerView.Adapte
         holder.mNameView.setText(plannedRakingEntry.getClassMember().getFullName());
         if (plannedRakingEntry.isFinished()) {
             holder.mLayoutView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.rekt));
-            if (plannedRakingEntry.getGrade() != null && Bullshit.dataLoader.getCurrentUser() != null && plannedRakingEntry.getClassMember() == Bullshit.dataLoader.getCurrentUser().getClassMember())
+            if (!TextUtil.isNullOrEmpty(plannedRakingEntry.getGrade()) && Bullshit.dataLoader.getCurrentUser() != null && plannedRakingEntry.getClassMember() == Bullshit.dataLoader.getCurrentUser().getClassMember())
                 holder.mStateView.setText(plannedRakingEntry.getGrade());
             else
                 holder.mStateView.setText(R.string.raking_rekt);
