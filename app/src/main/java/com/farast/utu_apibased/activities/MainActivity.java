@@ -1,6 +1,7 @@
 package com.farast.utu_apibased.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -32,7 +33,7 @@ import com.farast.utu_apibased.fragments.main_menu.SummaryFragment;
 import com.farast.utu_apibased.fragments.main_menu.TasksFragment;
 import com.farast.utu_apibased.fragments.main_menu.TimetableFragment;
 import com.farast.utu_apibased.listeners.StatusOperationListener;
-import com.farast.utu_apibased.tasks.DataDownloadTask;
+import com.farast.utu_apibased.tasks.UtuDataDownloader;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import static com.farast.utu_apibased.Bullshit.dataLoader;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         mSclassId = getIntent().getExtras().getInt("sclass_id");
-        new MainActivityDataDownloadTask().execute(new DataDownloadTask.Params(mSclassId));
+        new MainActivityUtuDataDownloader(this, mSclassId).execute();
 
         mActivity = this;
 
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_item_refresh) {
-            new MainActivityDataDownloadTask().execute(new DataDownloadTask.Params(mSclassId));
+            new MainActivityUtuDataDownloader(this, mSclassId).execute();
         }
         if (id == R.id.menu_item_web_version) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://utu.herokuapp.com"));
@@ -199,7 +200,11 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
     }
 
-    private class MainActivityDataDownloadTask extends DataDownloadTask {
+    private class MainActivityUtuDataDownloader extends UtuDataDownloader {
+        public MainActivityUtuDataDownloader(Context context, int sclassId) {
+            super(context, sclassId);
+        }
+
         @Override
         protected void onPreExecute() {
             if (mRefreshMenuItem != null)
@@ -208,10 +213,10 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
+        protected void onFinished(boolean success) {
             if (mRefreshMenuItem != null)
                 mRefreshMenuItem.setEnabled(true);
-            if (aBoolean) {
+            if (success) {
 
             } else if (!mActivity.isFinishing())
                 new AlertDialog.Builder(mActivity)
@@ -224,7 +229,7 @@ public class MainActivity extends AppCompatActivity
                         })
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                new DataDownloadTask().execute(params);
+                                new UtuDataDownloader(mContext, mSclassId);
                             }
                         })
                         .setCancelable(false)

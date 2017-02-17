@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
@@ -19,11 +20,9 @@ import com.farast.utuapi.data.AdditionalInfo;
 import com.farast.utuapi.data.Exam;
 import com.farast.utuapi.data.Sgroup;
 import com.farast.utuapi.data.Subject;
-import com.farast.utuapi.exceptions.AdminRequiredException;
-import com.farast.utuapi.exceptions.SclassUnknownException;
+import com.farast.utuapi.exceptions.APIRequestException;
 import com.farast.utuapi.util.CollectionUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +49,7 @@ public class CUExamActivity extends AppCompatActivity {
         mDateView = (SpinnerLikeDateSelect) findViewById(R.id.cu_date);
         mSgroupView = (UtuSpinner<Sgroup>) findViewById(R.id.cu_sgroup_selector);
         mSubjectView = (UtuSpinner<Subject>) findViewById(R.id.cu_subject_selector);
-        mAISelectView= (SpinnerLikeAdditionalInfoDialoger) findViewById(R.id.cu_additional_info_select);
+        mAISelectView = (SpinnerLikeAdditionalInfoDialoger) findViewById(R.id.cu_additional_info_select);
         mSubmitView = (Button) findViewById(R.id.cu_submit);
 
         mDateView.setFragmentManager(getFragmentManager());
@@ -114,8 +113,13 @@ public class CUExamActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String[] executeInBackground() throws IOException, AdminRequiredException, SclassUnknownException {
-            return Bullshit.dataLoader.getEditor().requestCUExam(mLoaded, mTitle, mDescription, mDate, mSubject, mSgroup, mSelectedInfos, Exam.Type.written);
+        protected void executeInBackground() throws APIRequestException {
+            Bullshit.dataLoader.getEditor().requestCUExam(mLoaded, mTitle, mDescription, mDate, mSubject, mSgroup, mSelectedInfos, Exam.Type.written);
+        }
+
+        @Override
+        protected void showError(String string) {
+            Toast.makeText(mContext, string, Toast.LENGTH_SHORT).show();
         }
     }
 }

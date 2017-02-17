@@ -4,13 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.farast.utu_apibased.R;
 import com.farast.utuapi.data.interfaces.OnelineRepresentable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

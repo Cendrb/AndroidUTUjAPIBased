@@ -31,8 +31,7 @@ public class AdditionalInfosSelectAdapter extends RecyclerView.Adapter<Additiona
         mAIsSelectedSourceList = currentlySelectedInfos;
     }
 
-    public void setSubjectFilter(final Subject subject)
-    {
+    public void setSubjectFilter(final Subject subject) {
         mAllAIs.clear();
         mAllAIs.addAll(CollectionUtil.filter(Bullshit.dataLoader.getAdditionalInfosList(), new Predicate<AdditionalInfo>() {
             @Override
@@ -62,7 +61,7 @@ public class AdditionalInfosSelectAdapter extends RecyclerView.Adapter<Additiona
             public void onClick(View view) {
                 CheckedTextView checkedTextView = (CheckedTextView) view;
                 checkedTextView.toggle();
-                if(mInfoSelectedListener != null) {
+                if (mInfoSelectedListener != null) {
                     mInfoSelectedListener.onInfoSeleted(checkedTextView.isChecked(), currentlyRenderedInfo);
                 }
             }
@@ -87,8 +86,7 @@ public class AdditionalInfosSelectAdapter extends RecyclerView.Adapter<Additiona
         }
     }
 
-    public interface OnInfoSelectedListener
-    {
+    public interface OnInfoSelectedListener {
         void onInfoSeleted(boolean checked, AdditionalInfo info);
     }
 }

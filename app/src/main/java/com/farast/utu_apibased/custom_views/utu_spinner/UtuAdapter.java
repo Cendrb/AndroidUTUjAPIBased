@@ -56,8 +56,7 @@ public class UtuAdapter<T> extends ArrayAdapter<T> {
         return getView(position, convertView, parent);
     }
 
-    private class Holder
-    {
+    private class Holder {
         TextView theOnlyTextView;
     }
 }

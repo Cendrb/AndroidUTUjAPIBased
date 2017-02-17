@@ -16,8 +16,8 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.farast.utu_apibased.R;
-import com.farast.utu_apibased.util.UnitsUtil;
 import com.farast.utu_apibased.fragments.DatePickerDialogFragment;
+import com.farast.utu_apibased.util.UnitsUtil;
 import com.farast.utuapi.util.DateUtil;
 
 import java.util.Calendar;

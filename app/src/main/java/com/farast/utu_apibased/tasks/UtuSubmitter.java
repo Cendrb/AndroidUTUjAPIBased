@@ -2,21 +2,25 @@ package com.farast.utu_apibased.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.farast.utu_apibased.R;
-import com.farast.utuapi.exceptions.AdminRequiredException;
-import com.farast.utuapi.exceptions.SclassUnknownException;
-import com.farast.utuapi.exceptions.UserRequiredException;
-
-import java.io.IOException;
+import com.farast.utuapi.exceptions.APIRequestException;
+import com.farast.utuapi.exceptions.BothAdminRequiredException;
+import com.farast.utuapi.exceptions.BothUserRequiredException;
+import com.farast.utuapi.exceptions.ClientConnectionErrorException;
+import com.farast.utuapi.exceptions.ClientPredataNotLoadedException;
+import com.farast.utuapi.exceptions.ClientSclassDoesNotExistException;
+import com.farast.utuapi.exceptions.ClientSclassUnknownException;
+import com.farast.utuapi.exceptions.ClientUnexpectedResponseException;
+import com.farast.utuapi.exceptions.ServerActiveRecordException;
+import com.farast.utuapi.exceptions.ServerItemNotFoundException;
+import com.farast.utuapi.exceptions.ServerUnexpectedRequestException;
 
 /**
  * Created by cendr_000 on 18.08.2016.
  */
 
-public abstract class UtuSubmitter extends AsyncTask<Void, Void, String[]> {
+public abstract class UtuSubmitter extends AsyncTask<Void, Void, APIRequestException> {
 
     protected Context mContext;
 
@@ -25,34 +29,65 @@ public abstract class UtuSubmitter extends AsyncTask<Void, Void, String[]> {
     }
 
     @Override
-    protected final String[] doInBackground(Void... voids) {
+    protected final APIRequestException doInBackground(Void... voids) {
         try {
-            return executeInBackground();
-        } catch (IOException e) {
+            executeInBackground();
+            return null;
+        } catch (APIRequestException e) {
             e.printStackTrace();
-            return new String[]{mContext.getString(R.string.failed_to_connect)};
-        } catch (AdminRequiredException e) {
-            e.printStackTrace();
-            return new String[]{mContext.getString(R.string.admin_required)};
-        } catch (SclassUnknownException e) {
-            e.printStackTrace();
-            return new String[]{mContext.getString(R.string.sclass_not_set)};
-        } catch (UserRequiredException e) {
-            e.printStackTrace();
-            return new String[]{mContext.getString(R.string.user_required)};
+            return e;
+        }
+    }
+
+    @SuppressWarnings("TryWithIdenticalCatches")
+    @Override
+    protected final void onPostExecute(APIRequestException exception) {
+        super.onPostExecute(exception);
+        if (exception != null) {
+            try {
+                throw exception;
+            } catch (BothAdminRequiredException e) {
+                showError(mContext.getResources().getString(R.string.error_admin_required));
+            } catch (BothUserRequiredException e) {
+                showError(mContext.getResources().getString(R.string.error_user_required));
+            } catch (ClientConnectionErrorException e) {
+                showError(mContext.getResources().getString(R.string.error_failed_to_connect));
+            } catch (ClientPredataNotLoadedException e) {
+                showError(mContext.getResources().getString(R.string.error_internal_error));
+            } catch (ClientSclassDoesNotExistException e) {
+                showError(mContext.getResources().getString(R.string.error_internal_error));
+            } catch (ClientSclassUnknownException e) {
+                showError(mContext.getResources().getString(R.string.error_internal_error));
+            } catch (ClientUnexpectedResponseException e) {
+                showError(mContext.getResources().getString(R.string.error_internal_error));
+            } catch (ServerActiveRecordException e) {
+                showError(mContext.getResources().getString(R.string.error_internal_error));
+            } catch (ServerItemNotFoundException e) {
+                showError(mContext.getResources().getString(R.string.error_item_deleted));
+            } catch (ServerUnexpectedRequestException e) {
+                showError(mContext.getResources().getString(R.string.error_internal_error));
+            } catch (APIRequestException e) {
+                showError(mContext.getResources().getString(R.string.error_internal_error));
+            } finally {
+                onFinished(false);
+            }
+        } else {
+            onFinished(true);
         }
     }
 
     @Override
-    protected abstract void onPreExecute();
+    protected void onPreExecute() {
 
-    @Override
-    protected void onPostExecute(String[] strings) {
-        super.onPostExecute(strings);
-        if (strings != null)
-            Toast.makeText(mContext, TextUtils.join(", ", strings), Toast.LENGTH_LONG).show();
-        // TODO get better error notification system
     }
 
-    protected abstract String[] executeInBackground() throws IOException, AdminRequiredException, SclassUnknownException, UserRequiredException;
+    protected void onFinished(boolean success) {
+
+    }
+
+    protected void showError(String string) {
+
+    }
+
+    protected abstract void executeInBackground() throws APIRequestException;
 }

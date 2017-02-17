@@ -1,6 +1,5 @@
 package com.farast.utu_apibased.activities.show;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,20 +15,16 @@ import android.widget.Spinner;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.adapters.UtuDescribedSpinnerAdapter;
 import com.farast.utu_apibased.custom_views.utu_spinner.ToStringConverter;
-import com.farast.utu_apibased.tasks.UtuDescribedSpinnerAdapter;
-import com.farast.utu_apibased.tasks.UtuSubmitter;
 import com.farast.utu_apibased.util.ItemUtil;
 import com.farast.utuapi.data.ClassMember;
 import com.farast.utuapi.data.PlannedRakingEntry;
 import com.farast.utuapi.data.PlannedRakingList;
 import com.farast.utuapi.data.PlannedRakingRound;
-import com.farast.utuapi.exceptions.AdminRequiredException;
-import com.farast.utuapi.exceptions.SclassUnknownException;
 import com.farast.utuapi.util.CollectionUtil;
 import com.farast.utuapi.util.functional_interfaces.Predicate;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,22 +140,6 @@ public class PlannedRakingListShowActivity extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private class SignupForRekt extends UtuSubmitter {
-        public SignupForRekt(Context context) {
-            super(context);
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected String[] executeInBackground() throws IOException, AdminRequiredException, SclassUnknownException {
-            return new String[0];
         }
     }
 }

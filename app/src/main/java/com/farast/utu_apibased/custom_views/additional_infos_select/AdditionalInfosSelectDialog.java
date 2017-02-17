@@ -16,11 +16,11 @@ import android.widget.Spinner;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.adapters.UtuDescribedSpinnerAdapter;
 import com.farast.utu_apibased.custom_views.utu_spinner.ToStringConverter;
-import com.farast.utu_apibased.tasks.UtuDescribedSpinnerAdapter;
 import com.farast.utuapi.data.AdditionalInfo;
 import com.farast.utuapi.data.Subject;
-import com.farast.utuapi.exceptions.PredataNotLoadedException;
+import com.farast.utuapi.exceptions.ClientPredataNotLoadedException;
 import com.farast.utuapi.util.CollectionUtil;
 import com.farast.utuapi.util.functional_interfaces.Predicate;
 
@@ -145,7 +145,7 @@ public class AdditionalInfosSelectDialog extends DialogFragment {
                 }
             }
             return describedSubjects;
-        } catch (PredataNotLoadedException e) {
+        } catch (ClientPredataNotLoadedException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }

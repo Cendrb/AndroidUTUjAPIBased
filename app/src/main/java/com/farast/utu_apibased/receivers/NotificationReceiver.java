@@ -12,8 +12,8 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.activities.MainActivity;
-import com.farast.utu_apibased.tasks.DataDownloadTask;
-import com.farast.utu_apibased.tasks.PredataDownloadTask;
+import com.farast.utu_apibased.tasks.UtuDataDownloader;
+import com.farast.utu_apibased.tasks.UtuPredataDownloader;
 import com.farast.utuapi.data.Lesson;
 import com.farast.utuapi.data.LessonTiming;
 import com.farast.utuapi.data.SchoolDay;
@@ -36,7 +36,7 @@ public class NotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         this.mContext = context;
-        new NotificationPredataDownloadTask().execute();
+        new NotificationUtuPredataDownloader(context).execute();
     }
 
     private void scheduleNotification(long milisecondsDiff) {
@@ -49,21 +49,27 @@ public class NotificationReceiver extends BroadcastReceiver {
     }
 
 
-    private class NotificationPredataDownloadTask extends PredataDownloadTask {
+    private class NotificationUtuPredataDownloader extends UtuPredataDownloader {
+        public NotificationUtuPredataDownloader(Context context) {
+            super(context);
+        }
+
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if (aBoolean) {
-                new NotificationDataDownloadTask().execute(new DataDownloadTask.Params(Bullshit.dataLoader.getLastSclass().getId()));
+        protected void onFinished(boolean success) {
+            if (success) {
+                new NotificationUtuDataDownloader(mContext, Bullshit.dataLoader.getLastSclass().getId()).execute();
             }
         }
     }
 
-    private class NotificationDataDownloadTask extends DataDownloadTask {
+    private class NotificationUtuDataDownloader extends UtuDataDownloader {
+        public NotificationUtuDataDownloader(Context context, int sclassId) {
+            super(context, sclassId);
+        }
+
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if (aBoolean) {
+        protected void onFinished(boolean success) {
+            if (success) {
                 Timetable sourceTimetable;
                 if (Bullshit.dataLoader.getCurrentUser() != null) {
                     sourceTimetable = Timetable.getBestTimetableForClassMember(Bullshit.dataLoader.getTimetablesList(), Bullshit.dataLoader.getCurrentUser().getClassMember());

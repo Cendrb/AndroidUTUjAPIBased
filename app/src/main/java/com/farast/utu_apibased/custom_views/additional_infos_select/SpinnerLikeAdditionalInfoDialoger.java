@@ -13,8 +13,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.Bullshit;
+import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.util.UnitsUtil;
 import com.farast.utuapi.data.AdditionalInfo;
 import com.farast.utuapi.util.CollectionUtil;
@@ -61,25 +61,22 @@ public class SpinnerLikeAdditionalInfoDialoger extends TextView {
     }
 
     private CharSequence getCurrentlySelectedText() {
-        if(mSelectedAIIds.size() > 0) {
+        if (mSelectedAIIds.size() > 0) {
             List<String> infoTexts = new ArrayList<>();
             List<AdditionalInfo> selectedInfos = CollectionUtil.findByIds(Bullshit.dataLoader.getAdditionalInfosList(), mSelectedAIIds);
             for (AdditionalInfo info : selectedInfos)
                 infoTexts.add(info.getName() + " (" + info.getSubject().getName() + ")");
             return TextUtils.join("\n", infoTexts);
-        }
-        else
+        } else
             return getContext().getString(R.string.none);
     }
 
-    public void setSelectedAIIds(ArrayList<Integer> ids)
-    {
+    public void setSelectedAIIds(ArrayList<Integer> ids) {
         mSelectedAIIds = ids;
         setText(getCurrentlySelectedText());
     }
 
-    public ArrayList<Integer> getSelectAIIds()
-    {
+    public ArrayList<Integer> getSelectAIIds() {
         return mSelectedAIIds;
     }
 
@@ -99,20 +96,19 @@ public class SpinnerLikeAdditionalInfoDialoger extends TextView {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        if(!(state instanceof SavedState)) {
+        if (!(state instanceof SavedState)) {
             super.onRestoreInstanceState(state);
             return;
         }
 
-        SavedState savedState = (SavedState)state;
+        SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
         setSelectedAIIds(savedState.selectedIds);
     }
 
     @Subscribe
-    public void onAdditionalInfosSelectionChanged(AdditionalInfosSelectDialog.SelectionsChangedEvent event)
-    {
+    public void onAdditionalInfosSelectionChanged(AdditionalInfosSelectDialog.SelectionsChangedEvent event) {
         setSelectedAIIds(event.getCaller().getModifiedInfos());
     }
 
@@ -136,8 +132,7 @@ public class SpinnerLikeAdditionalInfoDialoger extends TextView {
 
         ArrayList<Integer> selectedIds;
 
-        public SavedState(Parcelable parcelable)
-        {
+        public SavedState(Parcelable parcelable) {
             super(parcelable);
         }
 

@@ -18,7 +18,7 @@
     <string name="placeholder" translatable="false">Sample text</string>
     <string name="nav_refresh">Refresh</string>
     <string name="action_load_without_login">load without login</string>
-    <string name="failed_to_connect">Failed to connect the server</string>
+    <string name="error_failed_to_connect">Failed to connect the server</string>
     <string name="try_again">Do you want to try again?</string>
     <string name="item_event">Event</string>
     <string name="item_task">Task</string>
@@ -30,7 +30,7 @@
     <string name="submit">submit</string>
     <string name="operation_new_x">New %s</string>
     <string name="operation_edit_x">%s edit</string>
-    <string name="admin_required">Admin priviligies required</string>
+    <string name="error_admin_required">Admin priviligies required</string>
     <string name="sclass_not_set">Class is not set</string>
     <string name="nav_edit">Edit</string>
     <string name="nav_delete">Delete</string>
@@ -86,5 +86,7 @@
     <string name="nav_tasks">Tasks</string>
     <string name="nav_edit_mode">Edit mode</string>
     <string name="nav_done">Done</string>
-    <string name="user_required">You need to login in order to perform this operation</string>
+    <string name="error_user_required">You need to login in order to perform this operation</string>
+    <string name="error_internal_error">Internal error. Try updating to the latest version.</string>
+    <string name="error_item_deleted">Item no longer exists. Try reloading the data.</string>
 </resources>

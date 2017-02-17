@@ -7,7 +7,7 @@
     <string name="action_settings">Nastavení</string>
     <string name="action_sign_in">Přihlásit</string>
     <string name="additional_infos">Další informace</string>
-    <string name="admin_required">Nemáte dostatečná práva</string>
+    <string name="error_admin_required">Nemáte dostatečná práva</string>
     <string name="item_article">Článek</string>
     <string name="choose_additional_infos">Vyberte další informace pro tuto položku</string>
     <string name="current_user">Aktuálně přihlášen</string>
@@ -16,7 +16,7 @@
     <string name="error_field_required">Toto pole je povinné</string>
     <string name="item_event">Událost</string>
     <string name="item_exam">Test</string>
-    <string name="failed_to_connect">Nepodařilo se připojit k serveru</string>
+    <string name="error_failed_to_connect">Nepodařilo se připojit k serveru</string>
     <string name="idle">Flákám se</string>
     <string name="operation_downloading_predata">stahování seznamu tříd</string>
     <string name="operation_logging_in">přihlašování</string>

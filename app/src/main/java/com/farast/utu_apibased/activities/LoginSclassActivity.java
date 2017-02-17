@@ -3,11 +3,11 @@ package com.farast.utu_apibased.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
@@ -28,11 +28,12 @@ import com.farast.utu_apibased.R;
 import com.farast.utu_apibased.custom_views.utu_spinner.ToStringConverter;
 import com.farast.utu_apibased.custom_views.utu_spinner.UtuAdapter;
 import com.farast.utu_apibased.exceptions.WTFIsHappeningException;
-import com.farast.utu_apibased.tasks.PredataDownloadTask;
+import com.farast.utu_apibased.tasks.UtuPredataDownloader;
+import com.farast.utu_apibased.tasks.UtuSubmitter;
 import com.farast.utuapi.data.Sclass;
-import com.farast.utuapi.exceptions.PredataNotLoadedException;
+import com.farast.utuapi.exceptions.APIRequestException;
+import com.farast.utuapi.exceptions.ClientPredataNotLoadedException;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.farast.utu_apibased.Bullshit.dataLoader;
@@ -120,7 +121,7 @@ public class LoginSclassActivity extends AppCompatActivity {
         mEmailView.setText(mPreferences.getString("email", ""));
         mPasswordView.setText(mPreferences.getString("password", ""));
 
-        new LoginSclassPredataDownloadTask().execute();
+        new LoginSclassUtuPredataDownloader(this).execute();
     }
 
     private void startMain(int sclassId) {
@@ -196,32 +197,22 @@ public class LoginSclassActivity extends AppCompatActivity {
 
     }
 
-    enum Result {success, failed_to_connect, incorrect_password, predata_not_loaded}
-
-    public class UserLoginTask extends AsyncTask<Void, Void, Result> {
+    public class UserLoginTask extends UtuSubmitter {
 
         private final String mEmail;
         private final String mPassword;
 
+        private boolean mLoginSuccessful = false;
+
         UserLoginTask(String email, String password) {
+            super(LoginSclassActivity.this);
             mEmail = email;
             mPassword = password;
         }
 
         @Override
-        protected Result doInBackground(Void... params) {
-            try {
-                if (Bullshit.dataLoader.login(mEmail, mPassword))
-                    return Result.success;
-                else
-                    return Result.incorrect_password;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return Result.failed_to_connect;
-            } catch (PredataNotLoadedException e) {
-                e.printStackTrace();
-                return Result.predata_not_loaded;
-            }
+        protected void executeInBackground() throws APIRequestException {
+            mLoginSuccessful = Bullshit.dataLoader.login(mEmail, mPassword);
         }
 
         @Override
@@ -229,47 +220,43 @@ public class LoginSclassActivity extends AppCompatActivity {
             super.onPreExecute();
             showProgress(true);
             mProgressTextView.setText(R.string.operation_logging_in);
+            mLoginSuccessful = false;
         }
 
         @Override
-        protected void onPostExecute(final Result result) {
+        protected void onFinished(final boolean success) {
             mAuthTask = null;
             showProgress(false);
 
-            switch (result) {
-                case success:
+            if (success) {
+                if (mLoginSuccessful) {
                     SharedPreferences.Editor editor = mPreferences.edit();
                     editor.putString("email", mEmail);
                     editor.putString("password", mPassword);
                     editor.apply();
                     startMain(dataLoader.getCurrentUser().getSclassId());
-                    break;
-                case incorrect_password:
+                } else {
                     mPasswordView.setError(getString(R.string.error_login_incorrect));
                     mPasswordView.requestFocus();
-                    break;
-                case failed_to_connect:
-                    if (!mActivity.isFinishing())
-                        new AlertDialog.Builder(mActivity)
-                                .setTitle(R.string.failed_to_connect)
-                                .setMessage(R.string.try_again)
-                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // just close the dialog
-                                    }
-                                })
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        new UserLoginTask(mEmail, mPassword).execute();
-                                    }
-                                })
-                                .setCancelable(false)
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                    break;
-                case predata_not_loaded:
-                    new LoginSclassPredataDownloadTask().execute();
-                    break;
+                }
+            } else {
+                if (!mActivity.isFinishing())
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.error_failed_to_connect)
+                            .setMessage(R.string.try_again)
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // just close the dialog
+                                }
+                            })
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new UserLoginTask(mEmail, mPassword).execute();
+                                }
+                            })
+                            .setCancelable(false)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
             }
         }
 
@@ -280,7 +267,11 @@ public class LoginSclassActivity extends AppCompatActivity {
         }
     }
 
-    private class LoginSclassPredataDownloadTask extends PredataDownloadTask {
+    private class LoginSclassUtuPredataDownloader extends UtuPredataDownloader {
+        public LoginSclassUtuPredataDownloader(Context context) {
+            super(context);
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -289,10 +280,10 @@ public class LoginSclassActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
+        protected void onFinished(boolean success) {
             try {
                 showProgress(false);
-                if (aBoolean) {
+                if (success) {
                     List<Sclass> sclasses = dataLoader.getSclasses();
                     final UtuAdapter<Sclass> androidSucksAdapter = new UtuAdapter<>(mActivity, sclasses, new ToStringConverter<Sclass>() {
                         @Override
@@ -303,7 +294,7 @@ public class LoginSclassActivity extends AppCompatActivity {
                     mSclassSelector.setAdapter(androidSucksAdapter);
                 } else if (!mActivity.isFinishing())
                     new AlertDialog.Builder(mActivity)
-                            .setTitle(R.string.failed_to_connect)
+                            .setTitle(R.string.error_failed_to_connect)
                             .setMessage(R.string.try_again)
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -312,14 +303,15 @@ public class LoginSclassActivity extends AppCompatActivity {
                             })
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    new PredataDownloadTask().execute();
+                                    new LoginSclassUtuPredataDownloader(mContext).execute();
                                 }
                             })
                             .setCancelable(false)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-            } catch (PredataNotLoadedException e) {
-                new LoginSclassPredataDownloadTask().execute();
+            } catch (ClientPredataNotLoadedException e) {
+                // this should never happen
+                new LoginSclassUtuPredataDownloader(mContext).execute();
             }
         }
     }

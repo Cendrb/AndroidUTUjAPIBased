@@ -16,8 +16,7 @@ public class Bullshit {
     public static final DataLoader dataLoader = new DataLoader("http://utu.herokuapp.com");
     public static final PrettyTime prettyTime = new PrettyTime();
 
-    public static String prettyDate(Date date)
-    {
+    public static String prettyDate(Date date) {
         return Bullshit.prettyTime.format(date) + " (" + DateUtil.CZ_WEEK_DATE_FORMAT.format(date) + ")";
     }
 }

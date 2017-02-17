@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.farast.utu_apibased.Bullshit;
 import com.farast.utu_apibased.R;
@@ -20,11 +21,9 @@ import com.farast.utu_apibased.util.TextUtil;
 import com.farast.utuapi.data.AdditionalInfo;
 import com.farast.utuapi.data.Article;
 import com.farast.utuapi.data.Sgroup;
-import com.farast.utuapi.exceptions.AdminRequiredException;
-import com.farast.utuapi.exceptions.SclassUnknownException;
+import com.farast.utuapi.exceptions.APIRequestException;
 import com.farast.utuapi.util.CollectionUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,7 +53,7 @@ public class CUArticleActivity extends AppCompatActivity {
         mShowInDetailsView = (CheckBox) findViewById(R.id.cu_show_in_details);
         mShowInDetailsUntilView = (SpinnerLikeDateSelect) findViewById(R.id.cu_show_in_details_until);
         mSgroupView = (UtuSpinner<Sgroup>) findViewById(R.id.cu_sgroup_selector);
-        mAISelectView= (SpinnerLikeAdditionalInfoDialoger) findViewById(R.id.cu_additional_info_select);
+        mAISelectView = (SpinnerLikeAdditionalInfoDialoger) findViewById(R.id.cu_additional_info_select);
         mSubmitView = (Button) findViewById(R.id.cu_submit);
 
         mShowInDetailsView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -142,8 +141,13 @@ public class CUArticleActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String[] executeInBackground() throws IOException, AdminRequiredException, SclassUnknownException {
-            return Bullshit.dataLoader.getEditor().requestCUArticle(mLoaded, mTitle, mDescription, mPublishedOn, mShowInDetailsUntil, mSgroup, mSelectedInfos);
+        protected void executeInBackground() throws APIRequestException {
+            Bullshit.dataLoader.getEditor().requestCUArticle(mLoaded, mTitle, mDescription, mPublishedOn, mShowInDetailsUntil, mSgroup, mSelectedInfos);
+        }
+
+        @Override
+        protected void showError(String string) {
+            Toast.makeText(mContext, string, Toast.LENGTH_SHORT).show();
         }
     }
 }
