@@ -7,8 +7,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.farast.utu_apibased.Bullshit;
-import com.farast.utu_apibased.util.Localizer;
 import com.farast.utu_apibased.R;
+import com.farast.utu_apibased.util.Localizer;
+import com.farast.utuapi.util.operations.ItemOperationType;
 import com.farast.utuapi.util.operations.ItemRelatedOperation;
 import com.farast.utuapi.util.operations.Operation;
 import com.farast.utuapi.util.operations.OperationListener;
@@ -65,7 +66,12 @@ public class StatusOperationListener implements OperationListener {
                 mCurrentOperationProgress.setVisibility(View.VISIBLE);
                 mCurrentOperationText.setText(operationText);
                 if (operation instanceof ItemRelatedOperation) {
-                    Toast.makeText(mParent, operationText, Toast.LENGTH_SHORT).show();
+                    ItemRelatedOperation itemRelatedOperation = (ItemRelatedOperation) operation;
+                    if (itemRelatedOperation.getOperationType() == ItemOperationType.CREATE ||
+                            itemRelatedOperation.getOperationType() == ItemOperationType.DELETE ||
+                            itemRelatedOperation.getOperationType() == ItemOperationType.UPDATE) {
+                        Toast.makeText(mParent, operationText, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
