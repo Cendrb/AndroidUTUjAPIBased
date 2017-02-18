@@ -133,7 +133,11 @@ public class CUEventActivity extends AppCompatActivity {
             mTitle = mTitleView.getText().toString();
             mDescription = mDescriptionView.getText().toString();
             mLocation = mLocationView.getText().toString();
-            mPrice = Integer.parseInt(mPriceView.getText().toString());
+            if (mPriceView.getText().toString().equals("")) {
+                mPrice = 0;
+            } else {
+                mPrice = Integer.parseInt(mPriceView.getText().toString());
+            }
             mStart = mStartView.getSelectedDate();
             mEnd = mEndView.getSelectedDate();
             mPayDate = mPayDateView.getSelectedDate();
