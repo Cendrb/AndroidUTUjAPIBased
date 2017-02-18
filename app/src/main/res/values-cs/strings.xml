@@ -59,11 +59,11 @@
     <string name="application_icon">Ikonka aplikace</string>
     <string name="prompt_show_rekt">Zobrazit již zkoušené</string>
     <string name="error_login_incorrect">Nesprávný email nebo heslo</string>
-    <string name="operation_deleting_x_of_type_x">probíhá mazání %1$s (%2$s)</string>
+    <string name="operation_deleting_x_of_type_x">odstraňuji %2$s %1$s</string>
     <string name="operation_downloading_timetables">stahuji rozvrhy</string>
     <string name="operation_downloading_utu_data">stahuji utu data</string>
     <string name="operation_submitting_new_of_type_x">přidávám novou položku (%1$s)</string>
-    <string name="operation_updating_x_of_type_x">upravuji %1$s (%2$s)</string>
+    <string name="operation_updating_x_of_type_x">upravuji %2$s %1$s</string>
     <string name="nav_next_week">Příští týden</string>
     <string name="nav_previous_week">Tento týden</string>
     <string name="welcome_x">Hehou %s</string>
@@ -77,4 +77,11 @@
     <string name="operation_new_x">Nový %s</string>
     <string name="nav_exams">Testy</string>
     <string name="nav_tasks">Úkoly</string>
+    <string name="error_internal_error">Chyba byla nahlášena. Zkuste stáhnout poslední verzi.</string>
+    <string name="error_item_deleted">Položka již neexistuje. Zkuste znovu nahrát data.</string>
+    <string name="error_user_required">Pro provedení této oprrace musíte být přihlášeni.</string>
+    <string name="operation_hiding_x_of_type">skrývám  %2$s %1$s</string>
+    <string name="operation_revealing_x_of_type_x">obnovuji %2$s %1$s</string>
+    <string name="nav_done">Hotovo</string>
+    <string name="nav_edit_mode">Režim úprav</string>
 </resources>

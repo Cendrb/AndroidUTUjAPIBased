@@ -87,6 +87,6 @@
     <string name="nav_edit_mode">Edit mode</string>
     <string name="nav_done">Done</string>
     <string name="error_user_required">You need to login in order to perform this operation</string>
-    <string name="error_internal_error">Internal error. Try updating to the latest version.</string>
+    <string name="error_internal_error">Error reported. Try updating to the latest version.</string>
     <string name="error_item_deleted">Item no longer exists. Try reloading the data.</string>
 </resources>
